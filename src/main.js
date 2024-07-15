@@ -3,8 +3,12 @@
 
 let config = {
     type: Phaser.AUTO,
-    width: 640,    //originally 640 by 480
+    width: 640,    
     height: 480,
+    scale: { 
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+    },
+    //canvas: document.getElementById("GameCanvas"),
     scene: [Menu, Play],
 };
 
