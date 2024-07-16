@@ -45,9 +45,11 @@ class Menu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         //this.input.inputPlugin.activePointer;
+        this.scene.start('playScene');
     }
 
     update() {
+        /*
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             //easy mode
             game.settings = {
@@ -66,5 +68,6 @@ class Menu extends Phaser.Scene {
             this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
+            */
     }
 }

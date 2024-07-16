@@ -30,7 +30,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-
+        this.gameTimer = 60000;
         this.add.text(50, 200, "Rocket Patrol Play");
         this.background = this.add.tileSprite(0, 0, 640 * sizeMult, 480 * sizeMult, 'background').setOrigin(0,0);
         this.foreground1 = this.add.tileSprite(0, 40, 640, 480, 'foreground1').setOrigin(0,0);
@@ -106,7 +106,7 @@ class Play extends Phaser.Scene {
 
         // play clock. easy is 60 seconds, hard is 45
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+        this.clock = this.time.delayedCall(this.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5); 
             this.gameOver = true;   
@@ -114,21 +114,25 @@ class Play extends Phaser.Scene {
         }, null, this);
         this.clock2;
 
+        
         //create border
         this.border = this.add.tileSprite(0, 0, 640*sizeMult, 480*sizeMult, 'border').setOrigin(0,0);
         this.border.setScale(sizeMult);
         this.UI = this.add.tileSprite(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 'UI').setOrigin(0,0);
 
-        
+        //create text showing if firing is ready or rearming
         this.readyMessage = this.add.text(game.config.width/2-70, borderUISize + borderPadding*2, this.readyStatus, readyConfig);
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
-        this.gameTimerCopy = game.settings.gameTimer;
+        //game timer
         this.secondApproximation = 7;
-        this.timerDisplay = this.add.text(config.width - (borderUISize + borderPadding + 50), borderUISize + borderPadding*2, this.gameTimerCopy/1000, scoreConfig);
+        this.timerDisplay = this.add.text(config.width - (borderUISize + borderPadding + 50), borderUISize + borderPadding*2, this.gameTimer/1000, scoreConfig);
+        
     }
 
     update() {
+        
+        //update ready message
         this.readyStatus = this.p1Rocket.getStatus();
         if (this.readyStatus == 'ready') {
             this.readyColor = '#00c732';
@@ -139,9 +143,12 @@ class Play extends Phaser.Scene {
         this.readyMessage.text = this.readyStatus;
         this.readyMessage.setBackgroundColor(this.readyColor);
         
-        //this.gameTimerCopy -= (1000/60)  //ratio of milliseconds per tic rate.  somehow, it's too fast. timer attempt failed
+        
+        
+        //update game timer
         this.gameTimerCopy -= this.secondApproximation;  //manually found 7 as approximating the length of 1 second.  I know this is a terrible solution, but I've tried absolutely every other possible solution and nothing else worked.
-        if (this.gameTimerCopy >= 0) this.timerDisplay.text = Math.round(this.gameTimerCopy/1000);
+        if (this.gameTimerCopy >= 0) this.timerDisplay.text = Math.round(this.gameTimer/1000);
+        
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();

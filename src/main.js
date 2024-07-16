@@ -14,7 +14,7 @@ let config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     //canvas: document.getElementById("GameCanvas"),
-    scene: [Menu, Play],
+    scene: [Menu,Play],
 };
 
 //reserve keyboard vars

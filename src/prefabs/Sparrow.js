@@ -3,7 +3,7 @@ class Sparrow extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
         this.points = pointValue;
-        this.moveSpeed = game.settings.spaceshipSpeed;
+        this.moveSpeed = 4;
         this.anims.create({
             key: 'sparrowFlying',
             frames: this.anims.generateFrameNumbers('sparrowAnimated', { start: 0, end: 3, }),
@@ -14,7 +14,7 @@ class Sparrow extends Phaser.GameObjects.Sprite {
 
     update() {
         //move spaceship left
-        this.x += this.moveSpeed+1;
+        this.x += this.moveSpeed;
 
         //teleport 
         if(this.x >= 2*game.config.width) {
