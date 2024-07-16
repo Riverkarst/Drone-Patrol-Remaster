@@ -1,12 +1,17 @@
 //const { Phaser } = require("../library/phaser");
 //now in Keeping Score  about 80% down
 
+//let sizeMult = 1.2;
+let sizePercent = '100%';
+
 let config = {
     type: Phaser.AUTO,
     width: 640,    
     height: 480,
     scale: { 
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        width: 640 * sizeMult,
+        height: 480 * sizeMult,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu, Play],

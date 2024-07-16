@@ -30,14 +30,11 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        //this.explosionArray = ['explosion0', 'explosion1', 'explosion2', 'explosion3'];
 
         this.add.text(50, 200, "Rocket Patrol Play");
-        //this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
-        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0,0);
+        this.background = this.add.tileSprite(0, 0, 640 * sizeMult, 480 * sizeMult, 'background').setOrigin(0,0);
         this.foreground1 = this.add.tileSprite(0, 40, 640, 480, 'foreground1').setOrigin(0,0);
         this.foreground2 = this.add.tileSprite(0, 0, 640, 480, 'foreground2').setOrigin(0,0);
-        //this.border = this.add.tileSprite(0, 0, 640, 480, 'border').setOrigin(0,0);
         let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
         music.play(musicConfig);
@@ -69,11 +66,6 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('sparrowExplosion', { start: 0, end: 7}),
             frameRate: 30
         })
-        /*this.anims.create({
-            key: 'flying',
-            frames: this.anims.generateFrameNumbers('spaceshipAnimated', { start: 0, end: 1, }),
-            repeat: -1
-        })*/
         
 
         //initialize score
@@ -122,19 +114,10 @@ class Play extends Phaser.Scene {
         }, null, this);
         this.clock2;
 
-        //Green background for UI info
-        //this.add.rectangle(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 0x03C6FC).setOrigin(0,0);
-        this.border = this.add.tileSprite(0, 0, 640, 480, 'border').setOrigin(0,0);
+        //create border
+        this.border = this.add.tileSprite(0, 0, 640*sizeMult, 480*sizeMult, 'border').setOrigin(0,0);
+        this.border.setScale(sizeMult);
         this.UI = this.add.tileSprite(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 'UI').setOrigin(0,0);
-        
-        //white borders
-        let bordercolor = 0x424242;
-        //dark blue: 0x3f6570;
-        //red: c73500
-        /*this.add.rectangle(0, 0, game.config.width, borderUISize, bordercolor).setOrigin(0,0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, bordercolor).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, bordercolor).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, bordercolor).setOrigin(0, 0);*/
 
         
         this.readyMessage = this.add.text(game.config.width/2-70, borderUISize + borderPadding*2, this.readyStatus, readyConfig);
@@ -143,22 +126,6 @@ class Play extends Phaser.Scene {
         this.gameTimerCopy = game.settings.gameTimer;
         this.secondApproximation = 7;
         this.timerDisplay = this.add.text(config.width - (borderUISize + borderPadding + 50), borderUISize + borderPadding*2, this.gameTimerCopy/1000, scoreConfig);
-        //console.log(this.clock.now);//why is this undefined?  According to the Phaser documentation, it should have current time
-        /*this.clock.addEvent(() => {  //timer attempt: failed
-            gameTimerCopy -= 1000;
-            this.timerDisplay.text = gameTimerCopy
-        }, {
-            delay: 1000,
-            repeat: game.settings.gameTimer/1000,
-        });*/  //according to the documentation, this should work.  I am following the documentation exactly as it's described.
-        /*this.clock.addEvent( {  //timer attempt: failed.
-            delay: 1000,
-            repeat: game.settings.gameTimer/1000,
-            updateTimer() {
-                gameTimerCopy -= 1000;
-                this.timerDisplay.text = gameTimerCopy;
-            }
-        };*/  
     }
 
     update() {
@@ -175,15 +142,6 @@ class Play extends Phaser.Scene {
         //this.gameTimerCopy -= (1000/60)  //ratio of milliseconds per tic rate.  somehow, it's too fast. timer attempt failed
         this.gameTimerCopy -= this.secondApproximation;  //manually found 7 as approximating the length of 1 second.  I know this is a terrible solution, but I've tried absolutely every other possible solution and nothing else worked.
         if (this.gameTimerCopy >= 0) this.timerDisplay.text = Math.round(this.gameTimerCopy/1000);
-        /*if (!this.gameOver) { //timer attempt failed
-            this.gameTimerCopy = (this.game.gameTimer/1000) - Math.round((this.game.gameTimer/1000)*this.clock.getProgress());
-            this.timerDisplay.text = this.gameTimerCopy;
-        }*/ 
-        //if (Math.round(this.gameTimerCopy) >= 0) this.timerDisplay.text = Math.round(this.gameTimerCopy);
-        /*if (!this.gameOver) { //timer attempt failed
-            this.gameTimerCopy = this.clock.now;
-            this.timerDisplay.text = this.gameTimerCopy;
-        }*/
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
