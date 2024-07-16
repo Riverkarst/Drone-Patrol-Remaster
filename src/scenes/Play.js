@@ -16,11 +16,14 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.gameTimer = 60000;
+        this.gameTimer = 40000;
         this.add.text(50, 200, "Rocket Patrol Play");
         this.background = this.add.tileSprite(0, 0, 640 * sizeMult, 480 * sizeMult, 'background').setOrigin(0,0);
+        this.background.setScale(sizeMult);
         this.foreground1 = this.add.tileSprite(0, 40, 640, 480, 'foreground1').setOrigin(0,0);
+        this.foreground1.setScale(sizeMult);
         this.foreground2 = this.add.tileSprite(0, 0, 640, 480, 'foreground2').setOrigin(0,0);
+        this.foreground2.setScale(sizeMult);
         let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
         music.play(musicConfig);
@@ -113,6 +116,9 @@ class Play extends Phaser.Scene {
         //game timer
         this.secondApproximation = 7;
         this.timerDisplay = this.add.text(config.width - (borderUISize + borderPadding + 50), borderUISize + borderPadding*2, this.gameTimer/1000, scoreConfig);
+
+        //Is it in the start menu?  If not, it should start the game.
+        this.inStartMenu = true;
         
         this.frameTimer = 0;
     }
@@ -124,6 +130,8 @@ class Play extends Phaser.Scene {
             this.frameTimer = 0;
             return;
         }
+
+
         
         //update ready message
         this.readyStatus = this.p1Rocket.getStatus();
@@ -149,15 +157,18 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
         }
-        if (!this.gameOver) {
-            this.foreground1.tilePositionX -= 0.1;
-            this.foreground2.tilePositionX -= 0.3;
-            this.p1Rocket.update();
-            this.ship01.update();
-            this.ship02.update();
-            this.ship03.update();
-            this.sparrow01.update();
-        }
+
+        //update parallax stuff
+        this.foreground1.tilePositionX -= 0.1;
+        this.foreground2.tilePositionX -= 0.3;
+
+        //update all agents
+        this.p1Rocket.update();
+        this.ship01.update();
+        this.ship02.update();
+        this.ship03.update();
+        this.sparrow01.update();
+        
         if(this.checkCollision(this.p1Rocket, this.ship03)) {  //lowest ship
             //console.log('kaboom ship 03');
             //this.p1Rocket.reset();
