@@ -12,21 +12,7 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        //this.load.imag('imagename', 'image filepath');
-        this.load.image("rocket", "assets/Drone.png");
-        this.load.image("spaceship", "assets/spaceship.png");
-        this.load.image("background", "assets/background.png");
-        this.load.image("foreground1", "assets/foreground1.png");
-        this.load.image("foreground2", "assets/foreground2.png");
-        this.load.image("border", "assets/borders.png");
-        this.load.image('UI', "assets/UI.png");
-        this.load.audio("Attack on Oritheia", "assets/Oritheia2.wav");
-        //load spritesheet
-        this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('sparrowExplosion', './assets/sparrowExplosion.png', {frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 7});
-        this.load.spritesheet('drone', './assets/DroneSpritesheet.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 2});
-        this.load.spritesheet('spaceshipAnimated', './assets/spaceshipSpritemap.png', {frameWidth: 63, frameHeight: 32, startFrame: 0, endFrame: 1});
-        this.load.spritesheet('sparrowAnimated', './assets/sparrowSpritesheet.png', { frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 3 });
+
     }
 
     create() {
@@ -128,9 +114,16 @@ class Play extends Phaser.Scene {
         this.secondApproximation = 7;
         this.timerDisplay = this.add.text(config.width - (borderUISize + borderPadding + 50), borderUISize + borderPadding*2, this.gameTimer/1000, scoreConfig);
         
+        this.frameTimer = 0;
     }
 
-    update() {
+    update(time, delta) {
+        //cap at 60 fps
+        this.frameTimer += delta;
+        if (this.frameTimer >= 1000 / 60) {
+            this.frameTimer = 0;
+            return;
+        }
         
         //update ready message
         this.readyStatus = this.p1Rocket.getStatus();
