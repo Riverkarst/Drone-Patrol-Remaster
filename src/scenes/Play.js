@@ -150,6 +150,7 @@ class Play extends Phaser.Scene {
         
         //update ready message
         if (this.inStartMenu) {
+            this.startButton.update();
 
         } else {
             this.readyStatus = this.p1Rocket.getStatus();
