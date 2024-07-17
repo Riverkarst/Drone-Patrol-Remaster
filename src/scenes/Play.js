@@ -95,13 +95,13 @@ class Play extends Phaser.Scene {
 
         // play clock. easy is 60 seconds, hard is 45
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(this.gameTimer, () => {
+        /*.clock = this.time.delayedCall(this.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5); 
             this.gameOver = true;   
             music.stop();
         }, null, this);
-        this.clock2;
+        this.clock2;*/
 
         
         //create border
@@ -124,11 +124,18 @@ class Play extends Phaser.Scene {
         this.frameTimer = 0;
 
         //add title text
-        this.add.text(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', {
+        //white: #FFFFFF
+        //offwhite: #e6e6e6
+        //black: #000000
+        //orange: #ff7700
+        this.title = this.add.text(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', {
             fontFamily: 'GravityBold',
             fontSize: '60px',
-            color: '#ff7700',
+            color: '#FFFFFF',
         }).setOrigin(0.5,0.5);
+        this.title.setStroke('#000000', 4);
+
+        this.startButton = new StartButton(game.config.width/2, game.config.height * 0.8, this);
     }
 
     update(time, delta) {

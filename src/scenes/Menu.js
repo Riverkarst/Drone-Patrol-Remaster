@@ -1,3 +1,9 @@
+/**
+ * Back in its form as a bachelor's project before my effort to remaster it, this scene used to be a rudimentary menu scene.  
+ * I've since retooled it to simply preload all assets, and immediately move to Play scene
+ */
+
+
 class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene");
