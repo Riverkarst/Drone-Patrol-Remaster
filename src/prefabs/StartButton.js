@@ -68,9 +68,39 @@ class StartButton {
             this.Lbracket.setAlpha(this.Lbracket.alpha * 0.9);
             this.Rbracket.setAlpha(this.Rbracket.alpha * 0.9);
             this.start.setAlpha(this.start.alpha * 0.9);
+            if (this.start.alpha <= 0.05) {
+                this.start.setAlpha(0);
+                this.start.setScale(this.baseScale);
+                this.start.setText('[ START ]');
+                this.Lbracket.setAlpha(0);
+                this.Lbracket.setX(this.leftBracketX);
+                this.Rbracket.setAlpha(0);
+                this.Rbracket.setX(this.rightBracketX);
+                this.state = 3;
+            }
             
         } else if (this.state == 3) {  //in active game or game over screen, waiting for start menu to fade back in
+            this.state = 4; //temp code
         } else if (this.state == 4) {  //just finished game over screen, now playing fade back in anim
+            this.start.setAlpha(this.start.alpha + 0.03);
+            if (this.start.alpha >= 0.95) {
+                this.start.setAlpha(1);
+
+                //detecting if mouse is on start button after it fades in, to know if it should start in onMouseScale or baseScale
+                //console.log(this.start.getTopLeft().x);
+                //console.log(this.scene.input.activePointer.x);
+                let upperBound = this.start.getTopLeft().y;
+                let lowerBound = this.start.getBottomRight().y;
+                let leftBound = this.start.getTopLeft().x;
+                let rightBound = this.start.getBottomRight().x;
+                if (this.scene.input.activePointer.x < rightBound &&
+                this.scene.input.activePointer.x > leftBound &&
+                this.scene.input.activePointer.y > upperBound &&
+                this.scene.input.activePointer.y < lowerBound) {
+                    this.start.setScale(this.onMouseScale);
+                }
+                this.state = 1;
+            }
         }
         
 
