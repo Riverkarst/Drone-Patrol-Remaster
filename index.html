@@ -9,14 +9,22 @@
         body {
             background-color: #454545;
         }
+
+        @font-face {
+            font-family: GravityBold;
+            src: url('./assets/Fonts/GravityBold8.ttf');
+        }
     </style>
+    <div style="font-family:GravityBold; visibility:hidden;">.</div>
 </head>
 <body>
     <script src = "./src/globals.js"></script>
     <script src = "./lib/phaser.js"></script>
+    <!--<script src = "./lib/webfont.js"></script>-->
     <script src = "./src/prefabs/Rocket.js"></script>
     <script src = "./src/prefabs/Spaceship.js"></script>
     <script src = "./src/prefabs/Sparrow.js"></script>
+    <script src = "./src/prefabs/Title.js"></script>
     <script src = "./src/scenes/Menu.js"></script>
     <script src = "./src/scenes/Play.js"></script>
     <script src = "./src/main.js"></script>

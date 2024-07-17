@@ -29,6 +29,17 @@ class Menu extends Phaser.Scene {
         this.load.spritesheet('drone', './assets/DroneSpritesheet.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 2});
         this.load.spritesheet('spaceshipAnimated', './assets/spaceshipSpritemap.png', {frameWidth: 63, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet('sparrowAnimated', './assets/sparrowSpritesheet.png', { frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 3 });
+
+        //loading fonts with webfont
+        /*const element = document.createElement('style');
+        document.head.appendChild(element);
+        const sheet = element.sheet;
+        let styles = '@font-face { font-family: "Gravity Bold"; src: "./assets/Fonts/GravityBold8.ttf"; }\n';
+        sheet.insertRule(styles, 0);
+        //styles = '@font-face { font-family: "Caroni"; src: url("assets/fonts/ttf/caroni.otf") format("opentype"); }';
+        //sheet.insertRule(styles, 0);
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');*/
+        
     }
 
     create() {

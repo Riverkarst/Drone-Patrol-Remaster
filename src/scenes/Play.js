@@ -121,6 +121,20 @@ class Play extends Phaser.Scene {
         this.inStartMenu = true;
         
         this.frameTimer = 0;
+
+        /*WebFont.load({
+            custom: {
+                families: [ 'Gravity Bold' ]
+            },
+            active: function ()
+            {
+                this.add.text(game.config.width/2-70, borderUISize + borderPadding*2, 'The face of the\nmoon was in\nshadow.', { fontFamily: 'Gravity Bold', fontSize: '40px', color: '#ff0000' }).setShadow(2, 2, '#333333', 2, false, true);
+            }
+        });*/
+        this.add.text(0,0, 'text', {
+            fontFamily: 'GravityBold',
+            fontSize: '50px'
+        });
     }
 
     update(time, delta) {
