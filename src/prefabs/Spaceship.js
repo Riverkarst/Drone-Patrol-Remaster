@@ -3,7 +3,8 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
         this.points = pointValue;
-        this.moveSpeed = 3.5;
+        this.baseSpeed = 3.5;
+        this.moveSpeed = 0;
         this.anims.create({
             key: 'flying',
             frames: this.anims.generateFrameNumbers('spaceshipAnimated', { start: 0, end: 1, }),
@@ -22,7 +23,12 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         }
     }
 
-    reset() {
-        this.x = game.config.width;
+    activate() {
+        this.moveSpeed = this.baseSpeed;
+        this.active = true;
+    }
+
+    deactivate() {
+        this.active = false;
     }
 }

@@ -30,11 +30,11 @@ class Play extends Phaser.Scene {
         
 
         //add rocket
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height-borderUISize-borderPadding-20, 'rocket').setOrigin(0.5, 0);
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height*0.85, 'rocket').setOrigin(0.5, 0);
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4+36, 'spaceshipAnimated', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2+22, 'spaceshipAnimated', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4+6, 'spaceshipAnimated', 0, 10).setOrigin(0,0);
-        this.sparrow01 = new Sparrow(this, 0, 8*borderPadding + borderUISize, 'sparrowAnimated', 0, 50).setOrigin(0, 0);
+        this.sparrow01 = new Sparrow(this, -game.config.width/4, 8*borderPadding + borderUISize, 'sparrowAnimated', 0, 50).setOrigin(0, 0);
         
 
         //defining keys created in main.js
@@ -105,7 +105,7 @@ class Play extends Phaser.Scene {
 
         
         //create border
-        this.border = this.add.tileSprite(0, 0, 640*sizeMult, 480*sizeMult, 'border').setOrigin(0,0);
+        /*this.border = this.add.tileSprite(0, 0, 640*sizeMult, 480*sizeMult, 'border').setOrigin(0,0);
         this.border.setScale(sizeMult);
         this.UI = this.add.tileSprite(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 'UI').setOrigin(0,0);
 
@@ -116,16 +116,19 @@ class Play extends Phaser.Scene {
         //game timer
         this.secondApproximation = 7;
         this.timerDisplay = this.add.text(config.width - (borderUISize + borderPadding + 50), borderUISize + borderPadding*2, this.gameTimer/1000, scoreConfig);
+        */
 
         //Is it in the start menu?  If not, it should start the game.
         this.inStartMenu = true;
         
         this.frameTimer = 0;
 
-        this.add.text(0,0, 'text', {
+        //add title text
+        this.add.text(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', {
             fontFamily: 'GravityBold',
-            fontSize: '50px'
-        });
+            fontSize: '60px',
+            color: '#ff7700',
+        }).setOrigin(0.5,0.5);
     }
 
     update(time, delta) {
@@ -139,64 +142,70 @@ class Play extends Phaser.Scene {
 
         
         //update ready message
-        this.readyStatus = this.p1Rocket.getStatus();
-        if (this.readyStatus == 'ready') {
-            this.readyColor = '#00c732';
-        }
-        else if (this.readyStatus == 'rearming') {
-            this.readyColor = '#de2900';
-        }
-        this.readyMessage.text = this.readyStatus;
-        this.readyMessage.setBackgroundColor(this.readyColor);
-        
-        
-        
-        //update game timer
-        this.gameTimerCopy -= this.secondApproximation;  //manually found 7 as approximating the length of 1 second.  I know this is a terrible solution, but I've tried absolutely every other possible solution and nothing else worked.
-        if (this.gameTimerCopy >= 0) this.timerDisplay.text = Math.round(this.gameTimer/1000);
-        
+        if (this.inStartMenu) {
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.scene.restart();
-        }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start("menuScene");
+        } else {
+            this.readyStatus = this.p1Rocket.getStatus();
+            if (this.readyStatus == 'ready') {
+                this.readyColor = '#00c732';
+            }
+            else if (this.readyStatus == 'rearming') {
+                this.readyColor = '#de2900';
+            }
+            this.readyMessage.text = this.readyStatus;
+            this.readyMessage.setBackgroundColor(this.readyColor);
+            
+            
+            
+            //update game timer
+            this.gameTimerCopy -= this.secondApproximation;  //manually found 7 as approximating the length of 1 second.  I know this is a terrible solution, but I've tried absolutely every other possible solution and nothing else worked.
+            if (this.gameTimerCopy >= 0) this.timerDisplay.text = Math.round(this.gameTimer/1000);
+            
+
+            if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+                this.scene.restart();
+            }
+            if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+                this.scene.start("menuScene");
+            }
+
+
+            //update all agents
+            this.p1Rocket.update();
+            this.ship01.update();
+            this.ship02.update();
+            this.ship03.update();
+            this.sparrow01.update();
+            
+            if(this.checkCollision(this.p1Rocket, this.ship03)) {  //lowest ship
+                //console.log('kaboom ship 03');
+                //this.p1Rocket.reset();
+                //this.clock2 = this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
+                this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);  //why don't these work? 
+                this.shipExplode(this.ship03);
+            }
+            if(this.checkCollision(this.p1Rocket, this.ship02)) {
+                //console.log('kaboom ship 02');
+                //this.p1Rocket.reset();
+                this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
+                this.shipExplode(this.ship02);
+            }
+            if(this.checkCollision(this.p1Rocket, this.ship01)) {
+                //console.log('kaboom ship 01');
+                //this.p1Rocket.reset();
+                this.time.delayedCall(1000, this.p1Rocket.reset(), null, this); 
+                this.shipExplode(this.ship01);
+            }
+            if(this.checkCollision(this.p1Rocket, this.sparrow01)) {
+                this.p1Rocket.reset();
+                this.sparrowExplode(this.sparrow01);
+            }
         }
 
+        
         //update parallax stuff
-        this.foreground1.tilePositionX -= 0.1;
-        this.foreground2.tilePositionX -= 0.3;
-
-        //update all agents
-        this.p1Rocket.update();
-        this.ship01.update();
-        this.ship02.update();
-        this.ship03.update();
-        this.sparrow01.update();
-        
-        if(this.checkCollision(this.p1Rocket, this.ship03)) {  //lowest ship
-            //console.log('kaboom ship 03');
-            //this.p1Rocket.reset();
-            //this.clock2 = this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
-            this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);  //why don't these work? 
-            this.shipExplode(this.ship03);
-        }
-        if(this.checkCollision(this.p1Rocket, this.ship02)) {
-            //console.log('kaboom ship 02');
-            //this.p1Rocket.reset();
-            this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
-            this.shipExplode(this.ship02);
-        }
-        if(this.checkCollision(this.p1Rocket, this.ship01)) {
-            //console.log('kaboom ship 01');
-            //this.p1Rocket.reset();
-            this.time.delayedCall(1000, this.p1Rocket.reset(), null, this); 
-            this.shipExplode(this.ship01);
-        }
-        if(this.checkCollision(this.p1Rocket, this.sparrow01)) {
-            this.p1Rocket.reset();
-            this.sparrowExplode(this.sparrow01);
-        }
+        this.foreground1.tilePositionX += 0.1;
+        this.foreground2.tilePositionX += 0.3;
 
     }
 

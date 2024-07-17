@@ -11,7 +11,7 @@ let config = {
     scale: { 
         width: 640 * sizeMult,
         height: 480 * sizeMult,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
     },
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
