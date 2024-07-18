@@ -154,6 +154,9 @@ class Play extends Phaser.Scene {
 
         this.startButton = new StartButton(game.config.width/2, game.config.height * 0.8, this);
         this.title = new Title(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', this);
+
+        //this.bannertest = this.add.sprite(game.config.width/2, game.config.height/2, 'banner_enlarged', );
+        //this.bannertest.setScale(0.2 * sizeMult);
     }
 
     update(time, delta) {
@@ -172,7 +175,7 @@ class Play extends Phaser.Scene {
         if (this.state == 1) { //waiting for player to click play
 
         } else if (this.state == 2) { //player just clicked play, playing anims and getting ready
-            
+
         
         } else if (this.state == 3) { //Preparatino anims done, game is now going.
             /*this.readyStatus = this.p1Rocket.getStatus();

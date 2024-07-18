@@ -6,6 +6,7 @@ class Title {
             fontSize: '60px',
             color: '#FFFFFF',
         }).setOrigin(0.5,0.5);
+        //this.text.setResolution(5);
         this.text.setStroke('#000000', 4);
 
         //STATES
