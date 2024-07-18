@@ -13,6 +13,8 @@ let config = {
         height: 480 * sizeMult,
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
     },
+    //antialias: false,
+    pixelArt: true,
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
 };

@@ -26,8 +26,12 @@ class Menu extends Phaser.Scene {
         this.load.image("background", "assets/background.png");
         this.load.image("foreground1", "assets/foreground1.png");
         this.load.image("foreground2", "assets/foreground2.png");
+        this.load.image("background_enlarged", "assets/background_enlarged.png");
+        this.load.image("foreground1_enlarged", "assets/foreground1_enlarged.png");
+        this.load.image("foreground2_enlarged", "assets/foreground2_enlarged.png");
         this.load.image("border", "assets/borders.png");
         this.load.image('UI', "assets/UI.png");
+        this.load.image('awkward_cat', './assets/awkward_cat.jpg');
         this.load.audio("Attack on Oritheia", "assets/Oritheia2.wav");
         //load spritesheet
         this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});

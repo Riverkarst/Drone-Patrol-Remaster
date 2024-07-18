@@ -18,11 +18,14 @@ class Play extends Phaser.Scene {
     create() {
         this.gameTimer = 40000;
         this.add.text(50, 200, "Rocket Patrol Play");
-        this.background = this.add.tileSprite(0, 0, 640 * sizeMult, 480 * sizeMult, 'background').setOrigin(0,0);
+        this.background = this.add.tileSprite(0, 0, 640 * sizeMult, 480 * sizeMult, 'background_enlarged').setOrigin(0,0);
         this.background.setScale(sizeMult);
-        this.foreground1 = this.add.tileSprite(0, 40, 640, 480, 'foreground1').setOrigin(0,0);
+        this.background.setTileScale(0.1);
+        this.foreground1 = this.add.tileSprite(0, 40, 640, 480, 'foreground1_enlarged').setOrigin(0,0);
         this.foreground1.setScale(sizeMult);
-        this.foreground2 = this.add.tileSprite(0, 0, 640, 480, 'foreground2').setOrigin(0,0);
+        this.foreground1.setTileScale(0.1);
+        this.foreground2 = this.add.tileSprite(0, 0, 640, 480, 'foreground2_enlarged').setOrigin(0,0);
+        this.foreground2.setTileScale(0.1);
         this.foreground2.setScale(sizeMult);
         let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
@@ -36,7 +39,7 @@ class Play extends Phaser.Scene {
         
 
         //add rocket
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height*0.85, 'rocket').setOrigin(0.5, 0);
+        //this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height*0.85, 'rocket').setOrigin(0.5, 0);
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4+36, 'spaceshipAnimated', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2+22, 'spaceshipAnimated', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4+6, 'spaceshipAnimated', 0, 10).setOrigin(0,0);
@@ -106,8 +109,16 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5); 
             this.gameOver = true;   
             music.stop();
-        }, null, this);
+        }, null, this);, 
         this.clock2;*/
+
+        //test code
+        this.testText = this.add.text(game.config.width/2, game.config.height/2, 'TEST TEXT 60', {fontFamily: 'NotJamSciMono', color: '#faf6e3', fontSize: '40px'}).setOrigin(0.5);
+        this.testText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
+        //this.testText.postFX.addPixelate(0.3);
+        //console.log(this.testText.postFX);
+        //this.cat = this.add.sprite(game.config.width/2, game.config.height/2, 'awkward_cat');
+        //this.cat.setScale(0.3);
 
         
         //create border
@@ -161,13 +172,13 @@ class Play extends Phaser.Scene {
         if (this.state == 1) {
 
         } else {
-            this.readyStatus = this.p1Rocket.getStatus();
+            /*this.readyStatus = this.p1Rocket.getStatus();
             if (this.readyStatus == 'ready') {
                 this.readyColor = '#00c732';
             }
             else if (this.readyStatus == 'rearming') {
                 this.readyColor = '#de2900';
-            }
+            }*/
             //this.readyMessage.text = this.readyStatus;
             //this.readyMessage.setBackgroundColor(this.readyColor);
             
@@ -186,14 +197,8 @@ class Play extends Phaser.Scene {
             }
 
 
-            //update all agents
-            this.p1Rocket.update();
-            this.ship01.update();
-            this.ship02.update();
-            this.ship03.update();
-            this.sparrow01.update();
             
-            if(this.checkCollision(this.p1Rocket, this.ship03)) {  //lowest ship
+            /*if(this.checkCollision(this.p1Rocket, this.ship03)) {  //lowest ship
                 //console.log('kaboom ship 03');
                 //this.p1Rocket.reset();
                 //this.clock2 = this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
@@ -215,13 +220,19 @@ class Play extends Phaser.Scene {
             if(this.checkCollision(this.p1Rocket, this.sparrow01)) {
                 this.p1Rocket.reset();
                 this.sparrowExplode(this.sparrow01);
-            }
+            }*/
         }
 
         
         //update parallax stuff
-        this.foreground1.tilePositionX += 0.1;
-        this.foreground2.tilePositionX += 0.3;
+        this.foreground1.tilePositionX += 1;
+        this.foreground2.tilePositionX += 3;
+        //update all agents
+        //this.p1Rocket.update();
+        this.ship01.update();
+        this.ship02.update();
+        this.ship03.update();
+        this.sparrow01.update();
 
     }
 
