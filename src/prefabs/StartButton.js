@@ -51,7 +51,9 @@ class StartButton {
             this.start.setScale(this.baseScale);
         })
         this.start.on('pointerdown', ()=>{
+            if (this.state != 1) return;
             this.state = 2;
+            this.scene.state = 2;
             this.start.setText('START');
             this.Lbracket.setAlpha(1);
             this.Rbracket.setAlpha(1);
@@ -80,7 +82,7 @@ class StartButton {
             }
             
         } else if (this.state == 3) {  //in active game or game over screen, waiting for start menu to fade back in
-            this.state = 4; //temp code
+            //this.state = 4; //temp code
         } else if (this.state == 4) {  //just finished game over screen, now playing fade back in anim
             this.start.setAlpha(this.start.alpha + 0.03);
             if (this.start.alpha >= 0.95) {

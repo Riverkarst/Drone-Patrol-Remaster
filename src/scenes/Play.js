@@ -27,6 +27,12 @@ class Play extends Phaser.Scene {
         let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
         music.play(musicConfig);
+
+        //STATES
+        //1: In menu, awaiting player to click PLAY
+        //2: Player just clicked play, now playing anims getting ready to start game.  set by PLAY button.
+        //3: Game going
+        this.state = 1;
         
 
         //add rocket
@@ -128,14 +134,15 @@ class Play extends Phaser.Scene {
         //offwhite: #e6e6e6
         //black: #000000
         //orange: #ff7700
-        this.title = this.add.text(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', {
+        /*this.title = this.add.text(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', {
             fontFamily: 'GravityBold',
             fontSize: '60px',
             color: '#FFFFFF',
         }).setOrigin(0.5,0.5);
-        this.title.setStroke('#000000', 4);
+        this.title.setStroke('#000000', 4);*/
 
         this.startButton = new StartButton(game.config.width/2, game.config.height * 0.8, this);
+        this.title = new Title(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', this);
     }
 
     update(time, delta) {
@@ -148,9 +155,10 @@ class Play extends Phaser.Scene {
 
 
         
+        this.startButton.update();
+        this.title.update();
         //update ready message
-        if (this.inStartMenu) {
-            this.startButton.update();
+        if (this.state == 1) {
 
         } else {
             this.readyStatus = this.p1Rocket.getStatus();
@@ -160,8 +168,8 @@ class Play extends Phaser.Scene {
             else if (this.readyStatus == 'rearming') {
                 this.readyColor = '#de2900';
             }
-            this.readyMessage.text = this.readyStatus;
-            this.readyMessage.setBackgroundColor(this.readyColor);
+            //this.readyMessage.text = this.readyStatus;
+            //this.readyMessage.setBackgroundColor(this.readyColor);
             
             
             
