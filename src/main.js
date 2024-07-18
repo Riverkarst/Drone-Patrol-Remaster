@@ -14,7 +14,7 @@ let config = {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
     },
     //antialias: false,
-    pixelArt: true,
+    pixelArt: false,
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
 };

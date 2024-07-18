@@ -169,9 +169,12 @@ class Play extends Phaser.Scene {
         this.startButton.update();
         this.title.update();
         //update ready message
-        if (this.state == 1) {
+        if (this.state == 1) { //waiting for player to click play
 
-        } else {
+        } else if (this.state == 2) { //player just clicked play, playing anims and getting ready
+            
+        
+        } else if (this.state == 3) { //Preparatino anims done, game is now going.
             /*this.readyStatus = this.p1Rocket.getStatus();
             if (this.readyStatus == 'ready') {
                 this.readyColor = '#00c732';
