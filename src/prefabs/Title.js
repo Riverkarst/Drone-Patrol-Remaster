@@ -19,7 +19,7 @@ class Title {
 
     update() {
         if (this.state == 1) {
-            if (this.scene.state == 2) this.state = 2;
+            //if (this.scene.state == 2) this.state = 2;
         } else if (this.state == 2) {
             this.text.setAlpha(this.text.alpha * 0.9);
             if (this.text.alpha < 0.1) {
@@ -34,5 +34,9 @@ class Title {
                 this.state = 1;
             }
         }
+    }
+
+    deactivate() {
+        this.state = 2;
     }
 }

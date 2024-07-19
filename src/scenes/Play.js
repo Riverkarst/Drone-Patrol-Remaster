@@ -169,7 +169,7 @@ class Play extends Phaser.Scene {
 
         //this.time.delayedCall(1000, ()=>{console.log("hi")});
         //console.log(this.clock.now);
-        this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
+        //this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
     }
 
     update(time, delta) {
@@ -187,7 +187,7 @@ class Play extends Phaser.Scene {
         //update ready message
         if (this.state == 1) { //waiting for player to click play
         } else if (this.state == 2) { //player just clicked play, playing anims and getting ready
-            this.banner.activate();
+            //this.banner.activate();
         
         } else if (this.state == 3) { //Preparatino anims done, game is now going.
             /*this.readyStatus = this.p1Rocket.getStatus();
