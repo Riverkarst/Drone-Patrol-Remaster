@@ -113,8 +113,8 @@ class Play extends Phaser.Scene {
         this.clock2;*/
 
         //test code
-        this.testText = this.add.text(game.config.width/2, game.config.height/2, 'TEST TEXT 60', {fontFamily: 'NotJamSciMono', color: '#faf6e3', fontSize: '40px'}).setOrigin(0.5);
-        this.testText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
+        //this.testText = this.add.text(game.config.width/2, game.config.height/2, 'TEST TEXT 60', {fontFamily: 'NotJamSciMono', color: '#faf6e3', fontSize: '40px'}).setOrigin(0.5);
+        //this.testText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
         //this.testText.postFX.addPixelate(0.3);
         //console.log(this.testText.postFX);
         //this.cat = this.add.sprite(game.config.width/2, game.config.height/2, 'awkward_cat');
@@ -157,6 +157,10 @@ class Play extends Phaser.Scene {
 
         //this.bannertest = this.add.sprite(game.config.width/2, game.config.height/2, 'banner_enlarged', );
         //this.bannertest.setScale(0.2 * sizeMult);
+
+        this.score = 0;
+        this.time = 40;
+        this.banner = new Banner(this);
     }
 
     update(time, delta) {
@@ -239,6 +243,7 @@ class Play extends Phaser.Scene {
         this.ship02.update();
         this.ship03.update();
         this.sparrow01.update();
+        this.banner.update();
 
     }
 
