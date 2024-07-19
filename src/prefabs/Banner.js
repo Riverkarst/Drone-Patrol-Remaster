@@ -34,7 +34,6 @@ class Banner {
 
     update() {
         if (this.state == 1) {
-            this.state = 2;
         }
         else if (this.state == 2) {
             if (this.banner.y < 0) {
@@ -60,5 +59,9 @@ class Banner {
         this.banner.setY(0);
         this.scoreText.setY(this.textY);
         this.timeText.setY(this.textY);
+    }
+
+    activate() {
+        this.state = 2;
     }
 }

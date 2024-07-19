@@ -30,6 +30,10 @@ class Play extends Phaser.Scene {
         let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
         music.play(musicConfig);
+        //I used to be able to just do this.time.delayedCall(1000, ()=>{console.log("bla")}, [], this), but
+        //for some reason, this has broken in the newer version of Phaser (3.81), so this is the workaround.
+        this.clock = new Phaser.Time.Clock(this);
+        this.clock.start();
 
         //STATES
         //1: In menu, awaiting player to click PLAY
@@ -161,6 +165,11 @@ class Play extends Phaser.Scene {
         this.score = 0;
         this.time = 40;
         this.banner = new Banner(this);
+
+
+        //this.time.delayedCall(1000, ()=>{console.log("hi")});
+        //console.log(this.clock.now);
+        this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
     }
 
     update(time, delta) {
@@ -171,15 +180,14 @@ class Play extends Phaser.Scene {
             return;
         }
 
+        //console.log(this.clock.now);
 
-        
         this.startButton.update();
         this.title.update();
         //update ready message
         if (this.state == 1) { //waiting for player to click play
-
         } else if (this.state == 2) { //player just clicked play, playing anims and getting ready
-
+            this.banner.activate();
         
         } else if (this.state == 3) { //Preparatino anims done, game is now going.
             /*this.readyStatus = this.p1Rocket.getStatus();
