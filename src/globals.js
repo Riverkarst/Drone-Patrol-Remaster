@@ -1,1 +1,1 @@
-let sizeMult = 1.2;
+let sizeMult = 1.2

@@ -10,8 +10,10 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
+        //AUDIO
         this.load.audio('sfx_select', './assets/assets_blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/launch1.wav');
+        this.load.audio('blastoff', './assets/blastoff.wav');
         this.load.audio('sfx_rocket', './assets/assets_rocket_shot.wav');
         this.load.audio('ready', './assets/ready.wav');
         this.load.audio('rearming', './assets/rearming.wav');
@@ -20,7 +22,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('explosion2', './assets/Explosion3.wav');
         this.load.audio('explosion3', './assets/Explosion4.wav');
         this.load.audio('sparrowExplosionSFX', './assets/sparrowExplosion.wav');
-        //this.load.imag('imagename', 'image filepath');
+        this.load.audio("Attack on Oritheia", "assets/Oritheia2.wav");
+        //IMAGES
         this.load.image("rocket", "assets/Drone.png");
         this.load.image("spaceship", "assets/spaceship.png");
         this.load.image("background", "assets/background.png");
@@ -33,13 +36,14 @@ class Menu extends Phaser.Scene {
         this.load.image('banner_enlarged', 'assets/banner_enlarged2.png');
         this.load.image('UI', "assets/UI.png");
         this.load.image('awkward_cat', './assets/awkward_cat.jpg');
-        this.load.audio("Attack on Oritheia", "assets/Oritheia2.wav");
-        //load spritesheet
+        this.load.image('launcher_rack_x5', './assets/launcher_rack_x5.png');
+        //SPRITESHEETS
         this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('sparrowExplosion', './assets/sparrowExplosion.png', {frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 7});
         this.load.spritesheet('drone', './assets/DroneSpritesheet.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 2});
         this.load.spritesheet('spaceshipAnimated', './assets/spaceshipSpritemap.png', {frameWidth: 63, frameHeight: 32, startFrame: 0, endFrame: 1});
         this.load.spritesheet('sparrowAnimated', './assets/sparrowSpritesheet.png', { frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 3 });
+        this.load.spritesheet('launcher', './assets/launcherSpritesheet.png', { frameWidth: 38, frameHeight: 80 });
 
     }
 

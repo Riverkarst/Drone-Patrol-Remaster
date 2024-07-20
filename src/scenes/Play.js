@@ -166,6 +166,8 @@ class Play extends Phaser.Scene {
         this.time = 40;
         this.banner = new Banner(this);
 
+        this.add.sprite(game.config.width/2, game.config.height/2, 'spaceship')
+
 
         //this.time.delayedCall(1000, ()=>{console.log("hi")});
         //console.log(this.clock.now);
