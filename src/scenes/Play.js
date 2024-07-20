@@ -48,6 +48,8 @@ class Play extends Phaser.Scene {
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2+22, 'spaceshipAnimated', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4+6, 'spaceshipAnimated', 0, 10).setOrigin(0,0);
         this.sparrow01 = new Sparrow(this, -game.config.width/4, 8*borderPadding + borderUISize, 'sparrowAnimated', 0, 50).setOrigin(0, 0);
+
+        this.launcher = new Launcher(this);
         
 
         //defining keys created in main.js
@@ -60,7 +62,7 @@ class Play extends Phaser.Scene {
         // animation config for explosion
         this.anims.create({
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 7, first: 0}),
             frameRate: 30,
         })
         this.anims.create({
@@ -166,7 +168,7 @@ class Play extends Phaser.Scene {
         this.time = 40;
         this.banner = new Banner(this);
 
-        this.add.sprite(game.config.width/2, game.config.height/2, 'spaceship')
+        //this.add.sprite(game.config.width/2, game.config.height/2, 'spaceship')
 
 
         //this.time.delayedCall(1000, ()=>{console.log("hi")});
