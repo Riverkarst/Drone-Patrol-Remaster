@@ -53,10 +53,17 @@ class Play extends Phaser.Scene {
         
 
         //defining keys created in main.js
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        //Arcade controls
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT, true, true);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT, true, true);
+        keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+        keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+
+        //WASD controls
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A, true, true);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D, true, true);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
         // animation config for explosion

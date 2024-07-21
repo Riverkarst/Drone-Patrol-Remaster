@@ -4,13 +4,14 @@ class Launcher {
         
         this.activated = true;
         this.activatedRackY = 0;
-        this.activatedLauncherY = game.config.height * 0.5;
+        this.activatedLauncherY = game.config.height * 0.913;
 
         //add component sprites: launcher and launcher rack
         this.rack = this.scene.add.sprite(0, this.activatedRackY, 'launcher_rack_x5');
         this.rack.setScale(0.2 * sizeMult);
         this.rack.setOrigin(0,0);
         this.launcher = this.scene.add.sprite(game.config.width * 0.5, this.activatedLauncherY, 'launcher', 0);
+        this.launcher.setOrigin(0.5, 0.5);
 
         //setting up animations
         /*this.scene.anims.create({
@@ -28,17 +29,17 @@ class Launcher {
         this.lightRestartSpeed = 2;
         this.setUpAnimations();
 
-        this.launcher.anims.play('launcher_light_restart_4');   
+        /*this.launcher.anims.play('launcher_light_restart_4');   
         this.launcher.on('animationcomplete', ()   => { 
             console.log("done");
-        })
+        })*/
     }
 
 
 
     update() {
         //if (this.scene.state == 3) {
-            
+
         //}
     }
 
