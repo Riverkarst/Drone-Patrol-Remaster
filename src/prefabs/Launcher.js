@@ -5,13 +5,16 @@ class Launcher {
         this.activated = true;
         this.activatedRackY = 0;
         this.activatedLauncherY = game.config.height * 0.913;
+        this.rackBoundLeft = game.config.width * 0.035;
+        this.rackBoundRight = game.config.width - this.rackBoundLeft;
 
         //add component sprites: launcher and launcher rack
         this.rack = this.scene.add.sprite(0, this.activatedRackY, 'launcher_rack_x5');
         this.rack.setScale(0.2 * sizeMult);
         this.rack.setOrigin(0,0);
-        this.launcher = this.scene.add.sprite(game.config.width * 0.5, this.activatedLauncherY, 'launcher', 0);
+        this.launcher = this.scene.add.sprite(game.config.width/2, this.activatedLauncherY, 'launcher', 0);
         this.launcher.setOrigin(0.5, 0.5);
+        this.movementSpeed = game.config.width * 0.01;
 
         //setting up animations
         /*this.scene.anims.create({
@@ -39,7 +42,11 @@ class Launcher {
 
     update() {
         //if (this.scene.state == 3) {
-
+            if ((keyLEFT.isDown || keyA.isDown) && this.launcher.x > this.rackBoundLeft) {
+                this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
+            } else if ((keyRIGHT.isDown || keyD.isDown) && this.launcher.x < this.rackBoundRight) {
+                this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
+            }
         //}
     }
 

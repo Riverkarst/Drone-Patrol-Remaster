@@ -263,6 +263,7 @@ class Play extends Phaser.Scene {
         this.ship03.update();
         this.sparrow01.update();
         this.banner.update();
+        this.launcher.update();
 
     }
 
