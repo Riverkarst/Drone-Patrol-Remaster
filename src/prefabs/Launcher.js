@@ -4,7 +4,7 @@ class Launcher {
         
         this.activated = true;
         this.activatedRackY = 0;
-        this.activatedLauncherY = game.config.height * 0.913;
+        this.activatedLauncherY = game.config.height * 0.912;
         this.rackBoundLeft = game.config.width * 0.035;
         this.rackBoundRight = game.config.width - this.rackBoundLeft;
 
@@ -28,7 +28,7 @@ class Launcher {
         })*/
 
         this.firingSpeed = 30;
-        this.reloadSpeed = 10;
+        this.reloadSpeed = 60;
         this.lightRestartSpeed = 2;
         this.setUpAnimations();
 
@@ -39,26 +39,35 @@ class Launcher {
 
         this.ammo = 4;
         this.justFired = false;
+        //small delay after firing before you can fire again
         this.disabled = false;
-        this.shotDelay = 100;
+        this.shotDelay = 130;
+        this.reloadDelay = 2000;
     }
 
 
 
     update() {
         //if (this.scene.state == 3) {
-            if ((keyLEFT.isDown || keyA.isDown) && this.launcher.x > this.rackBoundLeft) {
+            //MOVEMENT CODE
+            if ((keyLEFT.isDown) && this.launcher.x > this.rackBoundLeft) {
                 this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
             } 
-            if ((keyRIGHT.isDown || keyD.isDown) && this.launcher.x < this.rackBoundRight) {
+            if ((keyRIGHT.isDown) && this.launcher.x < this.rackBoundRight) {
                 this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
             }
-            if (keySPACE.isDown && !this.justFired) {
+            //FIRING CODE
+            if (keyZ.isDown && !this.justFired) {
                 this.fire();
                 this.justFired = true;
-            } else if (keySPACE.isUp) {
+            } else if (keyZ.isUp) {
                 this.justFired = false;
+            } 
+            //RELOADING CODE
+            if (keyX.isDown && !this.disabled) {
+                this.reload();
             }
+            
         //}
     }
 
@@ -93,7 +102,40 @@ class Launcher {
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
         }
+    }
 
+    reload() {
+        if (this.disabled || this.ammo == 4) return;
+        //reloading 1 rocket
+        if (this.ammo == 3) {
+            this.disabled = true;
+            this.launcher.anims.play('launcher_reload_1');
+            this.ammo = 4;
+            this.launcher.on('animationcomplete', ()=>{
+                this.disabled=false
+            }, this);
+        } else if (this.ammo == 2) {
+            this.disabled = true;
+            this.launcher.anims.play('launcher_reload_2');
+            this.ammo = 4;
+            this.launcher.on('animationcomplete', ()=>{
+                this.disabled=false
+            }, this);
+        } else if (this.ammo == 1) {
+            this.disabled = true;
+            this.launcher.anims.play('launcher_reload_3');
+            this.ammo = 4;
+            this.launcher.on('animationcomplete', ()=>{
+                this.disabled=false
+            }, this);
+        } else if (this.ammo == 0) {
+            this.disabled = true;
+            this.launcher.anims.play('launcher_reload_4');
+            this.ammo = 4;
+            this.launcher.on('animationcomplete', ()=>{
+                this.disabled=false
+            }, this);
+        }
     }
 
     setUpAnimations() {
@@ -158,8 +200,8 @@ class Launcher {
             frames: this.scene.anims.generateFrameNames('launcher', {
                 prefix: 'frame',
                 suffix: '.png',
-                start: 31,
-                end: 72,
+                start: 32,
+                end: 73,
                 zeroPad: 4,
             }),
             frameRate: this.reloadSpeed,
@@ -172,7 +214,7 @@ class Launcher {
                 prefix: 'frame',
                 suffix: '.png',
                 start: 75,
-                end: 115,
+                end: 117,
                 zeroPad: 4,
             }),
             frameRate: this.reloadSpeed,
@@ -185,7 +227,7 @@ class Launcher {
                 prefix: 'frame',
                 suffix: '.png',
                 start: 119,
-                end: 159,
+                end: 162,
                 zeroPad: 4,
             }),
             frameRate: this.reloadSpeed,
@@ -198,7 +240,7 @@ class Launcher {
                 prefix: 'frame',
                 suffix: '.png',
                 start: 164,
-                end: 204,
+                end: 208,
                 zeroPad: 4,
             }),
             frameRate: this.reloadSpeed,
