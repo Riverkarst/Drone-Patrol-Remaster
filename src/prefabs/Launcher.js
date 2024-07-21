@@ -27,7 +27,7 @@ class Launcher {
             console.log("done");
         })*/
 
-        this.firingSpeed = 2;
+        this.firingSpeed = 30;
         this.reloadSpeed = 10;
         this.lightRestartSpeed = 2;
         this.setUpAnimations();
@@ -36,6 +36,11 @@ class Launcher {
         this.launcher.on('animationcomplete', ()   => { 
             console.log("done");
         })*/
+
+        this.ammo = 4;
+        this.justFired = false;
+        this.disabled = false;
+        this.shotDelay = 100;
     }
 
 
@@ -44,10 +49,51 @@ class Launcher {
         //if (this.scene.state == 3) {
             if ((keyLEFT.isDown || keyA.isDown) && this.launcher.x > this.rackBoundLeft) {
                 this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
-            } else if ((keyRIGHT.isDown || keyD.isDown) && this.launcher.x < this.rackBoundRight) {
+            } 
+            if ((keyRIGHT.isDown || keyD.isDown) && this.launcher.x < this.rackBoundRight) {
                 this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
             }
+            if (keySPACE.isDown && !this.justFired) {
+                this.fire();
+                this.justFired = true;
+            } else if (keySPACE.isUp) {
+                this.justFired = false;
+            }
         //}
+    }
+
+    fire() {
+        if (this.disabled == true) return;
+        if (this.ammo == 4) {
+            this.disabled = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.launcher.anims.play('launcher_fire_1'); 
+            this.ammo = 3;  
+            this.launcher.on('animationcomplete', ()   => { 
+            }, this)
+        } else if (this.ammo == 3) {
+            this.disabled = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.launcher.anims.play('launcher_fire_2');
+            this.ammo = 2;   
+            this.launcher.on('animationcomplete', ()   => { 
+            }, this)
+        } else if (this.ammo == 2) {
+            this.disabled = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.launcher.anims.play('launcher_fire_3');   
+            this.ammo = 1;
+            this.launcher.on('animationcomplete', ()   => { 
+            }, this)
+        } else if (this.ammo == 1) {
+            this.disabled = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.launcher.anims.play('launcher_fire_4');
+            this.ammo = 0;   
+            this.launcher.on('animationcomplete', ()   => { 
+            }, this)
+        }
+
     }
 
     setUpAnimations() {
