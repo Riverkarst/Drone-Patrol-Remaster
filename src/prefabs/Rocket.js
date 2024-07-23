@@ -32,34 +32,42 @@ class Rocket {
         this.colliderWidth = game.config.width * 0.008;
         this.colliderHeight = game.config.height * 0.05;
         this.collider = this.scene.physics.add.body(this.x, this.y, this.colliderWidth, this.colliderHeight);
+        this.collider.setGravity(0, 700);
+        this.collider.setVelocityY(-300);
+
+        //add sprite
         this.xOffset = this.collider.width * 2.6;
         this.yOffset = this.collider.height * 0.05;
         this.rocketSprite = this.scene.add.sprite(this.x - this.xOffset, this.y - this.yOffset, 'rocket').setOrigin(0,0);
-        //this.collider.setGravity(0, 700);
-        //this.collider.setVelocityY(-300);
         this.rocketSprite.anims.play('rocket_blastoff')
-        /*this.rocketSprite.on('animationcomplete', ()=>{
-            if (this.startedBlastingAnimation) return;
-            this.blastingOffFinished = true;
-        });*/
 
-        /*littleBoom.anims.play('sparrowExplode');   //play explode animation
-        littleBoom.on('animationcomplete', ()   => { //callback after anim completes
-            ship.reset();                       //reset ship position
-            ship.alpha = 1;                     //make ship visible again
-            littleBoom.destroy();                     //remove explosion sprite
-        })*/
+        //cleanup will be done by Launcher object
+        this.outOfBounds = false;
+        this.destroyed = false;
 
-        //this.rocketSprite = this.scene.physics.add.image(this.x, this.y, 'rocket')
-        //this.rocketSprite.anims.play('rocket_blastoff')
     }
 
     update() {
+        //chain sprite position to collider
         this.rocketSprite.setX(this.collider.x - this.xOffset);
         this.rocketSprite.setY(this.collider.y - this.yOffset);
         //if (this.blastingOffFinished && !this.startedBlastingAnimation) {
         //    this.rocketSprite.anims.play('rocket_blasting');
         //    this.startedBlastingAnimation = true;
         //}
+        this.checkOutOfBounds();
+    }
+
+    //check if out of bounds.  if so, launcher object is responsible for destroying it.
+    checkOutOfBounds() {
+        if (this.rocketSprite.y > game.config.width * 1.2 || this.rocketSprite.y < 0 - game.config.width * 0.2) {
+            this.destroy();
+        }
+    }
+
+    destroy() {
+        this.collider.destroy();
+        this.rocketSprite.destroy();
+        this.destroyed = true;
     }
 }

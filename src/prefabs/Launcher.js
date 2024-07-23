@@ -41,10 +41,15 @@ class Launcher {
         this.justFired = false;
         //small delay after firing before you can fire again
         this.disabled = false;
-        this.fireDelaying = false;
-        this.reloading = false;
-        this.shotDelay = 130;
+        this.fireDelaying = false; 
+        this.shotDelay = 130; 
         this.reloadDelay = 2000;
+
+        this.rocketArray = new Array();
+        this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
+        this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
+        this.rocketY = this.launcher.y - this.launcher.height * 0.15;
+        
     }
 
 
@@ -69,6 +74,17 @@ class Launcher {
             if (keyX.isDown && !this.fireDelaying && !this.reloading) {
                 this.reload();
             }
+
+            //update rocket array
+            
+            this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
+            this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
+            for (let i = 0; i < this.rocketArray.length; i++) {
+                if (this.rocketArray[i] != undefined && this.rocketArray[i] != null) {
+                    if (this.rocketArray[i].destroyed) this.rocketArray[i] = null;
+                     else this.rocketArray[i].update();
+                }
+            }
             
         //}
     }
@@ -79,6 +95,7 @@ class Launcher {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_1'); 
+            this.rocketArray.push(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
             this.ammo = 3;  
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
@@ -86,6 +103,7 @@ class Launcher {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_2');
+            this.rocketArray.push(new Rocket(this.scene, this.rocketXRight, this.rocketY));
             this.ammo = 2;   
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
@@ -93,6 +111,7 @@ class Launcher {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_3');   
+            this.rocketArray.push(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
             this.ammo = 1;
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
@@ -103,10 +122,25 @@ class Launcher {
                 this.reload();
             }, this);
             this.launcher.anims.play('launcher_fire_4');
+            this.rocketArray.push(new Rocket(this.scene, this.rocketXRight, this.rocketY));
             this.ammo = 0;   
             this.launcher.on('animationcomplete', ()   => {
             }, this)
         }
+    }
+
+    //input should be "l" or "r" for left or right
+    rocketArrayPush(input) {
+        let side;
+        if (input == "l") side = this.rocketXLeft;
+        else side = this.rocketXRight;
+        for (let i = 0; i < this.rocketArray.length; i++) {
+            if (this.rocketArray[i] == undefined || this.rocketArray[i] == null) {
+                this.rocketArray[i] = new Rocket(this.scene, this.side, this.rocketY);
+                return;
+            }
+        }
+        this.rocketArray.push(new Rocket(this.scene, this.side, this.rocketY));
     }
 
     reload() {

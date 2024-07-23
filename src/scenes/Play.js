@@ -181,7 +181,7 @@ class Play extends Phaser.Scene {
         //this.time.delayedCall(1000, ()=>{console.log("hi")});
         //console.log(this.clock.now);
         //this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
-        this.testRocket = new Rocket(this, game.config.width/2, game.config.height * 0.8);
+        //this.testRocket = new Rocket(this, game.config.width/2, game.config.height * 0.8);
     }
 
     update(time, delta) {
@@ -192,7 +192,7 @@ class Play extends Phaser.Scene {
             return;
         }
 
-        this.testRocket.update();
+        //this.testRocket.update();
         //console.log(this.clock.now);
 
         this.startButton.update();
