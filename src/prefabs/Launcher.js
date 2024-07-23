@@ -41,6 +41,8 @@ class Launcher {
         this.justFired = false;
         //small delay after firing before you can fire again
         this.disabled = false;
+        this.fireDelaying = false;
+        this.reloading = false;
         this.shotDelay = 130;
         this.reloadDelay = 2000;
     }
@@ -64,7 +66,7 @@ class Launcher {
                 this.justFired = false;
             } 
             //RELOADING CODE
-            if (keyX.isDown && !this.disabled) {
+            if (keyX.isDown && !this.fireDelaying && !this.reloading) {
                 this.reload();
             }
             
@@ -72,68 +74,71 @@ class Launcher {
     }
 
     fire() {
-        if (this.disabled == true) return;
+        if (this.fireDelaying || this.reloading) return;
         if (this.ammo == 4) {
-            this.disabled = true;
-            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.fireDelaying = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_1'); 
             this.ammo = 3;  
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
         } else if (this.ammo == 3) {
-            this.disabled = true;
-            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.fireDelaying = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_2');
             this.ammo = 2;   
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
         } else if (this.ammo == 2) {
-            this.disabled = true;
-            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.fireDelaying = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_3');   
             this.ammo = 1;
             this.launcher.on('animationcomplete', ()   => { 
             }, this)
         } else if (this.ammo == 1) {
-            this.disabled = true;
-            this.scene.clock.delayedCall(this.shotDelay, ()=>{this.disabled=false}, this);
+            this.fireDelaying = true;
+            this.scene.clock.delayedCall(this.shotDelay, ()=>{
+                this.fireDelaying=false;
+                this.reload();
+            }, this);
             this.launcher.anims.play('launcher_fire_4');
             this.ammo = 0;   
-            this.launcher.on('animationcomplete', ()   => { 
+            this.launcher.on('animationcomplete', ()   => {
             }, this)
         }
     }
 
     reload() {
-        if (this.disabled || this.ammo == 4) return;
+        if (this.fireDelaying || this.reloading || this.ammo == 4) return;
         //reloading 1 rocket
         if (this.ammo == 3) {
-            this.disabled = true;
+            this.reloading = true;
             this.launcher.anims.play('launcher_reload_1');
             this.ammo = 4;
             this.launcher.on('animationcomplete', ()=>{
-                this.disabled=false
+                this.reloading=false
             }, this);
         } else if (this.ammo == 2) {
-            this.disabled = true;
+            this.reloading = true;
             this.launcher.anims.play('launcher_reload_2');
             this.ammo = 4;
             this.launcher.on('animationcomplete', ()=>{
-                this.disabled=false
+                this.reloading=false
             }, this);
         } else if (this.ammo == 1) {
-            this.disabled = true;
+            this.reloading = true;
             this.launcher.anims.play('launcher_reload_3');
             this.ammo = 4;
             this.launcher.on('animationcomplete', ()=>{
-                this.disabled=false
+                this.reloading=false
             }, this);
         } else if (this.ammo == 0) {
-            this.disabled = true;
+            this.reloading = true;
             this.launcher.anims.play('launcher_reload_4');
             this.ammo = 4;
             this.launcher.on('animationcomplete', ()=>{
-                this.disabled=false
+                this.reloading=false
             }, this);
         }
     }

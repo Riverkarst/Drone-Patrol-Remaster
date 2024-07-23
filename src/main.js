@@ -15,6 +15,10 @@ let config = {
     },
     //antialias: false,
     pixelArt: false,
+    physics: {
+        default: 'arcade',
+        arcade: { debug: true }
+    },
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
 };

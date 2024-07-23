@@ -77,6 +77,7 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('sparrowExplosion', { start: 0, end: 7}),
             frameRate: 30
         })
+        setup_Rocket_Animations(this);
         
 
         //initialize score
@@ -167,7 +168,6 @@ class Play extends Phaser.Scene {
 
         this.startButton = new StartButton(game.config.width/2, game.config.height * 0.8, this);
         this.title = new Title(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', this);
-
         //this.bannertest = this.add.sprite(game.config.width/2, game.config.height/2, 'banner_enlarged', );
         //this.bannertest.setScale(0.2 * sizeMult);
 
@@ -181,6 +181,7 @@ class Play extends Phaser.Scene {
         //this.time.delayedCall(1000, ()=>{console.log("hi")});
         //console.log(this.clock.now);
         //this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
+        this.testRocket = new Rocket(this, game.config.width/2, game.config.height * 0.8);
     }
 
     update(time, delta) {
@@ -191,6 +192,7 @@ class Play extends Phaser.Scene {
             return;
         }
 
+        this.testRocket.update();
         //console.log(this.clock.now);
 
         this.startButton.update();

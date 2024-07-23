@@ -1,59 +1,65 @@
-/**
- * This code is old outdated legacy code from my bachelor's degree
- */
+function setup_Rocket_Animations(scene) {
+    scene.anims.create({
+        repeat: 0,
+        key: 'rocket_blastoff',
+        frames: scene.anims.generateFrameNumbers('rocket', { start: 0, end: 6, first: 0}),
+        frameRate: 30,
+    })
+    scene.anims.create({
+        repeat: -1,
+        key: 'rocket_blasting',
+        frames: scene.anims.generateFrameNumbers('rocket', { start: 7, end: 13, first: 7}),
+        frameRate: 30
+    })
+}
 
-class Drone extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame) {
-        super(scene, x, y, texture, frame);
-        scene.add.existing(this);  //add to existing, diplayList, & updateList
-        this.isFiring = false;  
-        this.moveSpeed = 2;
-        this.sfxRocket = scene.sound.add('sfx_explosion'); // assigning sfxRocket with scene's sfx_explosion sound in order to access it 
-        this.readyVoice = scene.sound.add('ready');
-        this.rearmingVoice = scene.sound.add('rearming');
-        this.status = 'ready';
-    }
 
-    getStatus() {
-        return this.status;
+class Rocket {
+    constructor(scene, x, y) {
+        this.scene = scene;
+        this.x = x;
+        this.y = y;
+        this.blastingOffFinished = false;  //Has rocket_blastoff animation finished yet?
+        this.startedBlastingAnimation = false;  //Has rocket_blasting animation started yet?
+
+        //STATES
+        //1: No animation playing
+        //2: rocket_blastoff animation playing
+        //3: rocket_blasting animation playing
+        this.state = 1;
+
+        //Add collider first, then make rocket chain rocket sprite to collider's position
+        this.colliderWidth = game.config.width * 0.008;
+        this.colliderHeight = game.config.height * 0.05;
+        this.collider = this.scene.physics.add.body(this.x, this.y, this.colliderWidth, this.colliderHeight);
+        this.xOffset = this.collider.width * 2.6;
+        this.yOffset = this.collider.height * 0.05;
+        this.rocketSprite = this.scene.add.sprite(this.x - this.xOffset, this.y - this.yOffset, 'rocket').setOrigin(0,0);
+        //this.collider.setGravity(0, 700);
+        //this.collider.setVelocityY(-300);
+        this.rocketSprite.anims.play('rocket_blastoff')
+        /*this.rocketSprite.on('animationcomplete', ()=>{
+            if (this.startedBlastingAnimation) return;
+            this.blastingOffFinished = true;
+        });*/
+
+        /*littleBoom.anims.play('sparrowExplode');   //play explode animation
+        littleBoom.on('animationcomplete', ()   => { //callback after anim completes
+            ship.reset();                       //reset ship position
+            ship.alpha = 1;                     //make ship visible again
+            littleBoom.destroy();                     //remove explosion sprite
+        })*/
+
+        //this.rocketSprite = this.scene.physics.add.image(this.x, this.y, 'rocket')
+        //this.rocketSprite.anims.play('rocket_blastoff')
     }
 
     update() {
-        if (this.isFiring) { this.status = 'rearming';}
-        else if (!this.isFiring) { this.status = 'ready';}
-        //left/right movement
-        if (!this.isFiring) {
-            //this.x = this.pointer.x;
-            if(keyLEFT.isDown && this.x >= borderUISize + this.width) {
-                this.x -= this.moveSpeed;
-            } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
-                this.x += this.moveSpeed;
-            }
-        }
-        // fire button
-        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
-            this.isFiring = true;
-            this.sfxRocket.play();
-            //this.time.delayedCall(1000, this.rearmingVoice.play(), null, this);
-            this.rearmingVoice.play();
-        }
-        // if fired, move up
-        if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
-            this.y -= this.moveSpeed;
-        }
-        // reset on miss
-        if(this.y <= borderUISize * 3 + borderPadding) {
-            //this.isFiring = false;
-            //this.y = game.config.height - borderUISize - borderPadding;
-            this.reset();
-            this.readyVoice.play();
-        }
+        this.rocketSprite.setX(this.collider.x - this.xOffset);
+        this.rocketSprite.setY(this.collider.y - this.yOffset);
+        //if (this.blastingOffFinished && !this.startedBlastingAnimation) {
+        //    this.rocketSprite.anims.play('rocket_blasting');
+        //    this.startedBlastingAnimation = true;
+        //}
     }
-
-    // reset rocket to ground instead of having to wait for it to reach the top
-    reset() {
-        this.isFiring = false;
-        this.y = game.config.height - borderUISize - borderPadding - 20;
-    }
-
 }
