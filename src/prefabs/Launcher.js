@@ -15,6 +15,9 @@ class Launcher {
         this.launcher = this.scene.add.sprite(game.config.width/2, this.activatedLauncherY, 'launcher', 0);
         this.launcher.setOrigin(0.5, 0.5);
         this.movementSpeed = game.config.width * 0.01;
+        this.maxMovementSpeed = game.config.width * 0.01;
+        this.movementLerpSpeed = game.config.width * 0.001;
+        this.currentMovement = 0;
 
         //setting up animations
         /*this.scene.anims.create({
@@ -45,6 +48,12 @@ class Launcher {
         this.shotDelay = 130; 
         this.reloadDelay = 2000;
 
+        //update stats after reload animation is done
+        this.launcher.on('animationcomplete', ()=>{
+            this.reloadBanner();
+            this.reloading=false
+        }, this);
+
         this.rocketArray = new Array();
         this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
         this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
@@ -57,12 +66,24 @@ class Launcher {
     update() {
         //if (this.scene.state == 3) {
             //MOVEMENT CODE
-            if ((keyLEFT.isDown) && this.launcher.x > this.rackBoundLeft) {
+            //add lerp value to current movement
+            if (keyLEFT.isDown && !keyRIGHT.isDown) {
                 this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
+                //this.currentMovement -= this.movementLerpSpeed;
             } 
-            if ((keyRIGHT.isDown) && this.launcher.x < this.rackBoundRight) {
+            if (keyRIGHT.isDown && !keyLEFT.isDown) {
                 this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
+                //this.currentMovement += this.movementLerpSpeed;
             }
+            //apply movement value
+            /*if (this.currentMovement < 0) {
+                if (this.currentMovement < - this.maxMovementSpeed) this.currentMovement = -this.maxMovementSpeed;
+                this.launcher.setX( Math.max((this.launcher.x+this.currentMovement), this.rackBoundLeft));
+            } else if (this.currentMovement > 0) {
+                if (this.currentMovement > this.maxMovementSpeed) this.currentMovement = this.maxMovementSpeed;
+                this.launcher.setX( Math.min((this.launcher.x+this.currentMovement), this.rackBoundRight));
+            }*/
+
             //FIRING CODE
             if (keyZ.isDown && !this.justFired) {
                 this.fire();
@@ -97,24 +118,21 @@ class Launcher {
             this.launcher.anims.play('launcher_fire_1'); 
             this.rocketArray.push(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
             this.ammo = 3;  
-            this.launcher.on('animationcomplete', ()   => { 
-            }, this)
+            this.scene.banner.remainingRockets[0].setAlpha(0.2);
         } else if (this.ammo == 3) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_2');
             this.rocketArray.push(new Rocket(this.scene, this.rocketXRight, this.rocketY));
             this.ammo = 2;   
-            this.launcher.on('animationcomplete', ()   => { 
-            }, this)
+            this.scene.banner.remainingRockets[1].setAlpha(0.2);
         } else if (this.ammo == 2) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_3');   
             this.rocketArray.push(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
             this.ammo = 1;
-            this.launcher.on('animationcomplete', ()   => { 
-            }, this)
+            this.scene.banner.remainingRockets[2].setAlpha(0.2);
         } else if (this.ammo == 1) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{
@@ -124,8 +142,7 @@ class Launcher {
             this.launcher.anims.play('launcher_fire_4');
             this.rocketArray.push(new Rocket(this.scene, this.rocketXRight, this.rocketY));
             this.ammo = 0;   
-            this.launcher.on('animationcomplete', ()   => {
-            }, this)
+            this.scene.banner.remainingRockets[3].setAlpha(0.2);
         }
     }
 
@@ -150,30 +167,25 @@ class Launcher {
             this.reloading = true;
             this.launcher.anims.play('launcher_reload_1');
             this.ammo = 4;
-            this.launcher.on('animationcomplete', ()=>{
-                this.reloading=false
-            }, this);
         } else if (this.ammo == 2) {
             this.reloading = true;
             this.launcher.anims.play('launcher_reload_2');
             this.ammo = 4;
-            this.launcher.on('animationcomplete', ()=>{
-                this.reloading=false
-            }, this);
         } else if (this.ammo == 1) {
             this.reloading = true;
             this.launcher.anims.play('launcher_reload_3');
             this.ammo = 4;
-            this.launcher.on('animationcomplete', ()=>{
-                this.reloading=false
-            }, this);
         } else if (this.ammo == 0) {
             this.reloading = true;
             this.launcher.anims.play('launcher_reload_4');
             this.ammo = 4;
-            this.launcher.on('animationcomplete', ()=>{
-                this.reloading=false
-            }, this);
+        }
+    }
+
+    reloadBanner() {
+        if (!this.reloading) return;
+        for (let i=0; i<this.scene.banner.remainingRockets.length; i++) {
+            this.scene.banner.remainingRockets[i].setAlpha(1);
         }
     }
 

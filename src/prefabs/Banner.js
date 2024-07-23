@@ -24,6 +24,16 @@ class Banner {
 
         this.move(game.config.height * 0.18)
 
+        this.remainingRockets = new Array();
+        this.rocketY = game.config.height * 0.12;
+        this.rocketX = game.config.width * 0.45;
+        this.rocketSeparation = game.config.width * 0.05;
+        this.rocketScale = 1.5
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + this.rocketSeparation, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 2*this.rocketSeparation, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 3*this.rocketSeparation, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+
         //STATES
         //1: Stowed.  In start menu, player hasn't clicked play
         //2: player just clicked play, playing slide in animation
