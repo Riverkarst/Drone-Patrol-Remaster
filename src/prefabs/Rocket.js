@@ -39,7 +39,13 @@ class Rocket {
         this.xOffset = this.collider.width * 2.6;
         this.yOffset = this.collider.height * 0.05;
         this.rocketSprite = this.scene.add.sprite(this.x - this.xOffset, this.y - this.yOffset, 'rocket').setOrigin(0,0);
-        this.rocketSprite.anims.play('rocket_blastoff')
+
+        //setup the delayed fuel blastoff
+        this.blastoffDelay = 200;
+        this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
+            this.rocketSprite.anims.play('rocket_blastoff')
+        }, [], this)
+        this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
 
         //cleanup will be done by Launcher object
         this.outOfBounds = false;
@@ -56,6 +62,10 @@ class Rocket {
         //    this.startedBlastingAnimation = true;
         //}
         this.checkOutOfBounds();
+    }
+
+    startFuel() {
+        this.collider.setAccelerationY(-2000);
     }
 
     //check if out of bounds.  if so, launcher object is responsible for destroying it.
