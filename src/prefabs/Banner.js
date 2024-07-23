@@ -3,8 +3,8 @@ class Banner {
         this.scene = scene;
         this.time = 0;
         this.score = 0;
-        this.stowedY = - game.config.height * 0.3;
-        this.slideSpeed = game.config.height * 0.007;
+        this.stowedY = - game.config.height * 0.15;
+        this.slideSpeed = game.config.height * 0.009;
         this.banner = this.scene.add.sprite(0, this.stowedY, 'banner_enlarged').setOrigin(0,0);
         this.banner.setScale(sizeMult * 0.2); //The sprite is 5x bigger than canvas, and canvas was adjusted by sizeMult
 
@@ -22,18 +22,18 @@ class Banner {
         this.timeText = this.scene.add.text(this.timeX, this.textY + this.stowedY, this.time, this.textConfig);
         this.timeText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
 
-        this.move(game.config.height * 0.18)
-
         this.remainingRockets = new Array();
         this.rocketY = game.config.height * 0.12;
+        this.rocketStowedY = - game.config.height * 0.03
         this.rocketX = game.config.width * 0.45;
         this.rocketSeparation = game.config.width * 0.05;
         this.rocketScale = 1.5
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + this.rocketSeparation, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 2*this.rocketSeparation, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 3*this.rocketSeparation, this.rocketY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 2*this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
+        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 3*this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
 
+        //this.move(game.config.height * 0.18)
         //STATES
         //1: Stowed.  In start menu, player hasn't clicked play
         //2: player just clicked play, playing slide in animation
@@ -63,12 +63,18 @@ class Banner {
         this.banner.setY(this.banner.y + increment);
         this.scoreText.setY(this.scoreText.y + increment);
         this.timeText.setY(this.timeText.y + increment);
+        for (let i=0; i<this.remainingRockets.length; i++) {
+            this.remainingRockets[i].setY(this.remainingRockets[i].y + increment)
+        }
     }
 
     setActivePosition() {
         this.banner.setY(0);
         this.scoreText.setY(this.textY);
         this.timeText.setY(this.textY);
+        for (let i=0; i<this.remainingRockets.length; i++) {
+            this.remainingRockets[i].setY(this.rocketY)
+        }
     }
 
     activate() {
