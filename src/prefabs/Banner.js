@@ -1,7 +1,11 @@
+/**
+ * The banner object for the game.  Stores time and score data
+ */
+
 class Banner {
     constructor(scene) {
         this.scene = scene;
-        this.time = 0;
+        this.time = 40;
         this.score = 0;
         this.stowedY = - game.config.height * 0.15;
         this.slideSpeed = game.config.height * 0.009;
@@ -51,12 +55,23 @@ class Banner {
             } else {
                 this.setActivePosition();
                 this.state = 3;
+                this.scoreText.setText(String(this.score));
+                this.timeText.setText(String(this.time));
+                this.timeUpdate();
             }
         } else if (this.state == 3) {
-            this.scoreText.setText(String(this.scene.score));
-            this.timeText.setText(String(this.scene.time));
+
         }
 
+    }
+
+    timeUpdate() {
+        this.scene.clock.delayedCall(1000, ()=>{
+            if (this.time <= 0) return;
+            this.time--;
+            this.timeText.setText(String(this.time))
+            this.timeUpdate();
+        }, [], this)
     }
 
     move(increment) {
