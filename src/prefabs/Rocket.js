@@ -39,6 +39,7 @@ class Rocket {
         this.xOffset = this.collider.width * 2.6;
         this.yOffset = this.collider.height * 0.05;
         this.rocketSprite = this.scene.add.sprite(this.x - this.xOffset, this.y - this.yOffset, 'rocket').setOrigin(0,0);
+        this.rocketSprite.setDepth(-1);
 
         //setup the delayed fuel blastoff
         this.blastoffDelay = 200;
