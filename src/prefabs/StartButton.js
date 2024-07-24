@@ -67,6 +67,7 @@ class StartButton {
             this.scene.clock.delayedCall(1000, ()=> {
                 this.scene.state = 2;
                 this.scene.banner.activate();
+                this.scene.launcher.activate();
             }, null, this);
         });
     }

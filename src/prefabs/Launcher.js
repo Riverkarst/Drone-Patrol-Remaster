@@ -7,38 +7,27 @@ class Launcher {
         this.activatedLauncherY = game.config.height * 0.912;
         this.rackBoundLeft = game.config.width * 0.035;
         this.rackBoundRight = game.config.width - this.rackBoundLeft;
+        this.stowedOffset = game.config.height * 0.15;
+        this.activationSlideSpeed = game.config.height * 0.009;
+
+        //STATES
+        //1: On menu, waiting for player to click play
+        //2: Player just clicked play, now moving into active position
+        //3: Moved into active position, controls now active
+        this.state = 1;
 
         //add component sprites: launcher and launcher rack
-        this.rack = this.scene.add.sprite(0, this.activatedRackY, 'launcher_rack_x5');
+        this.rack = this.scene.add.sprite(0, this.activatedRackY + this.stowedOffset, 'launcher_rack_x5');
         this.rack.setScale(0.2 * sizeMult);
         this.rack.setOrigin(0,0);
-        this.launcher = this.scene.add.sprite(game.config.width/2, this.activatedLauncherY, 'launcher', 0);
+        this.launcher = this.scene.add.sprite(game.config.width/2, this.activatedLauncherY + this.stowedOffset, 'launcher', 0);
         this.launcher.setOrigin(0.5, 0.5);
         this.movementSpeed = game.config.width * 0.01;
-        this.maxMovementSpeed = game.config.width * 0.01;
-        this.movementLerpSpeed = game.config.width * 0.001;
-        this.currentMovement = 0;
-
-        //setting up animations
-        /*this.scene.anims.create({
-            key: 'launcher_fire_1',
-            frames: this.scene.anims.generateFrameNumbers('launcher', { start: 0, end: 9, first: 0}),
-            frameRate: 30,
-        });
-        this.launcher.anims.play('launcher_fire_1');   //play explode animation
-        this.launcher.on('animationcomplete', ()   => { //callback after anim completes
-            console.log("done");
-        })*/
 
         this.firingSpeed = 30;
         this.reloadSpeed = 60;
         this.lightRestartSpeed = 2;
         this.setUpAnimations();
-
-        /*this.launcher.anims.play('launcher_light_restart_4');   
-        this.launcher.on('animationcomplete', ()   => { 
-            console.log("done");
-        })*/
 
         this.ammo = 4;
         this.justFired = false;
@@ -57,14 +46,32 @@ class Launcher {
         this.rocketArray = new Array();
         this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
         this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
-        this.rocketY = this.launcher.y - this.launcher.height * 0.15;
+        this.rocketY = this.activatedLauncherY - this.launcher.height * 0.15;
         
     }
 
+    activate() {
+        this.state = 2;
+    }
+
+    stow() {
+        this.state = 4;
+    }
 
 
     update() {
-        //if (this.scene.state == 3) {
+        if (this.state == 1) return;
+        else if (this.state == 2) {
+            this.rack.setY(this.rack.y - this.activationSlideSpeed);
+            this.launcher.setY(this.launcher.y - this.activationSlideSpeed);
+            if (this.rack.y <= this.activatedRackY) {
+                console.log("HERERER");
+                this.rack.setY(this.activatedRackY);
+                this.launcher.setY(this.activatedLauncherY);
+                this.state = 3;
+            }
+        }
+        else if (this.state == 3) {
             //MOVEMENT CODE
             //add lerp value to current movement
             if (keyLEFT.isDown && !keyRIGHT.isDown) {
@@ -107,7 +114,7 @@ class Launcher {
                 }
             }
             
-        //}
+        }
     }
 
     fire() {

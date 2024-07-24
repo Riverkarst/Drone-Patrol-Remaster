@@ -1,7 +1,12 @@
+/**
+ * Old Fighter enemy class
+ */
+
 class Spaceship extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
+        this.scene = scene;
         this.points = pointValue;
         this.baseSpeed = 3.5;
         this.moveSpeed = 0;
@@ -14,6 +19,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
     }
 
     update() {
+
         //move spaceship left
         this.x -= this.moveSpeed;
 
