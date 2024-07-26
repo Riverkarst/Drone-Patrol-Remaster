@@ -63,11 +63,17 @@ class StartButton {
             this.scene.time.delayedCall(1000, () => {
                 //this.scene.state = 2;
             }, null, this);*/
+
+            
+            this.music = this.scene.sound.add('Attack on Oritheia');
+            this.musicConfig = { loop:true, volume:0.8 };
+
             this.scene.title.deactivate();
             this.scene.clock.delayedCall(1000, ()=> {
                 this.scene.state = 2;
                 this.scene.banner.activate();
                 this.scene.launcher.activate();
+                this.music.play(this.musicConfig)
             }, null, this);
         });
     }

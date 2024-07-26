@@ -47,6 +47,14 @@ class Launcher {
         this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
         this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
         this.rocketY = this.activatedLauncherY - this.launcher.height * 0.15;
+
+        //launch1  sfx_rocket  blastoff  blastoff2  blastoff3
+        this.blastoffSound = this.scene.sound.add('blastoff2');
+        this.blastoffConfig = { loop:false, volume:0.1 };
+        this.reloadSound = this.scene.sound.add('reload');
+        this.reloadConfig = { loop:false, volume:1 };
+        this.reloadStartSound = this.scene.sound.add('reloadStart');
+        this.reloadStartConfig = { loop:false, valume: 0.05 }
         
     }
 
@@ -65,7 +73,6 @@ class Launcher {
             this.rack.setY(this.rack.y - this.activationSlideSpeed);
             this.launcher.setY(this.launcher.y - this.activationSlideSpeed);
             if (this.rack.y <= this.activatedRackY) {
-                console.log("HERERER");
                 this.rack.setY(this.activatedRackY);
                 this.launcher.setY(this.activatedLauncherY);
                 this.state = 3;
@@ -119,6 +126,7 @@ class Launcher {
 
     fire() {
         if (this.fireDelaying || this.reloading) return;
+        this.blastoffSound.play(this.blastoffConfig);
         if (this.ammo == 4) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
@@ -169,6 +177,10 @@ class Launcher {
 
     reload() {
         if (this.fireDelaying || this.reloading || this.ammo == 4) return;
+        //if (this.ammo > 0) this.reloadStartSound.play(this.reloadStartConfig);
+        this.scene.clock.delayedCall(200, ()=>{
+            this.reloadSound.play(this.reloadConfig);
+        }, [], this)
         //reloading 1 rocket
         if (this.ammo == 3) {
             this.reloading = true;

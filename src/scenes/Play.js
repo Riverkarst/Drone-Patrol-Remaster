@@ -29,9 +29,6 @@ class Play extends Phaser.Scene {
         this.foreground2.setTileScale(0.1);
         this.foreground2.setScale(sizeMult);
         this.foreground2.setDepth(-8);
-        let music = this.sound.add('Attack on Oritheia');
-        let musicConfig = { loop:true };
-        music.play(musicConfig);
         //I used to be able to just do this.time.delayedCall(1000, ()=>{console.log("bla")}, [], this), but
         //for some reason, this has broken in the newer version of Phaser (3.81), so this is the workaround.
         this.clock = new Phaser.Time.Clock(this);

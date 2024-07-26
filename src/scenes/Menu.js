@@ -14,7 +14,12 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/assets_blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/launch1.wav');
         this.load.audio('blastoff', './assets/blastoff.wav');
+        this.load.audio('blastoff2', './assets/blastoff2.wav');
+        this.load.audio('blastoff3', './assets/blastoff3.wav');
         this.load.audio('sfx_rocket', './assets/assets_rocket_shot.wav');
+        this.load.audio('launch1', './assets/launch1.wav');
+        this.load.audio('reload', './assets/reload5_shotgun.wav');
+        this.load.audio('reloadStart', './assets/reloadStart3.wav');
         this.load.audio('ready', './assets/ready.wav');
         this.load.audio('rearming', './assets/rearming.wav');
         this.load.audio('explosion0', './assets/Explosion1.wav');
