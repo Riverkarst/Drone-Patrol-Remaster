@@ -73,11 +73,11 @@ class Play extends Phaser.Scene {
 
 
         // animation config for explosion
-        this.anims.create({
+        /*this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 7, first: 0}),
             frameRate: 30,
-        })
+        })*/
         this.anims.create({
             key: 'sparrowExplode',
             frames: this.anims.generateFrameNumbers('sparrowExplosion', { start: 0, end: 7}),
@@ -189,31 +189,7 @@ class Play extends Phaser.Scene {
         //this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
         //this.testRocket = new Rocket(this, game.config.width/2, game.config.height * 0.8);
 
-        class TestFighter {
-            constructor(scene, x, y) {
-                this.scene = scene;
-                this.x = x;
-                this.y = y;
-                createFighterAnimation(scene);
-                this.sprite = this.scene.physics.add.sprite(x, y, 'spaceShipAnimated', 0);
-                this.sprite.play('fighter_flying');
-                this.sprite.body.setSize(game.config.width * 0.08, game.config.height * 0.06)
-            }
-            update() {
-                if (this.scene.state == 3) {
-                    
-                }
-            }
-        
-            explode() {
-                console.log("FIGHTER GO BOOM")
-            }
-        }
-        
-        this.test1 = this.physics.add.sprite(game.config.width * 0.5, game.config.height * 0.25, 'rocket');
-        this.test2 = this.physics.add.sprite(game.config.width * 0.5, game.config.height * 0.25, 'spaceShipAnimated');
-        //let test3 = new TestFighter(this, game.config.width * 0.5, game.config.height * 0.25);
-        //console.log("hit status: ", this.physics.collide(test1, test2));
+
     }
 
     update(time, delta) {

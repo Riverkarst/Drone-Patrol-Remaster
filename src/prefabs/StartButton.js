@@ -70,7 +70,7 @@ class StartButton {
 
             this.scene.title.deactivate();
             this.scene.clock.delayedCall(1000, ()=> {
-                this.scene.state = 2;
+                this.scene.state = 3;
                 this.scene.banner.activate();
                 this.scene.launcher.activate();
                 this.music.play(this.musicConfig)

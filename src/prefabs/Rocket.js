@@ -101,10 +101,7 @@ class Rocket {
     }
 
     checkCollisions() {
-        //console.log(this.scene.physics.collide(this.rocketSprite, this.fighter1Ref.sprite));
-        //console.log(this.scene.physics.collide(th))
         if (this.scene.physics.collide(this.rocketSprite, this.fighter1Ref.sprite)) {
-            console.log("ROCKET HIT");
             this.destroy();
             this.fighter1Ref.explode();
         }
