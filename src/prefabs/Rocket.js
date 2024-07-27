@@ -29,24 +29,41 @@ class Rocket {
         this.state = 1;
 
         //Add collider first, then make rocket chain rocket sprite to collider's position
-        this.colliderWidth = game.config.width * 0.008;
-        this.colliderHeight = game.config.height * 0.05;
-        this.collider = this.scene.physics.add.body(this.x, this.y, this.colliderWidth, this.colliderHeight);
-        this.collider.setGravity(0, 700);
-        this.collider.setVelocityY(-300);
+        //this.colliderWidth = game.config.width * 0.008;
+        //this.colliderHeight = game.config.height * 0.05;
+        //this.collider = this.scene.physics.add.body(this.x, this.y, this.colliderWidth, this.colliderHeight);
+        //this.collider.setGravity(0, 700);
+        //this.collider.setVelocityY(-300);
 
         //add sprite
-        this.xOffset = this.collider.width * 2.6;
-        this.yOffset = this.collider.height * 0.05;
-        this.rocketSprite = this.scene.add.sprite(this.x - this.xOffset, this.y - this.yOffset, 'rocket').setOrigin(0,0);
-        this.rocketSprite.setDepth(-1);
-
-        //setup the delayed fuel blastoff
+        //this.xOffset = this.collider.width * 2.6;
+        //this.yOffset = this.collider.height * 0.05;
+        this.xOffset = game.config.width * 0.0035;
+        this.yOffset = game.config.height * 0.07;
+        this.rocketSprite = this.scene.physics.add.sprite(this.x + this.xOffset, this.y + this.yOffset, 'rocket')
+        this.rocketSprite.setSize(game.config.width * 0.008, game.config.height * 0.05);
+        this.rocketSprite.setOffset(game.config.width * 0.021, 0)
+        this.rocketSprite.setDepth(4);
         this.blastoffDelay = 200;
+        this.rocketSprite.setGravity(0, 700);
+        this.rocketSprite.setVelocityY(-300);
         this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
+            this.startFuel();
             this.rocketSprite.anims.play('rocket_blastoff')
         }, [], this)
-        this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
+        //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
+
+        this.fighter1Ref = this.scene.fighter1;
+        this.fighter2Ref = this.scene.fighter2;
+        this.fighter3Ref = this.scene.fighter3;
+        this.scoutRef = this.scene.scout;
+
+        //setup the delayed fuel blastoff
+        //this.blastoffDelay = 200;
+        //this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
+        //    this.rocketSprite.anims.play('rocket_blastoff')
+        //}, [], this)
+        //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
 
         //cleanup will be done by Launcher object
         this.outOfBounds = false;
@@ -56,17 +73,18 @@ class Rocket {
 
     update() {
         //chain sprite position to collider
-        this.rocketSprite.setX(this.collider.x - this.xOffset);
-        this.rocketSprite.setY(this.collider.y - this.yOffset);
+        //this.rocketSprite.setY(this.collider.y)
         //if (this.blastingOffFinished && !this.startedBlastingAnimation) {
         //    this.rocketSprite.anims.play('rocket_blasting');
         //    this.startedBlastingAnimation = true;
         //}
+        this.checkCollisions();
         this.checkOutOfBounds();
+        //console.log("hit status: ", this.scene.physics.collide(this.body, this.fighter1Ref.sprite));
     }
 
     startFuel() {
-        this.collider.setAccelerationY(-2000);
+        this.rocketSprite.setAccelerationY(-2000);
     }
 
     //check if out of bounds.  if so, launcher object is responsible for destroying it.
@@ -77,8 +95,18 @@ class Rocket {
     }
 
     destroy() {
-        this.collider.destroy();
+        //this.collider.destroy();
         this.rocketSprite.destroy();
         this.destroyed = true;
+    }
+
+    checkCollisions() {
+        //console.log(this.scene.physics.collide(this.rocketSprite, this.fighter1Ref.sprite));
+        //console.log(this.scene.physics.collide(th))
+        if (this.scene.physics.collide(this.rocketSprite, this.fighter1Ref.sprite)) {
+            console.log("ROCKET HIT");
+            this.destroy();
+            this.fighter1Ref.explode();
+        }
     }
 }

@@ -131,21 +131,21 @@ class Launcher {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_1'); 
-            this.rocketArray.push(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
             this.ammo = 3;  
             this.scene.banner.remainingRockets[0].setAlpha(0.2);
         } else if (this.ammo == 3) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_2');
-            this.rocketArray.push(new Rocket(this.scene, this.rocketXRight, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY));
             this.ammo = 2;   
             this.scene.banner.remainingRockets[1].setAlpha(0.2);
         } else if (this.ammo == 2) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_3');   
-            this.rocketArray.push(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
             this.ammo = 1;
             this.scene.banner.remainingRockets[2].setAlpha(0.2);
         } else if (this.ammo == 1) {
@@ -155,24 +155,32 @@ class Launcher {
                 this.reload();
             }, this);
             this.launcher.anims.play('launcher_fire_4');
-            this.rocketArray.push(new Rocket(this.scene, this.rocketXRight, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY));
             this.ammo = 0;   
             this.scene.banner.remainingRockets[3].setAlpha(0.2);
         }
     }
 
     //input should be "l" or "r" for left or right
-    rocketArrayPush(input) {
-        let side;
+    rocketArrayPush(newRocket) {
+        /*let side;
         if (input == "l") side = this.rocketXLeft;
         else side = this.rocketXRight;
+        //populate undefined spaces in rocketarray first before creating new entry
         for (let i = 0; i < this.rocketArray.length; i++) {
             if (this.rocketArray[i] == undefined || this.rocketArray[i] == null) {
                 this.rocketArray[i] = new Rocket(this.scene, this.side, this.rocketY);
                 return;
             }
         }
-        this.rocketArray.push(new Rocket(this.scene, this.side, this.rocketY));
+        this.rocketArray.push(new Rocket(this.scene, this.side, this.rocketY));*/
+        for (let i = 0; i < this.rocketArray.length; i++) {
+            if (this.rocketArray[i] == undefined || this.rocketArray[i] == null) {
+                this.rocketArray[i] = newRocket;
+                return;
+            }
+        }
+        this.rocketArray.push(newRocket);
     }
 
     reload() {
