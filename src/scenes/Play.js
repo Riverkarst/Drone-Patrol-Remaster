@@ -50,10 +50,9 @@ class Play extends Phaser.Scene {
         //this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4+6, 'spaceshipAnimated', 0, 10).setOrigin(0,0);
         //this.sparrow01 = new Sparrow(this, -game.config.width/4, 8*borderPadding + borderUISize, 'sparrowAnimated', 0, 50).setOrigin(0, 0);
 
-        this.fighter1 = new Fighter(this, game.config.width * 0.5, game.config.height * 0.25);
-        //this.fighter1 = new Fighter(this, game.config.width * 0.5, game.config.height * 0.25);
-        this.fighter2 = new Fighter(this, game.config.width * 0.5, game.config.height * 0.40);
-        this.fighter3 = new Fighter(this, game.config.width * 0.5, game.config.height * 0.55);
+        this.fighter1 = new Fighter(this, game.config.width * 1.4, game.config.height * 0.43);
+        this.fighter2 = new Fighter(this, game.config.width * 1.5, game.config.height * 0.56);
+        this.fighter3 = new Fighter(this, game.config.width * 1.6, game.config.height * 0.69);
         this.scout = "in progress";
         this.launcher = new Launcher(this);
         
@@ -181,13 +180,6 @@ class Play extends Phaser.Scene {
         this.time = 40;
         this.banner = new Banner(this);
 
-        //this.add.sprite(game.config.width/2, game.config.height/2, 'spaceship')
-
-
-        //this.time.delayedCall(1000, ()=>{console.log("hi")});
-        //console.log(this.clock.now);
-        //this.clock.delayedCall(2000, ()=>{console.log("IEJIFJ")}, [], this);
-        //this.testRocket = new Rocket(this, game.config.width/2, game.config.height * 0.8);
 
 
     }
@@ -273,6 +265,8 @@ class Play extends Phaser.Scene {
         //this.ship03.update();
         //this.sparrow01.update();
         this.fighter1.update();
+        this.fighter2.update();
+        this.fighter3.update();
         this.banner.update();
         this.launcher.update();
 

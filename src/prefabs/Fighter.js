@@ -45,6 +45,7 @@ class Fighter {
         this.scene.sound.play(this.explosionArray[Math.floor((Math.random()*10) % 4)]);
         new ExplodingFighter(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(this.resetPosition);
+        console.log("boom");
     }
 
     checkBounds() {

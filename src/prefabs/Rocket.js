@@ -44,9 +44,10 @@ class Rocket {
         this.rocketSprite.setSize(game.config.width * 0.008, game.config.height * 0.05);
         this.rocketSprite.setOffset(game.config.width * 0.021, 0)
         this.rocketSprite.setDepth(4);
+        this.startingVelocity = -400;
         this.blastoffDelay = 200;
-        this.rocketSprite.setGravity(0, 700);
-        this.rocketSprite.setVelocityY(-300);
+        this.rocketSprite.setGravity(0, 1000);
+        this.rocketSprite.setVelocityY(this.startingVelocity);
         this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
             this.startFuel();
             this.rocketSprite.anims.play('rocket_blastoff')
@@ -78,7 +79,7 @@ class Rocket {
         //    this.rocketSprite.anims.play('rocket_blasting');
         //    this.startedBlastingAnimation = true;
         //}
-        this.checkCollisions();
+        this.checkAllCollisions();
         this.checkOutOfBounds();
         //console.log("hit status: ", this.scene.physics.collide(this.body, this.fighter1Ref.sprite));
     }
@@ -100,10 +101,18 @@ class Rocket {
         this.destroyed = true;
     }
 
-    checkCollisions() {
-        if (this.scene.physics.collide(this.rocketSprite, this.fighter1Ref.sprite)) {
+    checkAllCollisions() {
+        this.checkCollision(this.fighter1Ref);
+        this.checkCollision(this.fighter2Ref);
+        this.checkCollision(this.fighter3Ref);
+        //this.checkCollision(this.scout.sprite);
+    }
+
+    checkCollision(other) {
+        if (this.scene.physics.collide(this.rocketSprite, other.sprite)) {
             this.destroy();
-            this.fighter1Ref.explode();
+            other.explode();
         }
     }
+
 }
