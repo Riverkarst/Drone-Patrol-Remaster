@@ -35,6 +35,7 @@ class Scout {
         //Fighters go at game.config.width * 0.1 speed
         this.speed = -game.config.width * 0.012;
         this.resetPosition = x;
+        this.scoreValue = 40;
     }
 
     update() {
@@ -49,7 +50,7 @@ class Scout {
         this.explosionSound.play();
         new ExplodingScout(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(game.config.width * 1.5);
-        console.log("boom");
+        this.scene.banner.addScore(this.scoreValue);
     }
 
     checkBounds() {

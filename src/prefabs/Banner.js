@@ -97,4 +97,9 @@ class Banner {
     activate() {
         this.state = 2;
     }
+
+    addScore(amount) {
+        this.score += amount;
+        this.scoreText.setText(String(this.score))
+    }
 }
