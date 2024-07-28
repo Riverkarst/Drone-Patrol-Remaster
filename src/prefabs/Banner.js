@@ -31,6 +31,8 @@ class Banner {
         this.rocketStowedY = - game.config.height * 0.03
         this.rocketX = game.config.width * 0.45;
         this.rocketSeparation = game.config.width * 0.05;
+        this.rocketsBoundRight = game.config.width * 0.6;
+        this.rocketSeparation = (this.rocketsBoundRight - this.rocketX) / 4
         this.rocketScale = 1.5
         this.remainingRockets.push(this.scene.add.sprite(this.rocketX, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
         this.remainingRockets.push(this.scene.add.sprite(this.rocketX + this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))

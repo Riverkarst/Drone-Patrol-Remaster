@@ -28,6 +28,12 @@ class Fighter {
 
         //array of keywords for different explosion sounds
         this.explosionArray = ['explosion0', 'explosion1', 'explosion2', 'explosion3'];
+        this.soundConfig = {volume:0.4}
+        this.explosionSounds = [
+            this.scene.sound.add('explosion0', this.soundConfig),
+            this.scene.sound.add('explosion1', this.soundConfig),
+            this.scene.sound.add('explosion2', this.soundConfig),
+            this.scene.sound.add('explosion3', this.soundConfig), ]
 
         this.speed = game.config.width * 0.01;
         this.resetPosition = game.config.width * 1.5;
@@ -41,11 +47,9 @@ class Fighter {
     }
 
     explode() {
-        //this.sprite.play('fighter_explode');
-        this.scene.sound.play(this.explosionArray[Math.floor((Math.random()*10) % 4)]);
+        this.explosionSounds[Math.floor(Math.random()*4)].play();
         new ExplodingFighter(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(this.resetPosition);
-        console.log("boom");
     }
 
     checkBounds() {

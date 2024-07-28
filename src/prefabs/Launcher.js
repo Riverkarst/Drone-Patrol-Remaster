@@ -34,7 +34,7 @@ class Launcher {
         //small delay after firing before you can fire again
         this.disabled = false;
         this.fireDelaying = false; 
-        this.shotDelay = 130; 
+        this.shotDelay = 100; 
         this.reloadDelay = 2000;
 
         //update stats after reload animation is done

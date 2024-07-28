@@ -26,7 +26,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('explosion1', './assets/Explosion2.wav');
         this.load.audio('explosion2', './assets/Explosion3.wav');
         this.load.audio('explosion3', './assets/Explosion4.wav');
-        this.load.audio('sparrowExplosionSFX', './assets/sparrowExplosion.wav');
+        this.load.audio('sparrowExplosion', './assets/sparrowExplosion.wav');
         this.load.audio("Attack on Oritheia", "assets/Oritheia2.wav");
         //IMAGES
         this.load.image("drone", "assets/Drone.png");
@@ -44,10 +44,10 @@ class Menu extends Phaser.Scene {
         this.load.image('launcher_rack_x5', './assets/launcher_rack_x5.png');
         //SPRITESHEETS
         this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('sparrowExplosion', './assets/sparrowExplosion.png', {frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 7});
+        this.load.spritesheet('scout_explosion_spritesheet', './assets/scout_explosion_spritesheet.png', {frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 7});
         this.load.spritesheet('drone_spritesheet', './assets/DroneSpritesheet.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 2});
         this.load.spritesheet('spaceshipAnimated', './assets/spaceshipSpritemap.png', {frameWidth: 63, frameHeight: 32, startFrame: 0, endFrame: 1});
-        this.load.spritesheet('sparrowAnimated', './assets/sparrowSpritesheet.png', { frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 3 });
+        this.load.spritesheet('scout_spritesheet', './assets/scout_spritesheet.png', { frameWidth: 48, frameHeight: 28, startFrame: 0, endFrame: 3 });
         this.load.spritesheet('rocket', './assets/rocket_spritesheet.png', { frameWidth:38, frameHeight:80, startFrame:0, endFrame:13 });
         this.load.atlas('launcher', './assets/launcher4.png', './assets/launcher4.json');
 

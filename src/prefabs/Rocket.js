@@ -43,7 +43,7 @@ class Rocket {
         this.rocketSprite = this.scene.physics.add.sprite(this.x + this.xOffset, this.y + this.yOffset, 'rocket')
         this.rocketSprite.setSize(game.config.width * 0.008, game.config.height * 0.05);
         this.rocketSprite.setOffset(game.config.width * 0.021, 0)
-        this.rocketSprite.setDepth(4);
+        this.rocketSprite.setDepth(-1);
         this.startingVelocity = -400;
         this.blastoffDelay = 200;
         this.rocketSprite.setGravity(0, 1000);
@@ -105,6 +105,7 @@ class Rocket {
         this.checkCollision(this.fighter1Ref);
         this.checkCollision(this.fighter2Ref);
         this.checkCollision(this.fighter3Ref);
+        this.checkCollision(this.scoutRef);
         //this.checkCollision(this.scout.sprite);
     }
 

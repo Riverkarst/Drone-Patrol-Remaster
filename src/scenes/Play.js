@@ -53,7 +53,7 @@ class Play extends Phaser.Scene {
         this.fighter1 = new Fighter(this, game.config.width * 1.4, game.config.height * 0.43);
         this.fighter2 = new Fighter(this, game.config.width * 1.5, game.config.height * 0.56);
         this.fighter3 = new Fighter(this, game.config.width * 1.6, game.config.height * 0.69);
-        this.scout = "in progress";
+        this.scout = new Scout(this, game.config.width * 1.5, game.config.height * 0.27);
         this.launcher = new Launcher(this);
         
 
@@ -203,15 +203,7 @@ class Play extends Phaser.Scene {
             //this.banner.activate();
         
         } else if (this.state == 3) { //Preparatino anims done, game is now going.
-            /*this.readyStatus = this.p1Rocket.getStatus();
-            if (this.readyStatus == 'ready') {
-                this.readyColor = '#00c732';
-            }
-            else if (this.readyStatus == 'rearming') {
-                this.readyColor = '#de2900';
-            }*/
-            //this.readyMessage.text = this.readyStatus;
-            //this.readyMessage.setBackgroundColor(this.readyColor);
+
             
             
             
@@ -226,32 +218,6 @@ class Play extends Phaser.Scene {
             if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
                 this.scene.start("menuScene");
             }
-
-
-            
-            /*if(this.checkCollision(this.p1Rocket, this.ship03)) {  //lowest ship
-                //console.log('kaboom ship 03');
-                //this.p1Rocket.reset();
-                //this.clock2 = this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
-                this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);  //why don't these work? 
-                this.shipExplode(this.ship03);
-            }
-            if(this.checkCollision(this.p1Rocket, this.ship02)) {
-                //console.log('kaboom ship 02');
-                //this.p1Rocket.reset();
-                this.time.delayedCall(1000, this.p1Rocket.reset(), null, this);
-                this.shipExplode(this.ship02);
-            }
-            if(this.checkCollision(this.p1Rocket, this.ship01)) {
-                //console.log('kaboom ship 01');
-                //this.p1Rocket.reset();
-                this.time.delayedCall(1000, this.p1Rocket.reset(), null, this); 
-                this.shipExplode(this.ship01);
-            }
-            if(this.checkCollision(this.p1Rocket, this.sparrow01)) {
-                this.p1Rocket.reset();
-                this.sparrowExplode(this.sparrow01);
-            }*/
         }
 
         
@@ -259,14 +225,10 @@ class Play extends Phaser.Scene {
         this.foreground1.tilePositionX += 1;
         this.foreground2.tilePositionX += 3;
         //update all agents
-        //this.p1Rocket.update();
-        //this.ship01.update();
-        //this.ship02.update();
-        //this.ship03.update();
-        //this.sparrow01.update();
         this.fighter1.update();
         this.fighter2.update();
         this.fighter3.update();
+        this.scout.update();
         this.banner.update();
         this.launcher.update();
 
