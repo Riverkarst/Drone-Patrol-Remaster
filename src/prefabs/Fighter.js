@@ -14,6 +14,11 @@ function createFighterAnimation(scene) {
     })
 }
 
+
+/**
+ * The Fighter class
+ * will detect scene's state and stop when game is over, but 
+ */
 class Fighter {
     constructor(scene, x, y) {
         this.scene = scene;
@@ -36,7 +41,7 @@ class Fighter {
             this.scene.sound.add('explosion3', this.soundConfig), ]
 
         this.speed = game.config.width * 0.01;
-        this.resetPosition = game.config.width * 1.5;
+        this.resetPosition = this.x;
         this.scoreValue = 10;
     }
 
@@ -52,6 +57,10 @@ class Fighter {
         new ExplodingFighter(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(this.resetPosition);
         this.scene.banner.addScore(this.scoreValue);
+    }
+
+    resetPosition() {
+        this.sprite.setX(this.resetPosition);
     }
 
     checkBounds() {

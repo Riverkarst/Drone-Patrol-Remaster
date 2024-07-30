@@ -85,7 +85,7 @@ class Rocket {
     }
 
     startFuel() {
-        this.rocketSprite.setAccelerationY(-2000);
+        this.rocketSprite.setAccelerationY(-4000);
     }
 
     //check if out of bounds.  if so, launcher object is responsible for destroying it.

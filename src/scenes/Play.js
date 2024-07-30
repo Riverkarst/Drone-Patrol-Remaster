@@ -40,6 +40,7 @@ class Play extends Phaser.Scene {
         //1: In menu, awaiting player to click PLAY
         //2: Player just clicked play, now playing anims getting ready to start game.  set by PLAY button.
         //3: Game going
+        //4: Time up, Now in game over screen.
         this.state = 1;
         
 
@@ -131,14 +132,6 @@ class Play extends Phaser.Scene {
         }, null, this);, 
         this.clock2;*/
 
-        //test code
-        //this.testText = this.add.text(game.config.width/2, game.config.height/2, 'TEST TEXT 60', {fontFamily: 'NotJamSciMono', color: '#faf6e3', fontSize: '40px'}).setOrigin(0.5);
-        //this.testText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
-        //this.testText.postFX.addPixelate(0.3);
-        //console.log(this.testText.postFX);
-        //this.cat = this.add.sprite(game.config.width/2, game.config.height/2, 'awkward_cat');
-        //this.cat.setScale(0.3);
-
         
         //create border
         /*this.border = this.add.tileSprite(0, 0, 640*sizeMult, 480*sizeMult, 'border').setOrigin(0,0);
@@ -179,6 +172,7 @@ class Play extends Phaser.Scene {
         this.score = 0;
         this.time = 40;
         this.banner = new Banner(this);
+        this.gameOverScreen = new GameOverScreen(this, this.banner);
 
 
 
@@ -232,6 +226,13 @@ class Play extends Phaser.Scene {
         this.banner.update();
         this.launcher.update();
 
+    }
+
+    resetEnemies() {
+        this.fighter1.resetPosition();
+        this.fighter2.resetPosition();
+        this.fighter3.resetPosition();
+        this.scout.resetPosition();
     }
 
     checkCollision(rocket, ship) {

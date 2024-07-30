@@ -5,7 +5,7 @@
 class Banner {
     constructor(scene) {
         this.scene = scene;
-        this.time = 40;
+        this.time = 2;
         this.score = 0;
         this.stowedY = - game.config.height * 0.15;
         this.slideSpeed = game.config.height * 0.009;
@@ -73,6 +73,10 @@ class Banner {
             this.time--;
             this.timeText.setText(String(this.time))
             this.timeUpdate();
+            if (this.time <= 0) { //time up.  start game over screen.
+                this.scene.state = 4;
+                this.scene.gameOverScreen.start();
+            }
         }, [], this)
     }
 
@@ -99,7 +103,9 @@ class Banner {
     }
 
     addScore(amount) {
+        if (this.score == 999) return;
         this.score += amount;
+        if (this.score > 999) this.score = 999;
         this.scoreText.setText(String(this.score))
     }
 }

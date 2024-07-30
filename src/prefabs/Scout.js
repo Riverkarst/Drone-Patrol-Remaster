@@ -33,7 +33,7 @@ class Scout {
         this.explosionSound = this.scene.sound.add('sparrowExplosion', this.soundConfig)
 
         //Fighters go at game.config.width * 0.1 speed
-        this.speed = -game.config.width * 0.012;
+        this.speed = -game.config.width * 0.011;
         this.resetPosition = x;
         this.scoreValue = 40;
     }
@@ -51,6 +51,10 @@ class Scout {
         new ExplodingScout(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(game.config.width * 1.5);
         this.scene.banner.addScore(this.scoreValue);
+    }
+
+    resetPosition() {
+        this.sprite.setX(game.config.width * 1.8);
     }
 
     checkBounds() {
