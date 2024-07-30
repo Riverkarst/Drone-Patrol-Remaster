@@ -1,3 +1,6 @@
+/**
+ * Main Play scene.  Game stats are stored in its Banner object. (See Banner.js)
+ */
 
 class Play extends Phaser.Scene {
     constructor() {

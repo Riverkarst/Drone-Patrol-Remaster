@@ -1,12 +1,19 @@
 /**
- * The banner object for the game.  Stores time and score data
+ * The banner object for the game.  STORES ESSENTIAL GAME DATA
  */
 
 class Banner {
     constructor(scene) {
         this.scene = scene;
-        this.time = 2;
+
+        //GAME DATA
+        //======================================================
+        this.maxTime = 2;
+        this.time = this.maxTime;
         this.score = 0;
+        this.highScore = 0;
+        //======================================================
+
         this.stowedY = - game.config.height * 0.15;
         this.slideSpeed = game.config.height * 0.009;
         this.banner = this.scene.add.sprite(0, this.stowedY, 'banner_enlarged').setOrigin(0,0);
@@ -51,15 +58,15 @@ class Banner {
     update() {
         if (this.state == 1) {
         }
-        else if (this.state == 2) {
-            if (this.banner.y < 0) {
+        else if (this.state == 2) { //moving into place
+            if (this.banner.y < 0) { //moving down
                 this.move(this.slideSpeed);
-            } else {
+            } else { //lock into place, set score and time text.
                 this.setActivePosition();
                 this.state = 3;
-                this.scoreText.setText(String(this.score));
+                this.time = this.maxTime;
                 this.timeText.setText(String(this.time));
-                this.timeUpdate();
+                this.timeUpdate(); //start timer
             }
         } else if (this.state == 3) {
 
@@ -72,11 +79,10 @@ class Banner {
             if (this.time <= 0) return;
             this.time--;
             this.timeText.setText(String(this.time))
-            this.timeUpdate();
             if (this.time <= 0) { //time up.  start game over screen.
                 this.scene.state = 4;
                 this.scene.gameOverScreen.start();
-            }
+            } else this.timeUpdate();
         }, [], this)
     }
 
@@ -100,6 +106,7 @@ class Banner {
 
     activate() {
         this.state = 2;
+        this.scoreText.setText(String(0));
     }
 
     addScore(amount) {

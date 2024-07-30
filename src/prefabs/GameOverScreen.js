@@ -11,4 +11,8 @@ class GameOverScreen {
     start() {
 
     }
+
+    updateInfo() {
+
+    }
 }
