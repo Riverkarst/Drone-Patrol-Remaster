@@ -22,10 +22,15 @@ class GameOverScreen {
         this.anchorPointX = game.config.width * 0.25;
         this.anchorPointY = game.config.height * 0.35;
         this.fighterSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY, "spaceshipAnimated", 0);
+        this.fighterSprite.play('fighter_flying');
         //this.start = scene.add.text(x, y, '[ START ]', this.textConfig).setOrigin(0.5,0.5);
-        this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.13, "scout_spritesheet", 0)
+        this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.13, "scout_spritesheet", 0);
+        this.scoutSprite.play('scout_flying');
 
-
+        //STATES
+        //1: Inactive
+        //2: Just got activated.  Showing sprites and "SCORE".  Made delayed call to begin tallying fighters
+        this.state = 1;
     }
 
     start() {
