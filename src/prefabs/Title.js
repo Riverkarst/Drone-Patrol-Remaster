@@ -15,7 +15,7 @@ class Title {
         //3: Game going, awaiting transition back to menu screen
         //4: Transitioning to menu screen, now fading back in.
         this.state = 1;
-        this.text.setAlpha(0);
+        this.text.setAlpha(0); //debug code.  remove later.
     }
 
     update() {

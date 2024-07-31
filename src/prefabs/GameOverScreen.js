@@ -6,7 +6,9 @@ class GameOverScreen {
         this.score = 0;
         this.highScore = false;
         this.fighterSkilled = 0;
+        this.fighterCounter = 0;
         this.scoutsKilled = 0;
+        this.scoutCounter = 0;
 
         //0: Inactive, alpha 0.
         //1: 
@@ -14,18 +16,22 @@ class GameOverScreen {
 
         this.textConfig = {
             fontFamily: 'NotJamSciMono',
-            fontSize: '34px',
-            color: '#FFFFFF',  
+            fontSize: '30px',
+            color: '#000000',  
             align: 'center',
         }
 
         this.anchorPointX = game.config.width * 0.25;
         this.anchorPointY = game.config.height * 0.35;
-        this.fighterSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY, "spaceshipAnimated", 0);
+        this.fighterSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY, "spaceshipAnimated", 0).setOrigin(0,0);
         this.fighterSprite.play('fighter_flying');
-        //this.start = scene.add.text(x, y, '[ START ]', this.textConfig).setOrigin(0.5,0.5);
-        this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.13, "scout_spritesheet", 0);
+        this.fighterCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY, 'x' + String(this.fighterCounter), this.textConfig)
+        this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.13, "scout_spritesheet", 0).setOrigin(0,0);
         this.scoutSprite.play('scout_flying');
+        this.scoutCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY + game.config.height*0.13, 'x' + String(this.scoutCounter), this.textConfig);
+        this.line = this.scene.add.rectangle(this.anchorPointX, this.anchorPointY + game.config.width*0.18, game.config.width * 0.5, game.config.height*0.01, this.textConfig.color).setOrigin(0,0)
+
+
 
         //STATES
         //1: Inactive
