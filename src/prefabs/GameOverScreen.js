@@ -20,17 +20,27 @@ class GameOverScreen {
             color: '#000000',  
             align: 'center',
         }
+        this.textConfigSmall = {
+            fontFamily: 'NotJamSciMono',
+            fontSize: '15px',
+            color: '#000000',  
+            align: 'center',
+        }
 
         this.anchorPointX = game.config.width * 0.25;
         this.anchorPointY = game.config.height * 0.35;
         this.fighterSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY, "spaceshipAnimated", 0).setOrigin(0,0);
         this.fighterSprite.play('fighter_flying');
         this.fighterCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY, 'x' + String(this.fighterCounter), this.textConfig)
-        this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.13, "scout_spritesheet", 0).setOrigin(0,0);
+        this.fighterScore = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY, "150", this.textConfig);
+        this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.1, "scout_spritesheet", 0).setOrigin(0,0);
         this.scoutSprite.play('scout_flying');
-        this.scoutCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY + game.config.height*0.13, 'x' + String(this.scoutCounter), this.textConfig);
-        this.line = this.scene.add.rectangle(this.anchorPointX, this.anchorPointY + game.config.width*0.18, game.config.width * 0.5, game.config.height*0.01, this.textConfig.color).setOrigin(0,0)
-
+        this.scoutCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY + game.config.height*0.1, 'x' + String(this.scoutCounter), this.textConfig);
+        this.scoutScore = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.1, '300', this.textConfig);
+        this.line = this.scene.add.rectangle(this.anchorPointX, this.anchorPointY + game.config.height*0.18, game.config.width * 0.5, game.config.height*0.006, this.textConfig.color).setOrigin(0,0)
+        this.scoreWord = this.scene.add.text(this.anchorPointX, this.anchorPointY + game.config.height*0.22, "SCORE", this.textConfig);
+        this.scoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.22, "450", this.textConfig);
+        this.hiScoreText = this.scene.add.text(this.anchorPointX + game.config.width * 0.51, this.anchorPointY + game.config.height * 0.3, "HI-SCORE!", this.textConfigSmall).setOrigin(1,0);
 
 
         //STATES
