@@ -81,11 +81,6 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 7, first: 0}),
             frameRate: 30,
         })*/
-        this.anims.create({
-            key: 'sparrowExplode',
-            frames: this.anims.generateFrameNumbers('sparrowExplosion', { start: 0, end: 7}),
-            frameRate: 30
-        })
         setup_Rocket_Animations(this);
         
 

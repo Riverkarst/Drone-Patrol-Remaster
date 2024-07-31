@@ -28,6 +28,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('explosion3', './assets/Explosion4.wav');
         this.load.audio('sparrowExplosion', './assets/sparrowExplosion.wav');
         this.load.audio("Attack on Oritheia", "assets/Oritheia2.wav");
+        this.load.audio('highscore', 'assets/highscore4.wav');
         //IMAGES
         this.load.image("drone", "assets/Drone.png");
         this.load.image("spaceship", "assets/spaceship.png");

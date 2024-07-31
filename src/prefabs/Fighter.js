@@ -56,7 +56,7 @@ class Fighter {
         this.explosionSounds[Math.floor(Math.random()*4)].play();
         new ExplodingFighter(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(this.resetPosition);
-        this.scene.banner.addScore(this.scoreValue);
+        this.scene.banner.addScore(this.scoreValue, 1);
     }
 
     resetPosition() {

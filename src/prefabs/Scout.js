@@ -23,7 +23,6 @@ class Scout {
 
         this.sprite = this.scene.physics.add.sprite(x, y, 'scout_spritesheet', 0);
         this.sprite.play('scout_flying');
-        console.log(this.sprite);
         this.sprite.setSize(game.config.width * 0.04, game.config.height * 0.055);
         this.sprite.setOffset(-game.config.width * 0.001, -game.config.height * 0.003);
         this.sprite.setImmovable(true);
@@ -50,7 +49,7 @@ class Scout {
         this.explosionSound.play();
         new ExplodingScout(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(game.config.width * 1.5);
-        this.scene.banner.addScore(this.scoreValue);
+        this.scene.banner.addScore(this.scoreValue, 2);
     }
 
     resetPosition() {
