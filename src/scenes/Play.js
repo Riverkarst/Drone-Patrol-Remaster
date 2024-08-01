@@ -179,10 +179,9 @@ class Play extends Phaser.Scene {
     update(time, delta) {
         //cap at 60 fps
         this.frameTimer += delta;
-        if (this.frameTimer >= 1000 / 60) {
-            this.frameTimer = 0;
+        if (this.frameTimer <= 1000 / 60) {
             return;
-        }
+        } else this.frameTimer = 0;
 
         //this.testRocket.update();
         //console.log(this.clock.now);
@@ -212,6 +211,7 @@ class Play extends Phaser.Scene {
         this.scout.update();
         this.banner.update();
         this.launcher.update();
+        this.launcher.updateRockets();
         this.gameOverScreen.update();
 
     }

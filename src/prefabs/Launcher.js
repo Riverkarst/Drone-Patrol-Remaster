@@ -104,15 +104,15 @@ class Launcher {
                 this.reload();
             }
 
-            //update rocket array
             this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
             this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
-            for (let i = 0; i < this.rocketArray.length; i++) {
+            //update rocket array
+            /*for (let i = 0; i < this.rocketArray.length; i++) {
                 if (this.rocketArray[i] != undefined && this.rocketArray[i] != null) {
                     if (this.rocketArray[i].destroyed) this.rocketArray[i] = null;
                      else this.rocketArray[i].update();
                 }
-            }
+            }*/
         } else if (this.state == 4) {  //Time up, stow called by Banner
             this.rack.setY(this.rack.y + this.activationSlideSpeed);
             this.launcher.setY(this.launcher.y + this.activationSlideSpeed);
@@ -120,6 +120,15 @@ class Launcher {
                 this.rack.setY(this.activatedRackY + this.stowedOffset);
                 this.launcher.setY(this.activatedLauncherY + this.stowedOffset);
                 this.state = 1;
+            }
+        }
+    }
+
+    updateRockets() {
+        for (let i = 0; i < this.rocketArray.length; i++) {
+            if (this.rocketArray[i] != undefined && this.rocketArray[i] != null) {
+                if (this.rocketArray[i].destroyed) this.rocketArray[i] = null;
+                 else this.rocketArray[i].update();
             }
         }
     }
