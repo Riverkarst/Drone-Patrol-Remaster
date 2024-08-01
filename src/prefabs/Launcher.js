@@ -54,6 +54,7 @@ class Launcher {
         //1: On menu, waiting for player to click play
         //2: Player just clicked play, now moving into active position
         //3: Moved into active position, controls now active
+        //4: Time up, stow called by Banner
         this.state = 1;
     }
 
@@ -90,14 +91,6 @@ class Launcher {
                 this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
                 //this.currentMovement += this.movementLerpSpeed;
             }
-            //apply movement value
-            /*if (this.currentMovement < 0) {
-                if (this.currentMovement < - this.maxMovementSpeed) this.currentMovement = -this.maxMovementSpeed;
-                this.launcher.setX( Math.max((this.launcher.x+this.currentMovement), this.rackBoundLeft));
-            } else if (this.currentMovement > 0) {
-                if (this.currentMovement > this.maxMovementSpeed) this.currentMovement = this.maxMovementSpeed;
-                this.launcher.setX( Math.min((this.launcher.x+this.currentMovement), this.rackBoundRight));
-            }*/
 
             //FIRING CODE
             if (keyZ.isDown && !this.justFired) {
@@ -112,7 +105,6 @@ class Launcher {
             }
 
             //update rocket array
-            
             this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
             this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
             for (let i = 0; i < this.rocketArray.length; i++) {
@@ -121,7 +113,14 @@ class Launcher {
                      else this.rocketArray[i].update();
                 }
             }
-            
+        } else if (this.state == 4) {  //Time up, stow called by Banner
+            this.rack.setY(this.rack.y + this.activationSlideSpeed);
+            this.launcher.setY(this.launcher.y + this.activationSlideSpeed);
+            if (this.rack.y >= this.activatedRackY + this.stowedOffset) {
+                this.rack.setY(this.activatedRackY + this.stowedOffset);
+                this.launcher.setY(this.activatedLauncherY + this.stowedOffset);
+                this.state = 1;
+            }
         }
     }
 

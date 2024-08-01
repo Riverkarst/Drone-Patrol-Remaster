@@ -100,6 +100,7 @@ class Banner {
         this.deactivate(); //just sets this.state to 4
         this.scene.gameOverScreen.start();
         this.scene.deactivateShips();
+        this.scene.launcher.stow();
     }
 
     move(increment) {
