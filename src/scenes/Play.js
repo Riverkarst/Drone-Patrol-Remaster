@@ -212,6 +212,7 @@ class Play extends Phaser.Scene {
         this.scout.update();
         this.banner.update();
         this.launcher.update();
+        this.gameOverScreen.update();
 
     }
 

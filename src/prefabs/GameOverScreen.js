@@ -47,6 +47,9 @@ class GameOverScreen {
         this.hiScoreText.setAlpha(0);
         this.setAlpha(0);
 
+        this.countupSound = this.scene.sound.add('countup', {volume:0.5});
+        this.hiScoreSound = this.scene.sound.add('highscore', {volume:0.8})
+
         //STATES
         //1: Inactive
         //2: Just got activated.  Showing sprites and "SCORE".  Made delayed call to begin tallying fighters
@@ -66,14 +69,18 @@ class GameOverScreen {
     update() {
         if (this.state == 1) { //Inactive
         } else if (this.state == 2) { //Just got activated.  start fighter counter
-            this.state = 2.1;
-            this.scene.clock.delayedCall(1000, ()=>{ //starting fighterCounter lerp
+            this.fighterSprite.setAlpha(1);
+            this.scoutSprite.setAlpha(1);
+            this.line.setAlpha(1);
+            this.scoreWordText.setAlpha(1);
+            this.scene.clock.delayedCall(800, ()=>{ //starting fighterCounter lerp
+                this.fighterCountText.setAlpha(1);
                 this._countLerp(this.fighterCountText, this.fighterCounter, this.fightersKilled)
-                this.state = 2.2;
             }, [], this)
-        } else if (this.state == 2.2) { //fighterCounter lerp started
+            this.state = 2.1;
+        } else if (this.state == 2.1) { //fighterCounter lerp started
             if (this.fighterCounter.val == this.fightersKilled) {
-                this.state = 2.3;
+                this.state = 2.2;
                 console.log("HAAAA")
             }
         }
@@ -82,6 +89,7 @@ class GameOverScreen {
     //lerps at regular intervals of this.countSpeed, updating counter object as it goes. (counter is an object passed by reference)
     _countLerp(textElement, counter, target) {
         textElement.setText("x" + String(counter.val));
+        this.countupSound.play();
         if (counter.val < target) {
             counter.val++;
             this.scene.clock.delayedCall(this.countSpeed, this._countLerp, [textElement, counter, target], this)
@@ -91,15 +99,15 @@ class GameOverScreen {
     _updateInfo() {
         this.score = this.banner.score;
         this.highScore = (this.banner.score >= this.banner.highScore);
-        this.fightersKilled = this.banner.fighterSkilled;
+        this.fightersKilled = this.banner.fightersKilled + 4;
         this.fighterCounter.val = 0;
         this.fighterScoreVal = this.scene.fighter1.scoreVal;
-        this.fighterCountText.setText("x");
+        this.fighterCountText.setText("x0");
         this.fighterScoreText.setText("");
         this.scoutsKilled = this.banner.scoutsKilled;
         this.scoutCounter.val = 0;
         this.scoutScoreVal = this.scene.scout.scoreVal;
-        this.scoutCountText.setText("x");
+        this.scoutCountText.setText("x0");
         this.scoutScoreText.setText("");
         this.scoreText.setText("");
     }

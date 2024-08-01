@@ -124,8 +124,8 @@ class Banner {
     //Activate banner slide in and reset score counters.  Called by start button.
     activate() {
         this.state = 2;
-        this.score = 50;
-        this.fightersKilled = 5;
+        this.score = 0;
+        this.fightersKilled = 0;
         this.scoutsKilled = 0;
         this.scoreText.setText(String(0));
     }
@@ -151,7 +151,7 @@ class Banner {
         this.score += amount;
         if (this.score > 999) this.score = 999;
         this.scoreText.setText(String(this.score))
-        if (this.type==1) this.fightersKilled++
-        else if (this.type==2) this.scoutsKilled++
+        if (type==1) this.fightersKilled++
+        else if (type==2) this.scoutsKilled++
     }
 }
