@@ -39,16 +39,18 @@ class GameOverScreen {
         this.fighterSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY, "spaceshipAnimated", 0).setOrigin(0,0);
         this.fighterSprite.play('fighter_flying');
         this.fighterCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY, 'x' + String(this.fighterCounter), this.textConfig)
-        this.fighterScoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY, "150", this.textConfig);
+        this.fighterScoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY, "0", this.textConfig);
         this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.1, "scout_spritesheet", 0).setOrigin(0,0);
         this.scoutSprite.play('scout_flying');
         this.scoutCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY + game.config.height*0.1, 'x' + String(this.scoutCounter), this.textConfig);
-        this.scoutScoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.1, '300', this.textConfig);
+        this.scoutScoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.1, '0', this.textConfig);
         this.line = this.scene.add.rectangle(this.anchorPointX, this.anchorPointY + game.config.height*0.18, game.config.width * 0.5, game.config.height*0.006, this.textConfig.color).setOrigin(0,0)
         this.scoreWordText = this.scene.add.text(this.anchorPointX, this.anchorPointY + game.config.height*0.22, "SCORE", this.textConfig);
-        this.scoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.22, "450", this.textConfig);
+        this.scoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.22, "0", this.textConfig);
         this.hiScoreText = this.scene.add.text(this.anchorPointX + game.config.width * 0.51, this.anchorPointY + game.config.height * 0.3, "HI-SCORE!", this.textConfigSmall).setOrigin(1,0);
         this.hiScoreText.setAlpha(0);
+        this.pressZ = this.scene.add.text(this.anchorPointX + game.config.width * 0.1, this.anchorPointY + game.config.height * 0.45, "PRESS Z TO CONTINUE", this.textConfigSmall);
+        this.pressZFlashing = false;
         this.setAlpha(0);
 
         this.countupSound = this.scene.sound.add('countup', {volume:0.5});
@@ -163,7 +165,20 @@ class GameOverScreen {
         //STATE 5: WAIT FOR INPUT ============================================================================
         //wait for player to press z or x then go back to main menu screen 
         else if (this.state == 5) {
-            if (keyZ.isDown || keyX.isDown) this.backToMainMenu();
+            if (keyZ.isDown || keyX.isDown) {
+                this.backToMainMenu();
+            }
+            this.scene.clock.delayedCall(5000, ()=>{
+                this.pressZFlashing = true;
+                this._pressZFlash();
+            }, [], this)
+            this.state = 5.1
+        }
+        //State 5.1: waiting for input, but pressZ is now flashing
+        else if (this.state == 5.1) {
+            if (keyZ.isDown || keyX.isDown) {
+                this.backToMainMenu();
+            } 
         }
     }
 
@@ -205,6 +220,26 @@ class GameOverScreen {
         this.scoreText.setText("");
     }
 
+    //recursively calls itself every time interval to flash pressZ
+    _pressZFlash() {
+        if (!this.pressZFlashing) {
+            this.pressZ.setAlpha(0);
+            return;
+        } else {
+            if (this.pressZ.alpha == 0) {
+                this.scene.clock.delayedCall(800, ()=>{
+                    this.pressZ.setAlpha(1);
+                    this._pressZFlash();
+                }, [], this)
+            } else if (this.pressZ.alpha == 1) {
+                this.scene.clock.delayedCall(800, ()=>{
+                    this.pressZ.setAlpha(0);
+                    this._pressZFlash();
+                }, [], this)
+            }
+        }
+    }
+
     //sets alpha of all sprites and text except hiScoreText
     setAlpha(value) {
         this.fighterSprite.setAlpha(value);
@@ -216,9 +251,12 @@ class GameOverScreen {
         this.line.setAlpha(value);
         this.scoreWordText.setAlpha(value);
         this.scoreText.setAlpha(value);
+        this.pressZ.setAlpha(value);
     }
 
     backToMainMenu() {
+        this.pressZ.setAlpha(0);
+        this.pressZFlashing = false;
         console.log("Back to main menu")
     }
 }
