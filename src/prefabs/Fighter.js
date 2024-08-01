@@ -52,7 +52,7 @@ class Fighter {
             this.sprite.setX(this.sprite.x - this.speed);
             this.checkBounds();
             if (!this.activated) {
-                if (this.sprite.x > game.config.width * 1) this.move = false;
+                if (this.sprite.x > game.config.width * 1.1) this.move = false;
             }
         }
     }

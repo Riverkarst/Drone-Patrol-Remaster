@@ -6,13 +6,15 @@ class GameOverScreen {
         this.score = 0;
         this.highScore = false;
         this.fightersKilled = 0;
-        this.fighterCounter = {val:0};  //It's an object because I want to pass it by reference
+        this.fighterCounter = {val:0};  
         this.fighterScoreVal = 10;
         this.fighterScoreCounter = {val:0}
         this.scoutsKilled = 0;
-        this.scoutCounter = {val:0};  //It's an object because I want to pass it by reference
+        this.scoutCounter = {val:0};  
         this.scoutScoreVal = 40;
         this.scoutScoreCounter = {val:0};
+        this.scoreCounter = {val:0}
+        // The {val:0} variables are objects so I can pass them by reference to tally functions.
 
         //0: Inactive, alpha 0.
         //1: 
@@ -61,11 +63,12 @@ class GameOverScreen {
 
         //OPERATION STATS
         this.countSpeed = 100;  //amount of milliseconds between each count lerp step
-        this.fastCountSpeed = 20;
+        this.fastCountSpeed = 40;
 
         //CONTROL VARIABLES
         this.fighterTallyDone = {val:false};
         this.scoutTallyDone = {val:false};
+        this.scoreTallyDone = {val:false};
     }
 
     start() {
@@ -73,8 +76,12 @@ class GameOverScreen {
     }
 
     update() {
-        if (this.state == 1) { //Inactive
-        } else if (this.state == 2) { //Just got activated.  start fighter counter
+        //STATE 1: INACTIVE =========================================================
+        if (this.state == 1) {
+        } 
+        //STATE 2: FIGHTER ==========================================================
+        //Just got activated.  start fighter counter
+        else if (this.state == 2) { 
             this.fighterSprite.setAlpha(1);
             this.scoutSprite.setAlpha(1);
             this.line.setAlpha(1);
@@ -86,26 +93,65 @@ class GameOverScreen {
                 this._countTally(this.fighterCountText, this.fighterCounter, this.fightersKilled, this.fighterTallyDone)
             }, [], this)
             this.state = 2.1;
-        } else if (this.state == 2.1) { //wait for fighterCounter tally to finish then proceed to state 2.2
+        } 
+        //wait for fighterCounter tally to finish then proceed to state 2.2
+        else if (this.state == 2.1) { 
             if (this.fighterTallyDone.val) {
                 this.state = 2.2
             }
-        } else if (this.state == 2.2) { //start delayed call for fighter scoreval to setalpha to 1 and proceed
+        } 
+        //start delayed call for fighter scoreval to setalpha to 1 and proceed
+        else if (this.state == 2.2) { 
             this.scene.clock.delayedCall(1000, ()=>{
                 this.fighterScoreText.setAlpha(1);
                 this.countupSound.play();
-                //this._scoreTally(this.fighterScoreText, this.fighterScoreCounter, this.fightersKilled*this.fighterScoreVal);
                 this.fighterScoreText.setText(String(this.fightersKilled*this.fighterScoreVal));
             }, [], this)
             this.state = 2.3
-        } else if (this.state == 2.3) { //wait for 2.2's delayedcall to trigger then proceed
+        } 
+        //wait for 2.2's delayedcall to trigger then proceed
+        else if (this.state == 2.3) { 
             if (this.fighterScoreText.alpha == 1) {
                 this.state = 3;
             }
         }
-        //STATE 3: Scout section
-        else if (this.state == 3) {
-            console.log("In state 3")
+        //STATE 3: SCOUT =====================================================================
+        // Start Scout count tally
+        else if (this.state == 3) {            
+            this.scene.clock.delayedCall(800, ()=>{ //starting scoutCounterTally
+            this.scoutCountText.setAlpha(1);
+            this._countTally(this.scoutCountText, this.scoutCounter, this.scoutsKilled, this.scoutTallyDone)
+        }, [], this)
+        this.state = 3.1;
+        }
+        //State 3.1:  Wait for Scout tally to finish then proceed to state 3.2
+        else if (this.state == 3.1) {
+            if (this.scoutTallyDone.val) this.state = 3.2;
+        }
+        //State 3.2:  Start delayed call to set Scout score text to 1
+        else if (this.state == 3.2) {
+            this.scene.clock.delayedCall(800, ()=>{
+                this.scoutScoreText.setAlpha(1);
+                this.countupSound.play();
+                this.scoutScoreText.setText(String(this.scoutsKilled*this.scoutScoreVal));
+            })
+            this.state = 3.3
+        }
+        //State 3.3:  Wait for scoutScoreText to setAlpha to 1 then proceed
+        else if (this.state == 3.3) {
+            if (this.scoutScoreText.alpha == 1) this.state = 4;
+        }
+        //STATE 4: FINAL SCORE ======================================================================
+        else if (this.state == 4) {
+            this.scene.clock.delayedCall(800, ()=>{
+                this.scoreText.setAlpha(1);
+                this._scoreTally(this.scoreText, this.scoreCounter, this.score, this.scoreTallyDone)
+            }, [], this)
+            this.state = 4.1;
+        } else if (this.state == 4.1) {
+            if (this.scoreTallyDone.val) this.state = 4.2;
+        } else if (this.state == 4.2) {
+            console.log("done");
         }
     }
 
@@ -119,17 +165,18 @@ class GameOverScreen {
         } else endSignal.val = true;
     }
 
+    //quickly tallies up score.  counter and endSignal are {val:--} objects
     _scoreTally(textElement, counter, target, endSignal) {
         textElement.setText(String(counter.val));
         this.countupSound.play();
         if (counter.val < target) {
-            counter.val++;
-            this.scene.clock.delayedCall(this.countSpeedFast, this._scoreTally, [textElement, counter, target, endSignal], this)
+            counter.val += 10;
+            this.scene.clock.delayedCall(this.fastCountSpeed, this._scoreTally, [textElement, counter, target, endSignal], this)
         } else endSignal.val = true;
     }
 
     _updateInfo() {
-        this.score = this.banner.score;
+        this.score = this.banner.score + 500;
         this.highScore = (this.banner.score >= this.banner.highScore);
         this.fightersKilled = this.banner.fightersKilled + 14;
         this.fighterCounter.val = 0;

@@ -67,7 +67,9 @@ class StartButton {
                 this.scene.launcher.activate();
                 this.music.play(this.musicConfig)
             }, null, this);
-            this.scene.activateShips();
+            this.scene.clock.delayedCall(2000, ()=>{
+                this.scene.activateShips();
+            }, [], this)
         });
     }
 
