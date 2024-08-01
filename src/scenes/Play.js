@@ -57,7 +57,7 @@ class Play extends Phaser.Scene {
         this.fighter1 = new Fighter(this, game.config.width * 1.4, game.config.height * 0.43);
         this.fighter2 = new Fighter(this, game.config.width * 1.5, game.config.height * 0.56);
         this.fighter3 = new Fighter(this, game.config.width * 1.6, game.config.height * 0.69);
-        this.scout = new Scout(this, game.config.width * 1.5, game.config.height * 0.27);
+        this.scout = new Scout(this, game.config.width * 1.2, game.config.height * 0.27);
         this.launcher = new Launcher(this);
         
 
@@ -194,22 +194,11 @@ class Play extends Phaser.Scene {
         } else if (this.state == 2) { //player just clicked play, playing anims and getting ready
             //this.banner.activate();
         
-        } else if (this.state == 3) { //Preparatino anims done, game is now going.
+        } else if (this.state == 3) { //Preparation anims done, game is now going.
 
             
             
-            
-            //update game timer
-            this.gameTimerCopy -= this.secondApproximation;  //manually found 7 as approximating the length of 1 second.  I know this is a terrible solution, but I've tried absolutely every other possible solution and nothing else worked.
-            if (this.gameTimerCopy >= 0) this.timerDisplay.text = Math.round(this.gameTimer/1000);
-            
-
-            if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
-                this.scene.restart();
-            }
-            if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-                this.scene.start("menuScene");
-            }
+        } else if (this.state == 4) { //time up, now doing gameover screen
         }
 
         
@@ -224,6 +213,20 @@ class Play extends Phaser.Scene {
         this.banner.update();
         this.launcher.update();
 
+    }
+
+    activateShips() {
+        this.fighter1.activate();
+        this.fighter2.activate();
+        this.fighter3.activate();
+        this.scout.activate();
+    }
+
+    deactivateShips() {
+        this.fighter1.deactivate();
+        this.fighter2.deactivate();
+        this.fighter3.deactivate();
+        this.scout.deactivate();
     }
 
     resetEnemies() {

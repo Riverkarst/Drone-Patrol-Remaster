@@ -43,12 +43,17 @@ class Fighter {
         this.speed = game.config.width * 0.01;
         this.resetPosition = this.x;
         this.scoreValue = 10;
+        this.activated = false;
+        this.move = false;
     }
 
     update() {
-        if (this.scene.state == 3) {
+        if (this.move) {
             this.sprite.setX(this.sprite.x - this.speed);
             this.checkBounds();
+            if (!this.activated) {
+                if (this.sprite.x > game.config.width * 1) this.move = false;
+            }
         }
     }
 
@@ -65,8 +70,17 @@ class Fighter {
 
     checkBounds() {
         if (this.sprite.x < -game.config.width * 0.3) {
-            this.sprite.setX(this.resetPosition)
+            this.sprite.setX(this.resetPosition);
         }
+    }
+
+    activate() {
+        this.activated = true;
+        this.move = true;
+    }
+
+    deactivate() {
+        this.activated = false;
     }
 }
 

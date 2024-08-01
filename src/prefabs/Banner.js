@@ -8,7 +8,7 @@ class Banner {
 
         //GAME DATA
         //======================================================
-        this.maxTime = 2;
+        this.maxTime = 1;
         this.time = this.maxTime;
         this.score = 0;
         this.highScore = 0;
@@ -94,11 +94,12 @@ class Banner {
         }, [], this)
     }
 
+    //MAIN GAMEOVER HOOKUP POINT
     gameOver() {
         this.scene.state = 4; //time up
         this.deactivate(); //just sets this.state to 4
         this.scene.gameOverScreen.start();
-        
+        this.scene.deactivateShips();
     }
 
     move(increment) {
@@ -122,8 +123,8 @@ class Banner {
     //Activate banner slide in and reset score counters.  Called by start button.
     activate() {
         this.state = 2;
-        this.score = 0;
-        this.fightersKilled = 0;
+        this.score = 50;
+        this.fightersKilled = 5;
         this.scoutsKilled = 0;
         this.scoreText.setText(String(0));
     }

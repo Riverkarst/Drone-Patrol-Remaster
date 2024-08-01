@@ -35,12 +35,18 @@ class Scout {
         this.speed = -game.config.width * 0.011;
         this.resetPosition = x;
         this.scoreValue = 40;
+
+        this.activated = false;
+        this.move = false;
     }
 
     update() {
-        if (this.scene.state == 3) {
+        if (this.move) {
             this.sprite.setX(this.sprite.x + this.speed);
             this.checkBounds();
+            if (!this.activated) {
+                if (this.sprite.x > game.config.width * 1) this.move = false;
+            }
         }
     }
 
@@ -58,10 +64,17 @@ class Scout {
 
     checkBounds() {
         if (this.sprite.x > game.config.width * 1.7) {
-            this.sprite.setX(-game.config.width * 0.5)
-        } else if (this.sprite.x < -game.config.width * 0.7) {
-            this.sprite.setX(game.config.width * 1.5)
-        }
+            this.sprite.setX(-game.config.width * 0.5);
+        } 
+    }
+
+    activate() {
+        this.activated = true;
+        this.move = true;
+    }
+
+    deactivate() {
+        this.activated = false;
     }
 }
 

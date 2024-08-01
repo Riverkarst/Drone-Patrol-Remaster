@@ -10,12 +10,6 @@ class Launcher {
         this.stowedOffset = game.config.height * 0.15;
         this.activationSlideSpeed = game.config.height * 0.009;
 
-        //STATES
-        //1: On menu, waiting for player to click play
-        //2: Player just clicked play, now moving into active position
-        //3: Moved into active position, controls now active
-        this.state = 1;
-
         //add component sprites: launcher and launcher rack
         this.rack = this.scene.add.sprite(0, this.activatedRackY + this.stowedOffset, 'launcher_rack_x5');
         this.rack.setScale(0.2 * sizeMult);
@@ -56,10 +50,16 @@ class Launcher {
         this.reloadStartSound = this.scene.sound.add('reloadStart');
         this.reloadStartConfig = { loop:false, valume: 0.05 }
         
+        //STATES
+        //1: On menu, waiting for player to click play
+        //2: Player just clicked play, now moving into active position
+        //3: Moved into active position, controls now active
+        this.state = 1;
     }
 
     activate() {
         this.state = 2;
+        this.launcher.setX(game.config.width * 0.5)
     }
 
     stow() {
@@ -68,8 +68,9 @@ class Launcher {
 
 
     update() {
-        if (this.state == 1) return;
-        else if (this.state == 2) {
+        if (this.state == 1) { //On menu waiting for player to click play
+            return;
+        } else if (this.state == 2) {  //player just clicked play, now moving into active position
             this.rack.setY(this.rack.y - this.activationSlideSpeed);
             this.launcher.setY(this.launcher.y - this.activationSlideSpeed);
             if (this.rack.y <= this.activatedRackY) {
@@ -78,7 +79,7 @@ class Launcher {
                 this.state = 3;
             }
         }
-        else if (this.state == 3) {
+        else if (this.state == 3) {  //in active position, controls active.
             //MOVEMENT CODE
             //add lerp value to current movement
             if (keyLEFT.isDown && !keyRIGHT.isDown) {

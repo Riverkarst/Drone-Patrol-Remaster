@@ -50,21 +50,13 @@ class StartButton {
             if (this.state != 1) return;
             this.start.setScale(this.baseScale);
         })
-        this.start.on('pointerdown', ()=>{
-            //clicked animation
+        this.start.on('pointerdown', ()=>{  //PLAYER CLICKED PLAY
             if (this.state != 1) return;
             this.state = 2;
             this.start.setText('START');
             this.Lbracket.setAlpha(1);
             this.Rbracket.setAlpha(1);
 
-            //start the scene's animations to get ready for the game
-            /*console.log(this.scene.time)
-            this.scene.time.delayedCall(1000, () => {
-                //this.scene.state = 2;
-            }, null, this);*/
-
-            
             this.music = this.scene.sound.add('Attack on Oritheia');
             this.musicConfig = { loop:true, volume:0.8 };
 
@@ -75,6 +67,7 @@ class StartButton {
                 this.scene.launcher.activate();
                 this.music.play(this.musicConfig)
             }, null, this);
+            this.scene.activateShips();
         });
     }
 
