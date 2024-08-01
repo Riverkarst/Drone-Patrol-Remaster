@@ -153,5 +153,6 @@ class Banner {
         this.scoreText.setText(String(this.score))
         if (type==1) this.fightersKilled++
         else if (type==2) this.scoutsKilled++
+        if (this.score > this.highScore) this.highScore = this.score;
     }
 }

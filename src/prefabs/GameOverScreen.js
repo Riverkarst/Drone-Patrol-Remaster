@@ -142,16 +142,28 @@ class GameOverScreen {
             if (this.scoutScoreText.alpha == 1) this.state = 4;
         }
         //STATE 4: FINAL SCORE ======================================================================
+        //start delayed call to start score tallying
         else if (this.state == 4) {
             this.scene.clock.delayedCall(800, ()=>{
                 this.scoreText.setAlpha(1);
                 this._scoreTally(this.scoreText, this.scoreCounter, this.score, this.scoreTallyDone)
             }, [], this)
             this.state = 4.1;
-        } else if (this.state == 4.1) {
-            if (this.scoreTallyDone.val) this.state = 4.2;
-        } else if (this.state == 4.2) {
-            console.log("done");
+        } 
+        //wait for score tallying to be done then proceed to state 5
+        else if (this.state == 4.1) {
+            if (this.scoreTallyDone.val) {
+                if (this.score > this.highScore) {
+                    this.hiScoreText.setAlpha(1);
+                    this.hiScoreSound.play();
+                    this.state = 5;
+                } else this.state = 5;
+            }
+        }
+        //STATE 5: WAIT FOR INPUT ============================================================================
+        //wait for player to press z or x then go back to main menu screen 
+        else if (this.state == 5) {
+            if (keyZ.isDown || keyX.isDown) this.backToMainMenu();
         }
     }
 
@@ -204,5 +216,9 @@ class GameOverScreen {
         this.line.setAlpha(value);
         this.scoreWordText.setAlpha(value);
         this.scoreText.setAlpha(value);
+    }
+
+    backToMainMenu() {
+        console.log("Back to main menu")
     }
 }
