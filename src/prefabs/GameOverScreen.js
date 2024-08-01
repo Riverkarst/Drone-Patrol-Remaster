@@ -62,10 +62,13 @@ class GameOverScreen {
         //OPERATION STATS
         this.countSpeed = 100;  //amount of milliseconds between each count lerp step
         this.fastCountSpeed = 20;
+
+        //CONTROL VARIABLES
+        this.fighterTallyDone = {val:false};
+        this.scoutTallyDone = {val:false};
     }
 
     start() {
-        this._updateInfo();
         this.state = 2;
     }
 
@@ -76,14 +79,15 @@ class GameOverScreen {
             this.scoutSprite.setAlpha(1);
             this.line.setAlpha(1);
             this.scoreWordText.setAlpha(1);
+            this.fighterTallyDone.val = false;
             this.scene.clock.delayedCall(800, ()=>{ //starting fighterCounter lerp
                 this._updateInfo();
                 this.fighterCountText.setAlpha(1);
-                this._countTally(this.fighterCountText, this.fighterCounter, this.fightersKilled)
+                this._countTally(this.fighterCountText, this.fighterCounter, this.fightersKilled, this.fighterTallyDone)
             }, [], this)
             this.state = 2.1;
         } else if (this.state == 2.1) { //wait for fighterCounter tally to finish then proceed to state 2.2
-            if (this.fighterCounter.val == this.fightersKilled) {
+            if (this.fighterTallyDone.val) {
                 this.state = 2.2
             }
         } else if (this.state == 2.2) { //start delayed call for fighter scoreval to setalpha to 1 and proceed
@@ -106,22 +110,22 @@ class GameOverScreen {
     }
 
     //lerps at regular intervals of this.countSpeed, updating counter object as it goes. (counter is an object passed by reference)
-    _countTally(textElement, counter, target) {
+    _countTally(textElement, counter, target, endSignal) {
         textElement.setText("x" + String(counter.val));
         this.countupSound.play();
         if (counter.val < target) {
             counter.val++;
-            this.scene.clock.delayedCall(this.countSpeed, this._countTally, [textElement, counter, target], this)
-        }
+            this.scene.clock.delayedCall(this.countSpeed, this._countTally, [textElement, counter, target, endSignal], this)
+        } else endSignal.val = true;
     }
 
-    _scoreTally(textElement, counter, target) {
+    _scoreTally(textElement, counter, target, endSignal) {
         textElement.setText(String(counter.val));
         this.countupSound.play();
         if (counter.val < target) {
             counter.val++;
-            this.scene.clock.delayedCall(this.countSpeedFast, this._scoreTally, [textElement, counter, target], this)
-        }
+            this.scene.clock.delayedCall(this.countSpeedFast, this._scoreTally, [textElement, counter, target, endSignal], this)
+        } else endSignal.val = true;
     }
 
     _updateInfo() {
@@ -133,7 +137,7 @@ class GameOverScreen {
         this.fighterScoreVal = this.scene.fighter1.scoreValue;
         this.fighterCountText.setText("x0");
         this.fighterScoreText.setText("");
-        this.scoutsKilled = this.banner.scoutsKilled;
+        this.scoutsKilled = this.banner.scoutsKilled + 5;
         this.scoutCounter.val = 0;
         this.scoutScoreCounter.val = 0;
         this.scoutScoreVal = this.scene.scout.scoreValue;
