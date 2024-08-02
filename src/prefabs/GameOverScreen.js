@@ -212,13 +212,17 @@ class GameOverScreen {
         this.fighterScoreVal = this.scene.fighter1.scoreValue;
         this.fighterCountText.setText("x0");
         this.fighterScoreText.setText("");
+        this.fighterTallyDone.val = false;
         this.scoutsKilled = this.banner.scoutsKilled + 5;
         this.scoutCounter.val = 0;
         this.scoutScoreCounter.val = 0;
         this.scoutScoreVal = this.scene.scout.scoreValue;
         this.scoutCountText.setText("x0");
         this.scoutScoreText.setText("");
+        this.scoutTallyDone.val = false;
         this.scoreText.setText("");
+        this.scoreTallyDone.val = false;
+        this.scoreCounter.val = 0;
     }
 
     //recursively calls itself every time interval to flash pressZ
