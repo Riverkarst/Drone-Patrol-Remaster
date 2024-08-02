@@ -51,31 +51,38 @@ class StartButton {
             this.start.setScale(this.baseScale);
         })
         this.start.on('pointerdown', ()=>{  //PLAYER CLICKED PLAY
-            if (this.state != 1) return;
-            this.state = 2;
-            this.start.setText('START');
-            this.Lbracket.setAlpha(1);
-            this.Rbracket.setAlpha(1);
-
-            this.music = this.scene.sound.add('Attack on Oritheia');
-            this.musicConfig = { loop:true, volume:0.8 };
-
-            this.scene.title.deactivate();
-            this.scene.clock.delayedCall(1000, ()=> {
-                this.scene.state = 3;
-                this.scene.banner.activate();
-                this.scene.launcher.activate();
-                this.music.play(this.musicConfig)
-            }, null, this);
-            this.scene.clock.delayedCall(2000, ()=>{
-                this.scene.activateShips();
-            }, [], this)
+            this.press();
         });
+
+        this.delayingZInput = false;
+    }
+
+    press() {
+        if (this.state != 1) return;
+        this.state = 2;
+        this.start.setText('START');
+        this.Lbracket.setAlpha(1);
+        this.Rbracket.setAlpha(1);
+
+        this.music = this.scene.sound.add('Attack on Oritheia');
+        this.musicConfig = { loop:true, volume:0.8 };
+
+        this.scene.title.deactivate();
+        this.scene.clock.delayedCall(1000, ()=> {
+            this.scene.state = 3;
+            this.scene.banner.activate();
+            this.scene.launcher.activate();
+            this.music.play(this.musicConfig)
+        }, null, this);
+        this.scene.clock.delayedCall(2000, ()=>{
+            this.scene.activateShips();
+        }, [], this)
     }
 
 
     update() {
         if (this.state == 1) {  //on start menu, not clicked start
+            if (keyZ.isDown && !this.delayingZInput) this.press();
         } else if (this.state == 2) {  //on start menu, just clicked start, playing anim
             let increment = this.Lbracket.x / 10;
             this.Lbracket.setX(this.Lbracket.x - increment);
@@ -124,6 +131,10 @@ class StartButton {
     activate() {
         this.start.setAlpha(1);
         this.state = 1;
+        this.delayingZInput = true;
+        this.scene.clock.delayedCall(1000, ()=>{
+            this.delayingZInput = false;
+        }, [], this)
     }
 
 }
