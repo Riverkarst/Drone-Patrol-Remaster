@@ -8,7 +8,7 @@ class Banner {
 
         //GAME DATA
         //======================================================
-        this.maxTime = 1;
+        this.maxTime = 6;
         this.time = this.maxTime;
         this.score = 0;
         this.highScore = 0;

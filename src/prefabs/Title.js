@@ -39,4 +39,9 @@ class Title {
     deactivate() {
         this.state = 2;
     }
+
+    activate() {
+        this.text.setAlpha(1);
+        this.state = 1;
+    }
 }

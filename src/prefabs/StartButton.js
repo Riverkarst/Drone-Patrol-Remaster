@@ -121,4 +121,9 @@ class StartButton {
 
     }
 
+    activate() {
+        this.start.setAlpha(1);
+        this.state = 1;
+    }
+
 }

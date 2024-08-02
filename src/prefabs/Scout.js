@@ -18,6 +18,7 @@ class Scout {
     constructor(scene, x, y) {
         this.scene = scene;
         this.x = x;
+        this.resetPosition = this.x;
         this.y = y;
         createScoutAnimation(scene);
 
@@ -59,12 +60,12 @@ class Scout {
     }
 
     resetPosition() {
-        this.sprite.setX(game.config.width * 1.8);
+        this.sprite.setX(this.x);
     }
 
     checkBounds() {
-        if (this.sprite.x > game.config.width * 1.7) {
-            this.sprite.setX(-game.config.width * 0.5);
+        if (this.sprite.x < -game.config.width * 0.3) {
+            this.sprite.setX(this.resetPosition);
         } 
     }
 

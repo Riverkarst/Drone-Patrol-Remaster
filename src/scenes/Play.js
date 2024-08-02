@@ -284,4 +284,11 @@ class Play extends Phaser.Scene {
         this.sound.play('sparrowExplosionSFX');
     }
 
+
+    backToMainMenu() {
+        this.title.activate();
+        this.startButton.activate();
+        this.startButton.music.stop();
+    }
+
 }

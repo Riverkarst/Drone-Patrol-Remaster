@@ -169,6 +169,7 @@ class GameOverScreen {
                 this.backToMainMenu();
             }
             this.scene.clock.delayedCall(5000, ()=>{
+                if (this.state < 5) return;
                 this.pressZFlashing = true;
                 this._pressZFlash();
             }, [], this)
@@ -257,6 +258,9 @@ class GameOverScreen {
     backToMainMenu() {
         this.pressZ.setAlpha(0);
         this.pressZFlashing = false;
-        console.log("Back to main menu")
+        this.hiScoreText.setAlpha(0);
+        this.state = 1;
+        this.setAlpha(0);
+        this.scene.backToMainMenu();
     }
 }
