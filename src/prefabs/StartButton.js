@@ -68,6 +68,7 @@ class StartButton {
         this.musicConfig = { loop:true, volume:0.8 };
 
         this.scene.title.deactivate();
+        this.scene.hiScoreText.setAlpha(0);
         this.scene.clock.delayedCall(1000, ()=> {
             this.scene.state = 3;
             this.scene.banner.activate();

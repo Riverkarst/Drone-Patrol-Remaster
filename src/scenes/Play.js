@@ -164,6 +164,10 @@ class Play extends Phaser.Scene {
 
         this.startButton = new StartButton(game.config.width/2, game.config.height * 0.8, this);
         this.title = new Title(game.config.width/2, game.config.height * 0.35, 'Rocket Raider', this);
+        this.hiScoreConfig = {fontFamily:'NotJamSciMono', fontSize:'24px', color:'#FFFFFF'}
+        this.hiScoreText = this.add.text(game.config.width * 0.5, game.config.height * 0.5, 'HI-SCORE: 0', this.hiScoreConfig).setOrigin(0.5,0);
+        this.hiScoreText.setStroke('#000000', 3);
+        this.hiScoreText.setAlpha(0);
         //this.bannertest = this.add.sprite(game.config.width/2, game.config.height/2, 'banner_enlarged', );
         //this.bannertest.setScale(0.2 * sizeMult);
 
@@ -289,6 +293,10 @@ class Play extends Phaser.Scene {
         this.title.activate();
         this.startButton.activate();
         this.startButton.music.stop();
+        if (this.banner.highScore > 0) {
+            this.hiScoreText.setText('HI-SCORE: ' + String(this.banner.highScore));
+            this.hiScoreText.setAlpha(1);
+        }
     }
 
 }
