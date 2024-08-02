@@ -195,7 +195,7 @@ class Launcher {
 
     reload() {
         if (this.fireDelaying || this.reloading || this.ammo == 4) return;
-        //if (this.ammo > 0) this.reloadStartSound.play(this.reloadStartConfig);
+        this.reloadStartSound.play(this.reloadStartConfig);
         this.scene.clock.delayedCall(200, ()=>{
             this.reloadSound.play(this.reloadConfig);
         }, [], this)

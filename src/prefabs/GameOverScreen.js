@@ -204,16 +204,16 @@ class GameOverScreen {
     }
 
     _updateInfo() {
-        this.score = this.banner.score + 500;
+        this.score = this.banner.score;// + 500;
         this.highScore = (this.banner.score >= this.banner.highScore);
-        this.fightersKilled = this.banner.fightersKilled + 14;
+        this.fightersKilled = this.banner.fightersKilled;// + 14;
         this.fighterCounter.val = 0;
         this.fighterScoreCounter.val = 0;
         this.fighterScoreVal = this.scene.fighter1.scoreValue;
         this.fighterCountText.setText("x0");
         this.fighterScoreText.setText("");
         this.fighterTallyDone.val = false;
-        this.scoutsKilled = this.banner.scoutsKilled + 5;
+        this.scoutsKilled = this.banner.scoutsKilled;// + 5;
         this.scoutCounter.val = 0;
         this.scoutScoreCounter.val = 0;
         this.scoutScoreVal = this.scene.scout.scoreValue;

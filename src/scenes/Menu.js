@@ -11,17 +11,18 @@ class Menu extends Phaser.Scene {
 
     preload() {
         //AUDIO
+        console.log("1");
         this.load.audio('sfx_select', './assets/assets_blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/launch1.wav');
-        this.load.audio('blastoff', './assets/blastoff.wav');
+        //this.load.audio('blastoff', './assets/blastoff.wav');
         this.load.audio('blastoff2', './assets/blastoff2.wav');
-        this.load.audio('blastoff3', './assets/blastoff3.wav');
+        //this.load.audio('blastoff3', './assets/blastoff3.wav');
         this.load.audio('sfx_rocket', './assets/assets_rocket_shot.wav');
         this.load.audio('launch1', './assets/launch1.wav');
         this.load.audio('reload', './assets/reload5_shotgun.wav');
         this.load.audio('reloadStart', './assets/reloadStart3.wav');
-        this.load.audio('ready', './assets/ready.wav');
-        this.load.audio('rearming', './assets/rearming.wav');
+        //this.load.audio('ready', './assets/ready.wav');
+        //this.load.audio('rearming', './assets/rearming.wav');
         this.load.audio('explosion0', './assets/Explosion1.wav');
         this.load.audio('explosion1', './assets/Explosion2.wav');
         this.load.audio('explosion2', './assets/Explosion3.wav');
@@ -31,18 +32,18 @@ class Menu extends Phaser.Scene {
         this.load.audio('highscore', 'assets/highscore4.wav');
         this.load.audio('countup', 'assets/countup_sound2.wav');
         //IMAGES
-        this.load.image("drone", "assets/Drone.png");
+        //this.load.image("drone", "assets/Drone.png");
         this.load.image("spaceship", "assets/spaceship.png");
-        this.load.image("background", "assets/background.png");
-        this.load.image("foreground1", "assets/foreground1.png");
-        this.load.image("foreground2", "assets/foreground2.png");
+        //this.load.image("background", "assets/background.png");
+        //this.load.image("foreground1", "assets/foreground1.png");
+        //this.load.image("foreground2", "assets/foreground2.png");
         this.load.image("background_enlarged", "assets/background_enlarged.png");
         this.load.image("foreground1_enlarged", "assets/foreground1_enlarged.png");
         this.load.image("foreground2_enlarged", "assets/foreground2_enlarged.png");
         this.load.image("border", "assets/borders.png");
         this.load.image('banner_enlarged', 'assets/banner_enlarged2.png');
         this.load.image('UI', "assets/UI.png");
-        this.load.image('awkward_cat', './assets/awkward_cat.jpg');
+        //this.load.image('awkward_cat', './assets/awkward_cat.jpg');
         this.load.image('launcher_rack_x5', './assets/launcher_rack_x5.png');
         //SPRITESHEETS
         this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});

@@ -35,7 +35,7 @@ class Scout {
         //Fighters go at game.config.width * 0.1 speed
         this.speed = -game.config.width * 0.011;
         this.resetPosition = x;
-        this.scoreValue = 40;
+        this.scoreValue = 50;
 
         this.activated = false;
         this.move = false;
