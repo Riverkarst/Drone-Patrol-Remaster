@@ -120,6 +120,7 @@ class Launcher {
                 this.rack.setY(this.activatedRackY + this.stowedOffset);
                 this.launcher.setY(this.activatedLauncherY + this.stowedOffset);
                 this.state = 1;
+                this._discreteReload();
             }
         }
     }
@@ -218,12 +219,26 @@ class Launcher {
         }
     }
 
+    _discreteReload() {
+        this.ammo = 4;
+        this.launcher.anims.play('launcher_reload_4');
+        for (let i=0; i<this.scene.banner.remainingRockets.length; i++) {
+            this.scene.banner.remainingRockets[i].setAlpha(1);
+        }
+    }
+
     reloadBanner() {
         if (!this.reloading) return;
         for (let i=0; i<this.scene.banner.remainingRockets.length; i++) {
             this.scene.banner.remainingRockets[i].setAlpha(1);
         }
     }
+
+
+//=============================================================================
+// CREATING ANIMATIONS
+//=============================================================================
+
 
     setUpAnimations() {
         //Firing with full tube of rockets
