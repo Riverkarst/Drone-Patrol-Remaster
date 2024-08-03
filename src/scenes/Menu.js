@@ -79,11 +79,13 @@ class Menu extends Phaser.Scene {
         this.load.image("foreground2_enlarged", "assets/foreground2_enlarged2.png");
         this.loadingBar.setProgress(0.81);
         this.load.image("border", "assets/borders.png");
-        this.load.image('banner_enlarged', 'assets/BannerScoreExtended.png');
+        this.load.image('banner_enlarged', 'assets/banner_enlarged3.png');
         this.loadingBar.setProgress(0.85);
         this.load.image('UI', "assets/UI.png");
         //this.load.image('awkward_cat', './assets/awkward_cat.jpg');
         this.load.image('launcher_rack_x5', './assets/launcher_rack_x5.png');
+        this.load.image('music_active', './assets/MusicActive.png');
+        this.load.image('music_inactive', './assets/MusicInactive.png');
         this.loadingBar.setProgress(0.89);
         //SPRITESHEETS
         this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});

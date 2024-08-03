@@ -32,7 +32,7 @@ class Banner {
         this.scoreText = this.scene.add.text(this.scoreX, this.scoreTextStowedY, this.score, this.textConfig);
         this.scoreText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
 
-        this.timeX = game.config.width * 0.86;
+        this.timeX = game.config.width * 0.796;
         this.timeTextStowedY = this.textY + this.stowedY;
         this.timeText = this.scene.add.text(this.timeX, this.textY + this.stowedY, this.time, this.textConfig);
         this.timeText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
