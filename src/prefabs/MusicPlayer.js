@@ -12,6 +12,18 @@ class MusicPlayer {
         this.button.on('pointerdown', ()=>{
             this.toggleMute();
         }, this)
+
+        //NOW HOOK UP MUTE UNMUTE TO M BUTTON  ALSO HOOK UP WASD CONTROLS
+        this.mFirstDown = true;
+    }
+
+    update() {
+        if (keyM.isDown) {
+            if (this.mFirstDown) {
+                this.toggleMute();
+                this.mFirstDown = false;
+            } else if (!this.mFirstDown) {}
+        } else if (keyM.isUp) this.mFirstDown = true;
     }
 
     play() {

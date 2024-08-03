@@ -219,6 +219,7 @@ class Play extends Phaser.Scene {
         this.launcher.update();
         this.launcher.updateRockets();
         this.gameOverScreen.update();
+        this.musicPlayer.update();
 
     }
 
