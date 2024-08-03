@@ -33,6 +33,7 @@ class Play extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false);
         
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M, true, false);
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC, true, false);
 
 
         this.gameTimer = 40000;
@@ -178,8 +179,17 @@ class Play extends Phaser.Scene {
         this.banner = new Banner(this);
         this.gameOverScreen = new GameOverScreen(this, this.banner);
 
-
         this.musicPlayer = new MusicPlayer(this);
+
+        //Pause code
+        this.paused = false;
+        this.escFirstDown = true;
+        this.pauseScreen = this.add.rectangle(game.config.width/2, game.config.height/2, game.config.width*1.1, game.config.height*1.1, '0x000000');
+        this.pauseScreen.setOrigin(0.5, 0.5);
+        this.pauseScreen.setAlpha(0);
+        this.pausedWord = this.add.text(game.config.width/2, game.config.height/2, 'PAUSED', {fontFamily: 'NotJamSciMono', fontSize:'20px', color:'0x000000'});
+        this.pausedWord.setOrigin(0.5,0.5)
+        this.pausedWord.setAlpha(0);
     }
 
     update(time, delta) {
@@ -188,6 +198,9 @@ class Play extends Phaser.Scene {
         if (this.frameTimer <= 1000 / 60) {
             return;
         } else this.frameTimer = 0;
+
+    
+
 
         //this.testRocket.update();
         //console.log(this.clock.now);
@@ -201,16 +214,23 @@ class Play extends Phaser.Scene {
         
         } else if (this.state == 3) { //Preparation anims done, game is now going.
 
-            
+                  
+            if (keyESC.isDown) {
+                if (this.escFirstDown) {
+                    this.togglePause();
+                    this.escFirstDown = false;
+                }
+            } else if (keyESC.isUp) this.escFirstDown = true;
+            if (this.paused) return;  
             
         } else if (this.state == 4) { //time up, now doing gameover screen
         }
 
-        
         //update parallax stuff
         this.foreground1.tilePositionX += 1;
         this.foreground2.tilePositionX += 3;
         //update all agents
+        this.musicPlayer.update();
         this.fighter1.update();
         this.fighter2.update();
         this.fighter3.update();
@@ -219,7 +239,6 @@ class Play extends Phaser.Scene {
         this.launcher.update();
         this.launcher.updateRockets();
         this.gameOverScreen.update();
-        this.musicPlayer.update();
 
     }
 
@@ -242,6 +261,19 @@ class Play extends Phaser.Scene {
         this.fighter2.resetPosition();
         this.fighter3.resetPosition();
         this.scout.resetPosition();
+    }
+
+    togglePause() {
+        if (!this.paused) {
+            this.paused = true;
+            this.pauseScreen.setAlpha(0.5);
+            this.pausedWord.setAlpha(1);
+            this.launcher.pause();
+        } else if (this.paused) {
+            this.paused = false;
+            this.pauseScreen.setAlpha(0);
+            this.pausedWord.setAlpha(0);
+        }
     }
 
     checkCollision(rocket, ship) {

@@ -17,14 +17,14 @@ let config = {
     pixelArt: false,
     physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
     },
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
 };
 
 //reserve keyboard vars
-let keyZ, keyX, keyLEFT, keyRIGHT,  keyA, keyD, keyR, keySPACE, keyM;
+let keyZ, keyX, keyLEFT, keyRIGHT,  keyA, keyD, keyR, keySPACE, keyM, keyESC;
 
 
 let game = new Phaser.Game(config);

@@ -70,6 +70,10 @@ class Rocket {
         this.outOfBounds = false;
         this.destroyed = false;
 
+        this.savedSpeed = 0;
+        this.savedVelocity = 0;
+        this.savedAcceleration = 0;
+
     }
 
     update() {
@@ -114,6 +118,15 @@ class Rocket {
             this.destroy();
             other.explode();
         }
+    }
+
+    pause() {
+        
+
+    }
+
+    start() {
+
     }
 
 }
