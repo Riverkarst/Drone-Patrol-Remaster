@@ -155,7 +155,8 @@ class GameOverScreen {
         //wait for score tallying to be done then proceed to state 5
         else if (this.state == 4.1) {
             if (this.scoreTallyDone.val) {
-                if (this.score > this.highScore) {
+                if (this.score > this.banner.highScore) { //update banner's high score
+                    this.banner.highScore = this.score;
                     this.hiScoreText.setAlpha(1);
                     this.hiScoreSound.play();
                     this.state = 5;

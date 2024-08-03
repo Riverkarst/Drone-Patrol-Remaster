@@ -17,7 +17,7 @@ let config = {
     pixelArt: false,
     physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
     },
     //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
