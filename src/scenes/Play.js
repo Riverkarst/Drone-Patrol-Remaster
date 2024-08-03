@@ -177,7 +177,7 @@ class Play extends Phaser.Scene {
         this.gameOverScreen = new GameOverScreen(this, this.banner);
 
 
-
+        this.musicPlayer = new MusicPlayer(this);
     }
 
     update(time, delta) {
@@ -292,7 +292,8 @@ class Play extends Phaser.Scene {
     backToMainMenu() {
         this.title.activate();
         this.startButton.activate();
-        this.startButton.music.stop();
+        //this.startButton.music.stop();
+        this.musicPlayer.stop();
         if (this.banner.highScore > 0) {
             this.hiScoreText.setText('HI-SCORE: ' + String(this.banner.highScore));
             this.hiScoreText.setAlpha(1);

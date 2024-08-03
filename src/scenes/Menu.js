@@ -22,7 +22,7 @@ class LoadingBar {
     setProgress(amount) {
         if (amount > 1) amount = 1;
         this.progressAmount = amount;
-        console.log(amount);
+        //console.log(amount);
         this.progress.setSize(this.progressLength * amount, this.progressHeight);
     }
 }

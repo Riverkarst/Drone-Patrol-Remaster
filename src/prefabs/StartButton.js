@@ -64,8 +64,8 @@ class StartButton {
         this.Lbracket.setAlpha(1);
         this.Rbracket.setAlpha(1);
 
-        this.music = this.scene.sound.add('Attack on Oritheia');
-        this.musicConfig = { loop:true, volume:0.8 };
+        //this.music = this.scene.sound.add('Attack on Oritheia');
+        //this.musicConfig = { loop:true, volume:0.8 };
 
         this.scene.title.deactivate();
         this.scene.hiScoreText.setAlpha(0);
@@ -73,7 +73,8 @@ class StartButton {
             this.scene.state = 3;
             this.scene.banner.activate();
             this.scene.launcher.activate();
-            this.music.play(this.musicConfig)
+            //this.music.play(this.musicConfig)
+            this.scene.musicPlayer.play();
         }, null, this);
         this.scene.clock.delayedCall(2000, ()=>{
             this.scene.activateShips();
