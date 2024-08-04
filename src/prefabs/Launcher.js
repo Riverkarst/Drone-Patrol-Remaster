@@ -83,6 +83,7 @@ class Launcher {
         else if (this.state == 3) {  //in active position, controls active.
             //MOVEMENT CODE
             //add lerp value to current movement
+            
             if (keyLEFT.isDown && !keyRIGHT.isDown) {
                 this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
                 //this.currentMovement -= this.movementLerpSpeed;
@@ -234,8 +235,20 @@ class Launcher {
         }
     }
 
-    pause() {
-        
+    pauseRockets() {
+        for (let i=0; i<this.rocketArray.length; i++) {
+            if (this.rocketArray[i] != null && this.rocketArray[i] != undefined) {
+                this.rocketArray[i].pause();
+            }
+        }
+    }
+
+    unpauseRockets() {
+        for (let i=0; i<this.rocketArray.length; i++) {
+            if (this.rocketArray[i] != null && this.rocketArray[i] != undefined) {
+                this.rocketArray[i].unpause();
+            }
+        }
     }
 
 

@@ -48,10 +48,12 @@ class Rocket {
         this.blastoffDelay = 200;
         this.rocketSprite.setGravity(0, 1000);
         this.rocketSprite.setVelocityY(this.startingVelocity);
-        this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
-            this.startFuel();
-            this.rocketSprite.anims.play('rocket_blastoff')
-        }, [], this)
+        //this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
+        //    this.startFuel();
+        //}, [], this)
+        this.fuelTimer = 10;
+        this.paused = false;
+        this.fuelState = 1; //controls whether fuel has kicked in or not yet
         //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
 
         this.fighter1Ref = this.scene.fighter1;
@@ -77,19 +79,25 @@ class Rocket {
     }
 
     update() {
-        //chain sprite position to collider
-        //this.rocketSprite.setY(this.collider.y)
-        //if (this.blastingOffFinished && !this.startedBlastingAnimation) {
-        //    this.rocketSprite.anims.play('rocket_blasting');
-        //    this.startedBlastingAnimation = true;
-        //}
+        //before fuel kicks in
+        if (this.fuelState == 1) {
+            if (!this.paused) {
+                this.fuelTimer--;
+                if (this.fuelTimer <= 0) {
+                    this.startFuel();
+                    this.fuelState = 2;
+                }
+            } else if (this.paused) {}
+        } else if (this.fuelState == 2) {};
+
         this.checkAllCollisions();
         this.checkOutOfBounds();
-        //console.log("hit status: ", this.scene.physics.collide(this.body, this.fighter1Ref.sprite));
     }
 
     startFuel() {
-        this.rocketSprite.setAccelerationY(-4000);
+        console.log("JEIJ");
+        this.rocketSprite.body.setAccelerationY(-4000);
+        this.rocketSprite.anims.play('rocket_blastoff');
     }
 
     //check if out of bounds.  if so, launcher object is responsible for destroying it.
@@ -121,12 +129,24 @@ class Rocket {
     }
 
     pause() {
-        
+        this.savedAcceleration = this.rocketSprite.body.acceleration.y;
+        this.savedSpeed = this.rocketSprite.body.speed;
+        this.savedVelocity = this.rocketSprite.body.velocity.y;
+        this.savedGravity = this.rocketSprite.body.gravity.y;
+        //console.log(this.rocketSprite.body.acceleration.y);
+        this.rocketSprite.body.stop();
+        this.rocketSprite.setGravity(0,0);
+        if (this.fuelTimer<=0) this.rocketSprite.anims.pause();
+        this.paused = true;
 
     }
 
-    start() {
-
+    unpause() {
+        this.rocketSprite.body.setGravity(0, this.savedGravity);
+        this.rocketSprite.body.setVelocityY(this.savedVelocity);
+        this.rocketSprite.body.setAccelerationY(this.savedAcceleration);
+        if (this.fuelTimer<=0) this.rocketSprite.anims.resume();
+        this.paused = false;
     }
 
 }
