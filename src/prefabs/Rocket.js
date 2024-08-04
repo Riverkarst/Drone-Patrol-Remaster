@@ -14,8 +14,9 @@ function setup_Rocket_Animations(scene) {
 }
 
 
+
 class Rocket {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, parent) {
         this.scene = scene;
         this.x = x;
         this.y = y;
@@ -95,7 +96,6 @@ class Rocket {
     }
 
     startFuel() {
-        console.log("JEIJ");
         this.rocketSprite.body.setAccelerationY(-4000);
         this.rocketSprite.anims.play('rocket_blastoff');
     }
@@ -109,8 +109,8 @@ class Rocket {
 
     destroy() {
         //this.collider.destroy();
-        this.rocketSprite.destroy();
         this.destroyed = true;
+        this.rocketSprite.destroy();
     }
 
     checkAllCollisions() {
@@ -129,6 +129,7 @@ class Rocket {
     }
 
     pause() {
+        if (this.destroyed) return;
         this.savedAcceleration = this.rocketSprite.body.acceleration.y;
         this.savedSpeed = this.rocketSprite.body.speed;
         this.savedVelocity = this.rocketSprite.body.velocity.y;
@@ -142,6 +143,7 @@ class Rocket {
     }
 
     unpause() {
+        if (this.destroyed) return;
         this.rocketSprite.body.setGravity(0, this.savedGravity);
         this.rocketSprite.body.setVelocityY(this.savedVelocity);
         this.rocketSprite.body.setAccelerationY(this.savedAcceleration);

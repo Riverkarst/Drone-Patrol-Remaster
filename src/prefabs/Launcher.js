@@ -56,6 +56,8 @@ class Launcher {
         //3: Moved into active position, controls now active
         //4: Time up, stow called by Banner
         this.state = 1;
+
+        //this.rocketSemaphore = 1;
     }
 
     activate() {
@@ -127,12 +129,14 @@ class Launcher {
     }
 
     updateRockets() {
+        this.rocketSemaphore = false;
         for (let i = 0; i < this.rocketArray.length; i++) {
             if (this.rocketArray[i] != undefined && this.rocketArray[i] != null) {
                 if (this.rocketArray[i].destroyed) this.rocketArray[i] = null;
                  else this.rocketArray[i].update();
             }
         }
+        this.rocketSemaphore = true;
     }
 
     fire() {
@@ -142,21 +146,21 @@ class Launcher {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_1'); 
-            this.rocketArrayPush(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXLeft, this.rocketY, this));
             this.ammo = 3;  
             this.scene.banner.remainingRockets[0].setAlpha(0.2);
         } else if (this.ammo == 3) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_2');
-            this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY, this));
             this.ammo = 2;   
             this.scene.banner.remainingRockets[1].setAlpha(0.2);
         } else if (this.ammo == 2) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
             this.launcher.anims.play('launcher_fire_3');   
-            this.rocketArrayPush(new Rocket(this.scene, this.rocketXLeft, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXLeft, this.rocketY, this));
             this.ammo = 1;
             this.scene.banner.remainingRockets[2].setAlpha(0.2);
         } else if (this.ammo == 1) {
@@ -166,7 +170,7 @@ class Launcher {
                 this.reload();
             }, this);
             this.launcher.anims.play('launcher_fire_4');
-            this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY));
+            this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY, this));
             this.ammo = 0;   
             this.scene.banner.remainingRockets[3].setAlpha(0.2);
         }
@@ -236,6 +240,7 @@ class Launcher {
     }
 
     pauseRockets() {
+        this.launcher.anims.pause();
         for (let i=0; i<this.rocketArray.length; i++) {
             if (this.rocketArray[i] != null && this.rocketArray[i] != undefined) {
                 this.rocketArray[i].pause();
@@ -244,6 +249,7 @@ class Launcher {
     }
 
     unpauseRockets() {
+        this.launcher.anims.resume();
         for (let i=0; i<this.rocketArray.length; i++) {
             if (this.rocketArray[i] != null && this.rocketArray[i] != undefined) {
                 this.rocketArray[i].unpause();
