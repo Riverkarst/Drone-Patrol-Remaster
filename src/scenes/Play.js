@@ -269,11 +269,13 @@ class Play extends Phaser.Scene {
             this.pauseScreen.setAlpha(0.5);
             this.pausedWord.setAlpha(1);
             this.launcher.pauseRockets();
+            this.banner.pauseTime();
         } else if (this.paused) {
             this.paused = false;
             this.pauseScreen.setAlpha(0);
             this.pausedWord.setAlpha(0);
             this.launcher.unpauseRockets();
+            this.banner.unpauseTime();
         }
     }
 

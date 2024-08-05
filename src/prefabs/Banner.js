@@ -36,6 +36,8 @@ class Banner {
         this.timeTextStowedY = this.textY + this.stowedY;
         this.timeText = this.scene.add.text(this.timeX, this.textY + this.stowedY, this.time, this.textConfig);
         this.timeText.postFX.addGlow('0xbc451f', 1, 0.3, 0.1);
+        this.timeSinceLastTimeUpdate = 0; //Framerate is 60, so 60 is 1 second.
+        this.savedTimeForPause = 0;
 
         this.remainingRockets = new Array();
         this.rocketY = game.config.height * 0.12;
@@ -57,6 +59,7 @@ class Banner {
         //3: slide in animation done, game active
         //4: game done, slide out animation playing.
         this.state = 1;
+        this.timer = this.maxTime * 60
     }
 
     update() {
@@ -73,6 +76,14 @@ class Banner {
                 this.timeUpdate(); //start timer
             }
         } else if (this.state == 3) {   //game active
+            if (!this.paused) {
+                this.timer--;
+                this.timeUpdate();
+                if (this.timer <= 0) {
+                    this.state = 4;
+                    this.gameOver();
+                }
+            }
         } else if (this.state == 4) {
             if (this.banner.y > this.stowedY) {
                 this.move(-this.slideSpeed);
@@ -85,13 +96,39 @@ class Banner {
     }
 
     timeUpdate() {
-        this.scene.clock.delayedCall(1000, ()=>{
+        let macroTime = Math.ceil(this.timer/60);
+        this.timeText.setText(String(macroTime));
+    }
+
+    //old time update function based on delayedCall
+    timeUpdateObsolete(interval=1000) {
+        if (this.paused) return;
+        this.scene.clock.delayedCall(interval, ()=>{
+            if (this.paused) return;
+            this.timeSinceLastTimeUpdate = 0;
             this.time--;
             if (this.time >= 0) this.timeText.setText(String(this.time))
             if (this.time <= -1) { //time up.  start game over screen.
                 this.gameOver();
-            } else this.timeUpdate();
+            } else if (!this.paused) this.timeUpdate();
         }, [], this)
+    }
+
+    pauseTime() {
+        this.paused = true;
+    }
+
+    unpauseTime() {
+        this.paused = false;
+        //this.savedTimeForPause gets ++ every frame.  Framerate is 60 fps.  
+        //Therefore this.savedTimeForPause is in fractions of 60, where 60/60 is 1 second.
+        //this.scene.clock.delayedCall requires milliseconds.
+        //Therefore, I must convert fractions of 60ths of a second into milliseconds.
+        //Let y = milliseconds until next delayedCall, and x = 60ths of a second (this.savedTimeForPause)
+        //  y/1000=x/60      y=1000x/60
+        //Therefore milliseconds until next update is:
+        let millisecondsUntilDelayedCall = (1000 * this.savedTimeForPause) / 60  
+        this.timeUpdate(millisecondsUntilDelayedCall);
     }
 
     //MAIN GAMEOVER HOOKUP POINT
@@ -127,6 +164,7 @@ class Banner {
         this.score = 0;
         this.fightersKilled = 0;
         this.scoutsKilled = 0;
+        this.timer = this.maxTime * 60;
         this.scoreText.setText(String(0));
     }
 
