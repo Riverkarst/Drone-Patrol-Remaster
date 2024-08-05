@@ -95,6 +95,7 @@ class GameOverScreen {
             this.scoutSprite.setAlpha(1);
             this.line.setAlpha(1);
             this.scoreWordText.setAlpha(1);
+            this.accuracyWordText.setAlpha(1);
             this.fighterTallyDone.val = false;
             this.scene.clock.delayedCall(800, ()=>{ //starting fighterCounter lerp
                 this._updateInfo();
@@ -150,41 +151,52 @@ class GameOverScreen {
         else if (this.state == 3.3) {
             if (this.scoutScoreText.alpha == 1) this.state = 4;
         }
-        //STATE 4: FINAL SCORE ======================================================================
+        //STATE 4: ACCURACY =========================================================================
+        else if (this.state == 4) { //start delayed call to set accuracy percent
+            this.scene.clock.delayedCall(800, ()=>{
+                this.accuracyPercentText.setText(String(Math.floor(100*this.accuracy)) + '%');
+                this.accuracyPercentText.setAlpha(1);
+            })
+            this.state = 4.1;
+        } else if (this.state == 4.1) {
+            this.state = 5;
+            
+        }
+        //STATE 5: FINAL SCORE ======================================================================
         //start delayed call to start score tallying
-        else if (this.state == 4) {
+        else if (this.state == 5) {
             this.scene.clock.delayedCall(800, ()=>{
                 this.scoreText.setAlpha(1);
                 this._scoreTally(this.scoreText, this.scoreCounter, this.score, this.scoreTallyDone)
             }, [], this)
-            this.state = 4.1;
+            this.state = 5.1;
         } 
         //wait for score tallying to be done then proceed to state 5
-        else if (this.state == 4.1) {
+        else if (this.state == 5.1) {
             if (this.scoreTallyDone.val) {
                 if (this.score > this.banner.highScore) { //update banner's high score
                     this.banner.highScore = this.score;
                     this.hiScoreText.setAlpha(1);
                     this.hiScoreSound.play();
-                    this.state = 5;
-                } else this.state = 5;
+                    this.state = 6;
+                } else this.state = 6;
             }
         }
-        //STATE 5: WAIT FOR INPUT ============================================================================
+        //STATE 6: WAIT FOR INPUT ============================================================================
         //wait for player to press z or x then go back to main menu screen 
-        else if (this.state == 5) {
+        else if (this.state == 6) {
             if (keyZ.isDown || keyX.isDown) {
                 this.backToMainMenu();
             }
             this.scene.clock.delayedCall(5000, ()=>{
-                if (this.state < 5) return;
+                if (this.state < 6) return;
                 this.pressZFlashing = true;
                 this._pressZFlash();
             }, [], this)
-            this.state = 5.1
+            this.state = 6.1
         }
         //State 5.1: waiting for input, but pressZ is now flashing
-        else if (this.state == 5.1) {
+        else if (this.state == 6.1) {
             if (keyZ.isDown || keyX.isDown) {
                 this.backToMainMenu();
             } 
@@ -206,7 +218,9 @@ class GameOverScreen {
         textElement.setText(String(counter.val));
         this.countupSound.play();
         if (counter.val < target) {
-            counter.val += 10;
+            let distance = target - counter.val;
+            if (distance >= 10) counter.val += 10;
+            else counter.val += 1;
             this.scene.clock.delayedCall(this.fastCountSpeed, this._scoreTally, [textElement, counter, target, endSignal], this)
         } else endSignal.val = true;
     }
@@ -229,7 +243,7 @@ class GameOverScreen {
         this.scoutTallyDone.val = false;
         this.accuracy = 0;
         if (this.banner.shots > 0) this.accuracy = this.banner.hits / this.banner.shots;
-        this.accuracyScoreBonus = Math.floor(this.banner.score * this.accuracy);
+        this.accuracyScoreBonus = Math.max(0, Math.floor(this.banner.score * (this.accuracy-0.5)));
         this.score = this.banner.score + this.accuracyScoreBonus;
         this.scoreText.setText("");
         this.scoreTallyDone.val = false;

@@ -39,6 +39,7 @@ class Rocket {
         //add sprite
         //this.xOffset = this.collider.width * 2.6;
         //this.yOffset = this.collider.height * 0.05;
+        this.scene.banner.shots++;
         this.xOffset = game.config.width * 0.0035;
         this.yOffset = game.config.height * 0.07;
         this.rocketSprite = this.scene.physics.add.sprite(this.x + this.xOffset, this.y + this.yOffset, 'rocket')
@@ -125,6 +126,7 @@ class Rocket {
         if (this.scene.physics.collide(this.rocketSprite, other.sprite)) {
             this.destroy();
             other.explode();
+            this.scene.banner.hits++;
         }
     }
 
