@@ -69,7 +69,6 @@ class Launcher {
         this.state = 4;
     }
 
-
     update() {
         if (this.state == 1) { //On menu waiting for player to click play
             return;

@@ -8,12 +8,14 @@ class Banner {
 
         //GAME DATA
         //======================================================
-        this.maxTime = 60;
+        this.maxTime = 4;
         this.time = this.maxTime;
         this.score = 0;
         this.highScore = 0;
         this.fightersKilled = 0;
         this.scoutsKilled = 0;
+        this.hits = 0;
+        this.shots = 0;
         //======================================================
 
         this.stowedY = - game.config.height * 0.15; //stowed position for banner sprite
@@ -164,6 +166,8 @@ class Banner {
         this.score = 0;
         this.fightersKilled = 0;
         this.scoutsKilled = 0;
+        this.hits = 0;
+        this.misses = 0;
         this.timer = this.maxTime * 60;
         this.scoreText.setText(String(0));
     }

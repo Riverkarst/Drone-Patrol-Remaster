@@ -13,6 +13,8 @@ class GameOverScreen {
         this.scoutCounter = {val:0};  
         this.scoutScoreVal = 40;
         this.scoutScoreCounter = {val:0};
+        this.accuracy = 0.0;
+        this.accuracyBonus = 0;
         this.scoreCounter = {val:0}
         // The {val:0} variables are objects so I can pass them by reference to tally functions.
 
@@ -34,20 +36,25 @@ class GameOverScreen {
         }
 
         //place elements
-        this.anchorPointX = game.config.width * 0.25;
-        this.anchorPointY = game.config.height * 0.35;
+        this.anchorPointX = game.config.width * 0.21;
+        this.anchorPointY = game.config.height * 0.31;
         this.fighterSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY, "spaceshipAnimated", 0).setOrigin(0,0);
         this.fighterSprite.play('fighter_flying');
-        this.fighterCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY, 'x' + String(this.fighterCounter), this.textConfig)
-        this.fighterScoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY, "0", this.textConfig);
+        let countOffset = game.config.width*0.32;
+        let scoreOffset = game.config.width*0.5;
+        this.fighterCountText = scene.add.text(this.anchorPointX+countOffset, this.anchorPointY, 'x' + String(this.fighterCounter), this.textConfig)
+        this.fighterScoreText = this.scene.add.text(this.anchorPointX + scoreOffset, this.anchorPointY, "0", this.textConfig);
         this.scoutSprite = this.scene.add.sprite(this.anchorPointX, this.anchorPointY + game.config.height*0.1, "scout_spritesheet", 0).setOrigin(0,0);
         this.scoutSprite.play('scout_flying');
-        this.scoutCountText = scene.add.text(this.anchorPointX + game.config.width * 0.12, this.anchorPointY + game.config.height*0.1, 'x' + String(this.scoutCounter), this.textConfig);
-        this.scoutScoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.1, '0', this.textConfig);
-        this.line = this.scene.add.rectangle(this.anchorPointX, this.anchorPointY + game.config.height*0.18, game.config.width * 0.5, game.config.height*0.006, this.textConfig.color).setOrigin(0,0)
-        this.scoreWordText = this.scene.add.text(this.anchorPointX, this.anchorPointY + game.config.height*0.22, "SCORE", this.textConfig);
-        this.scoreText = this.scene.add.text(this.anchorPointX + game.config.width*0.42, this.anchorPointY + game.config.height*0.22, "0", this.textConfig);
-        this.hiScoreText = this.scene.add.text(this.anchorPointX + game.config.width * 0.51, this.anchorPointY + game.config.height * 0.3, "HI-SCORE!", this.textConfigSmall).setOrigin(1,0);
+        this.scoutCountText = scene.add.text(this.anchorPointX+countOffset, this.anchorPointY + game.config.height*0.1, 'x' + String(this.scoutCounter), this.textConfig);
+        this.scoutScoreText = this.scene.add.text(this.anchorPointX + scoreOffset, this.anchorPointY + game.config.height*0.1, '0', this.textConfig);
+        this.accuracyWordText = this.scene.add.text(this.anchorPointX, this.anchorPointY + game.config.height * 0.2, 'ACCURACY', this.textConfig);
+        this.accuracyPercentText = this.scene.add.text(this.anchorPointX+countOffset, this.anchorPointY+game.config.height*0.2, '63%', this.textConfig);
+        this.accuracyScoreText = this.scene.add.text(this.anchorPointX+scoreOffset*0.94, this.anchorPointY+game.config.height*0.2, '+400', this.textConfig);
+        this.line = this.scene.add.rectangle(this.anchorPointX, this.anchorPointY + game.config.height*0.28, game.config.width * 0.576, game.config.height*0.006, this.textConfig.color).setOrigin(0,0)
+        this.scoreWordText = this.scene.add.text(this.anchorPointX, this.anchorPointY + game.config.height*0.32, "SCORE", this.textConfig);
+        this.scoreText = this.scene.add.text(this.anchorPointX + scoreOffset, this.anchorPointY + game.config.height*0.32, "0", this.textConfig);
+        this.hiScoreText = this.scene.add.text(this.anchorPointX + game.config.width * 0.61, this.anchorPointY + game.config.height * 0.4, "HI-SCORE!", this.textConfigSmall).setOrigin(1,0);
         this.hiScoreText.setAlpha(0);
         this.pressZ = this.scene.add.text(this.anchorPointX + game.config.width * 0.1, this.anchorPointY + game.config.height * 0.45, "PRESS Z TO CONTINUE", this.textConfigSmall);
         this.pressZFlashing = false;
@@ -205,7 +212,6 @@ class GameOverScreen {
     }
 
     _updateInfo() {
-        this.score = this.banner.score;// + 500;
         this.highScore = (this.banner.score >= this.banner.highScore);
         this.fightersKilled = this.banner.fightersKilled;// + 14;
         this.fighterCounter.val = 0;
@@ -221,9 +227,14 @@ class GameOverScreen {
         this.scoutCountText.setText("x0");
         this.scoutScoreText.setText("");
         this.scoutTallyDone.val = false;
+        this.accuracy = 0;
+        if (this.banner.shots > 0) this.accuracy = this.banner.hits / this.banner.shots;
+        this.accuracyScoreBonus = Math.floor(this.banner.score * this.accuracy);
+        this.score = this.banner.score + this.accuracyScoreBonus;
         this.scoreText.setText("");
         this.scoreTallyDone.val = false;
         this.scoreCounter.val = 0;
+        //console.log(this.banner.hits, this.banner.misses);
     }
 
     //recursively calls itself every time interval to flash pressZ
@@ -254,6 +265,9 @@ class GameOverScreen {
         this.scoutSprite.setAlpha(value);
         this.scoutCountText.setAlpha(value);
         this.scoutScoreText.setAlpha(value);
+        this.accuracyWordText.setAlpha(value);
+        this.accuracyPercentText.setAlpha(value);
+        this.accuracyScoreText.setAlpha(value);
         this.line.setAlpha(value);
         this.scoreWordText.setAlpha(value);
         this.scoreText.setAlpha(value);
