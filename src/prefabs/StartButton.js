@@ -134,7 +134,7 @@ class StartButton {
         this.start.setAlpha(1);
         this.state = 1;
         this.delayingZInput = true;
-        this.scene.clock.delayedCall(1000, ()=>{
+        this.scene.clock.delayedCall(300, ()=>{
             this.delayingZInput = false;
         }, [], this)
     }

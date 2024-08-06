@@ -379,6 +379,7 @@ class Play extends Phaser.Scene {
 
 
     backToMainMenu() {
+        this.resetEnemies();
         this.title.activate();
         this.startButton.activate();
         //this.startButton.music.stop();

@@ -102,6 +102,7 @@ class GameOverScreen {
             this.accuracyWordText.setAlpha(1);
             this.fighterTallyDone.val = false;
             this.scene.clock.delayedCall(800, ()=>{ //starting fighterCounter lerp
+                if (this.state == 1) return;
                 this._updateInfo();
                 this.fighterCountText.setAlpha(1);
                 this._countTally(this.fighterCountText, this.fighterCounter, this.fightersKilled, this.fighterTallyDone)
@@ -119,6 +120,7 @@ class GameOverScreen {
         //start delayed call for fighter scoreval to setalpha to 1 and proceed
         else if (this.state == 2.3) { 
             this.scene.clock.delayedCall(1000, ()=>{
+                if (this.state == 1) return;
                 this.fighterScoreText.setAlpha(1);
                 if (this.state < 5) this.countupSound.play();
                 this.fighterScoreText.setText(String(this.fightersKilled*this.fighterScoreVal));
@@ -135,8 +137,9 @@ class GameOverScreen {
         // Start Scout count tally
         else if (this.state == 3) {            
             this.scene.clock.delayedCall(800, ()=>{ //starting scoutCounterTally
-            this.scoutCountText.setAlpha(1);
-            this._countTally(this.scoutCountText, this.scoutCounter, this.scoutsKilled, this.scoutTallyDone)
+                if (this.state == 1) return;
+                this.scoutCountText.setAlpha(1);
+                this._countTally(this.scoutCountText, this.scoutCounter, this.scoutsKilled, this.scoutTallyDone)
         }, [], this)
         this.state = 3.1;
         }
@@ -147,6 +150,7 @@ class GameOverScreen {
         //State 3.2:  Start delayed call to set Scout score text to 1
         else if (this.state == 3.2) {
             this.scene.clock.delayedCall(800, ()=>{
+                if (this.state == 1) return;
                 this.scoutScoreText.setAlpha(1);
                 if (this.state < 5) this.countupSound.play();
                 this.scoutScoreText.setText(String(this.scoutsKilled*this.scoutScoreVal));
@@ -160,6 +164,7 @@ class GameOverScreen {
         //STATE 4: ACCURACY =========================================================================
         else if (this.state == 4) { //start delayed call to set accuracy percent
             this.scene.clock.delayedCall(800, ()=>{
+                if (this.state == 1) return;
                 this.accuracyPercentText.setText(String(Math.floor(100*this.accuracy)) + '%');
                 this.accuracyPercentText.setAlpha(1);
                 this.countupSound.play();
@@ -169,6 +174,7 @@ class GameOverScreen {
             if (this.accuracyPercentText.alpha == 1) this.state = 4.2;
         } else if (this.state == 4.2) { //start delayed call to set accuracy score text
             this.scene.clock.delayedCall(800, ()=>{
+                if (this.state == 1) return;
                 this.accuracyScoreText.setText('+' + String(Math.floor(this.accuracyScoreBonus)));
                 this.accuracyScoreText.setAlpha(1);
                 this.countupSound.play();
@@ -181,6 +187,7 @@ class GameOverScreen {
         //start delayed call to start score tallying
         else if (this.state == 5) {
             this.scene.clock.delayedCall(800, ()=>{
+                if (this.state == 1) return;
                 this.scoreText.setAlpha(1);
                 this._scoreTally(this.scoreText, this.scoreCounter, this.score, this.scoreTallyDone)
             }, [], this)
@@ -197,6 +204,7 @@ class GameOverScreen {
                 } else this.state = 6;
                 //delayed call for press Z flashing
                 this.scene.clock.delayedCall(2000, ()=>{
+                    if (this.state == 1) return;
                     if (this.state < 6) return;
                     this.pressZFlashing = true;
                     this._pressZFlash();
@@ -226,7 +234,7 @@ class GameOverScreen {
     //quickly tallies up score.  counter and endSignal are {val:--} objects
     _scoreTally(textElement, counter, target, endSignal) {
         textElement.setText(String(counter.val));
-        if (this.state < 5) this.countupSound.play();
+        this.countupSound.play();
         if (counter.val < target) {
             let distance = target - counter.val;
             if (distance >= 10) counter.val += 10;

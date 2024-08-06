@@ -41,7 +41,6 @@ class Fighter {
             this.scene.sound.add('explosion3', this.soundConfig), ]
 
         this.speed = game.config.width * 0.01;
-        this.resetPosition = this.x;
         this.scoreValue = 10;
         this.activated = false;
         this.move = false;
@@ -60,17 +59,17 @@ class Fighter {
     explode() {
         this.explosionSounds[Math.floor(Math.random()*4)].play();
         new ExplodingFighter(this.scene, this.sprite.x, this.sprite.y);
-        this.sprite.setX(this.resetPosition);
+        this.sprite.setX(this.x);
         this.scene.banner.addScore(this.scoreValue, 1);
     }
 
     resetPosition() {
-        this.sprite.setX(this.resetPosition);
+        this.sprite.setX(this.x);
     }
 
     checkBounds() {
         if (this.sprite.x < -game.config.width * 0.3) {
-            this.sprite.setX(this.resetPosition);
+            this.sprite.setX(this.x);
         }
     }
 

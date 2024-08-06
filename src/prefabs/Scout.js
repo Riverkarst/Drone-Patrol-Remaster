@@ -18,7 +18,6 @@ class Scout {
     constructor(scene, x, y) {
         this.scene = scene;
         this.x = x;
-        this.resetPosition = this.x;
         this.y = y;
         createScoutAnimation(scene);
 
@@ -34,7 +33,6 @@ class Scout {
 
         //Fighters go at game.config.width * 0.1 speed
         this.speed = -game.config.width * 0.011;
-        this.resetPosition = x;
         this.scoreValue = 50;
 
         this.activated = false;
@@ -65,7 +63,7 @@ class Scout {
 
     checkBounds() {
         if (this.sprite.x < -game.config.width * 0.3) {
-            this.sprite.setX(this.resetPosition);
+            this.sprite.setX(this.x);
         } 
     }
 
@@ -76,6 +74,10 @@ class Scout {
 
     deactivate() {
         this.activated = false;
+    }
+
+    resetPosition() {
+        this.sprite.setX(this.x);
     }
 }
 
