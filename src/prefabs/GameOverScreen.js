@@ -57,6 +57,7 @@ class GameOverScreen {
         this.hiScoreText = this.scene.add.text(this.anchorPointX + game.config.width * 0.61, this.anchorPointY + game.config.height * 0.4, "HI-SCORE!", this.textConfigSmall).setOrigin(1,0);
         this.hiScoreText.setAlpha(0);
         this.pressZ = this.scene.add.text(this.anchorPointX + game.config.width * 0.1, this.anchorPointY + game.config.height * 0.45, "PRESS Z TO CONTINUE", this.textConfigSmall);
+        this.pressZ.setAlpha(0);
         this.pressZFlashing = false;
         this.setAlpha(0);
 
@@ -85,6 +86,9 @@ class GameOverScreen {
     }
 
     update() {
+        //LISTEN FOR Z KEY PRESS TO SKIP TO STATE 6
+        if (this.state >= 2.2 && this.state < 6 && keyZ.firstDown) this._skipThrough();
+
         //STATE 1: INACTIVE =========================================================
         if (this.state == 1) {
         } 
@@ -101,26 +105,28 @@ class GameOverScreen {
                 this._updateInfo();
                 this.fighterCountText.setAlpha(1);
                 this._countTally(this.fighterCountText, this.fighterCounter, this.fightersKilled, this.fighterTallyDone)
+                this.state = 2.2;
             }, [], this)
             this.state = 2.1;
         } 
-        //wait for fighterCounter tally to finish then proceed to state 2.2
-        else if (this.state == 2.1) { 
+        else if (this.state == 2.1) { // wait for fighter count tally to begin
+
+        } else if (this.state == 2.2) { //fighter count tally begun, wait for it to finish, then proceed to 2.3
             if (this.fighterTallyDone.val) {
-                this.state = 2.2
+                this.state = 2.3
             }
-        } 
+        }
         //start delayed call for fighter scoreval to setalpha to 1 and proceed
-        else if (this.state == 2.2) { 
+        else if (this.state == 2.3) { 
             this.scene.clock.delayedCall(1000, ()=>{
                 this.fighterScoreText.setAlpha(1);
-                this.countupSound.play();
+                if (this.state < 5) this.countupSound.play();
                 this.fighterScoreText.setText(String(this.fightersKilled*this.fighterScoreVal));
             }, [], this)
-            this.state = 2.3
+            this.state = 2.4
         } 
         //wait for 2.2's delayedcall to trigger then proceed
-        else if (this.state == 2.3) { 
+        else if (this.state == 2.4) { 
             if (this.fighterScoreText.alpha == 1) {
                 this.state = 3;
             }
@@ -142,7 +148,7 @@ class GameOverScreen {
         else if (this.state == 3.2) {
             this.scene.clock.delayedCall(800, ()=>{
                 this.scoutScoreText.setAlpha(1);
-                this.countupSound.play();
+                if (this.state < 5) this.countupSound.play();
                 this.scoutScoreText.setText(String(this.scoutsKilled*this.scoutScoreVal));
             })
             this.state = 3.3
@@ -189,33 +195,28 @@ class GameOverScreen {
                     this.hiScoreSound.play();
                     this.state = 6;
                 } else this.state = 6;
+                //delayed call for press Z flashing
+                this.scene.clock.delayedCall(2000, ()=>{
+                    if (this.state < 6) return;
+                    this.pressZFlashing = true;
+                    this._pressZFlash();
+                }, [], this)
+                this.state = 6
             }
         }
         //STATE 6: WAIT FOR INPUT ============================================================================
-        //wait for player to press z or x then go back to main menu screen 
+        //wait for player to press z then go back to main menu screen 
         else if (this.state == 6) {
-            if (keyZ.isDown || keyX.isDown) {
+            if (keyZ.firstDown) {
                 this.backToMainMenu();
             }
-            this.scene.clock.delayedCall(5000, ()=>{
-                if (this.state < 6) return;
-                this.pressZFlashing = true;
-                this._pressZFlash();
-            }, [], this)
-            this.state = 6.1
-        }
-        //State 5.1: waiting for input, but pressZ is now flashing
-        else if (this.state == 6.1) {
-            if (keyZ.isDown || keyX.isDown) {
-                this.backToMainMenu();
-            } 
         }
     }
 
     //lerps at regular intervals of this.countSpeed, updating counter object as it goes. (counter is an object passed by reference)
     _countTally(textElement, counter, target, endSignal) {
         textElement.setText("x" + String(counter.val));
-        this.countupSound.play();
+        if (this.state < 5) this.countupSound.play();
         if (counter.val < target) {
             counter.val++;
             this.scene.clock.delayedCall(this.countSpeed, this._countTally, [textElement, counter, target, endSignal], this)
@@ -225,7 +226,7 @@ class GameOverScreen {
     //quickly tallies up score.  counter and endSignal are {val:--} objects
     _scoreTally(textElement, counter, target, endSignal) {
         textElement.setText(String(counter.val));
-        this.countupSound.play();
+        if (this.state < 5) this.countupSound.play();
         if (counter.val < target) {
             let distance = target - counter.val;
             if (distance >= 10) counter.val += 10;
@@ -294,7 +295,6 @@ class GameOverScreen {
         this.line.setAlpha(value);
         this.scoreWordText.setAlpha(value);
         this.scoreText.setAlpha(value);
-        this.pressZ.setAlpha(value);
     }
 
     backToMainMenu() {
@@ -303,6 +303,28 @@ class GameOverScreen {
         this.hiScoreText.setAlpha(0);
         this.state = 1;
         this.setAlpha(0);
+        this.pressZ.setAlpha(0);
         this.scene.backToMainMenu();
     }
+
+    _skipThrough() {
+        this.countupSound.play();
+        this.fighterCountText.setText('x' + String(this.fightersKilled));
+        this.fighterScoreText.setText(String(this.fightersKilled * this.fighterScoreVal));
+        this.fighterCounter.val = this.fightersKilled;
+        this.fighterTallyDone.val = true;
+        this.scoutCountText.setText('x' + String(this.scoutsKilled));
+        this.scoutScoreText.setText(String(this.scoutsKilled * this.scoutScoreVal))
+        this.scoutCounter.val = this.scoutsKilled;
+        this.scoutTallyDone.val = true;
+        this.accuracyPercentText.setText(String(Math.floor(100 * this.accuracy)) + '%');
+        this.accuracyScoreText.setText('+' + String(Math.floor(this.accuracyScoreBonus)))
+        this.scoreText.setText(String(this.score));
+        this.scoreCounter.val = this.score;
+        this.scoreTallyDone.val = true;
+        this.setAlpha(1);
+        this.state = 5.1;
+    }
+
+
 }

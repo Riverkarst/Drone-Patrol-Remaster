@@ -2,6 +2,50 @@
  * Main Play scene.  Game stats are stored in its Banner object. (See Banner.js)
  */
 
+/*class Key {
+    constructor(scene, phaserKey) {
+        this.scene = scene;
+        this.key = this.scene.input.keyboard.addKey(phaserKey, true, false);
+        this._firstPress = true;
+        this.firstDown = true;
+        this.isDown = false;
+        this.isUp = true;
+        this.pressTime = 0;
+    }
+
+    update() {
+        if (this.key.isDown) {
+            this.isDown = true;
+            this.isUp = false;
+            this.pressTime++;
+            if (this.pressTime > 1) this.firstDown = false;
+        } else if (!this.key.isDown) {
+            this.firstDown = true;
+            this.isDown = false;
+            this.pressTime = 0;
+        }
+    }
+}*/
+class Key extends Phaser.Input.Keyboard.Key {
+    constructor(scene, phaserKey) {
+        super(scene.input.keyboard, phaserKey)
+        scene.input.keyboard.addKey(this);
+        this.firstDown = false;
+        this.framesDown = 0;
+    }
+
+    update() {
+        if (this.isDown) {
+            this.framesDown++;
+            if (this.framesDown == 1) this.firstDown = true;
+            else this.firstDown = false;
+        } else {
+            this.firstDown = false;
+            this.framesDown = 0;
+        }
+    }
+}
+
 class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
@@ -19,12 +63,18 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.updateArray = [];
         // define keys
         //Arcade controls
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT, true, true);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT, true, true);
-        keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z, true, false);
+        //keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z, true, false);
+        keyZ = new Key(this, Phaser.Input.Keyboard.KeyCodes.Z);
         keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X, true, false);
+
+
+        this.updateArray.push(keyZ);
+
 
         //WASD controls
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A, true, true);
@@ -199,8 +249,6 @@ class Play extends Phaser.Scene {
             return;
         } else this.frameTimer = 0;
 
-    
-
 
         //this.testRocket.update();
         //console.log(this.clock.now);
@@ -239,6 +287,9 @@ class Play extends Phaser.Scene {
         this.launcher.update();
         this.launcher.updateRockets();
         this.gameOverScreen.update();
+        for (let i=0; i<this.updateArray.length; i++) {
+            this.updateArray[i].update();
+        }
 
     }
 

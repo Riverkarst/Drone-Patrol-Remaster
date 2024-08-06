@@ -25,6 +25,8 @@ let config = {
 
 //reserve keyboard vars
 let keyZ, keyX, keyLEFT, keyRIGHT,  keyA, keyD, keyR, keySPACE, keyM, keyESC;
+let _zfd_util, zFirstDown;
+
 
 
 let game = new Phaser.Game(config);
