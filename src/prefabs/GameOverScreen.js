@@ -156,11 +156,20 @@ class GameOverScreen {
             this.scene.clock.delayedCall(800, ()=>{
                 this.accuracyPercentText.setText(String(Math.floor(100*this.accuracy)) + '%');
                 this.accuracyPercentText.setAlpha(1);
+                this.countupSound.play();
             })
             this.state = 4.1;
-        } else if (this.state == 4.1) {
-            this.state = 5;
-            
+        } else if (this.state == 4.1) { //wait for 4's delayed call to finish then proceed
+            if (this.accuracyPercentText.alpha == 1) this.state = 4.2;
+        } else if (this.state == 4.2) { //start delayed call to set accuracy score text
+            this.scene.clock.delayedCall(800, ()=>{
+                this.accuracyScoreText.setText('+' + String(Math.floor(this.accuracyScoreBonus)));
+                this.accuracyScoreText.setAlpha(1);
+                this.countupSound.play();
+            }, [], this)
+            this.state = 4.3
+        } else if (this.state == 4.3) {
+            if (this.accuracyScoreText.alpha == 1) this.state = 5;
         }
         //STATE 5: FINAL SCORE ======================================================================
         //start delayed call to start score tallying
@@ -241,8 +250,8 @@ class GameOverScreen {
         this.scoutCountText.setText("x0");
         this.scoutScoreText.setText("");
         this.scoutTallyDone.val = false;
-        this.accuracy = 0;
-        if (this.banner.shots > 0) this.accuracy = this.banner.hits / this.banner.shots;
+        this.accuracy = 0; //accuracy as a decimal between 0 and 1
+        if (this.banner.shots > 0) this.accuracy = this.banner.hits / this.banner.shots; 
         this.accuracyScoreBonus = Math.max(0, Math.floor(this.banner.score * (this.accuracy-0.5)));
         this.score = this.banner.score + this.accuracyScoreBonus;
         this.scoreText.setText("");
