@@ -50,10 +50,7 @@ class Rocket {
         this.blastoffDelay = 200;
         this.rocketSprite.setGravity(0, 1000);
         this.rocketSprite.setVelocityY(this.startingVelocity);
-        //this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
-        //    this.startFuel();
-        //}, [], this)
-        this.fuelTimer = 10;
+        this.fuelTimer = 9;
         this.paused = false;
         this.fuelState = 1; //controls whether fuel has kicked in or not yet
         //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)

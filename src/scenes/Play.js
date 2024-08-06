@@ -1,31 +1,5 @@
-/**
- * Main Play scene.  Game stats are stored in its Banner object. (See Banner.js)
- */
 
-/*class Key {
-    constructor(scene, phaserKey) {
-        this.scene = scene;
-        this.key = this.scene.input.keyboard.addKey(phaserKey, true, false);
-        this._firstPress = true;
-        this.firstDown = true;
-        this.isDown = false;
-        this.isUp = true;
-        this.pressTime = 0;
-    }
-
-    update() {
-        if (this.key.isDown) {
-            this.isDown = true;
-            this.isUp = false;
-            this.pressTime++;
-            if (this.pressTime > 1) this.firstDown = false;
-        } else if (!this.key.isDown) {
-            this.firstDown = true;
-            this.isDown = false;
-            this.pressTime = 0;
-        }
-    }
-}*/
+//Key extension.  Adds firstDown, which detects only the beginning of a key press
 class Key extends Phaser.Input.Keyboard.Key {
     constructor(scene, phaserKey) {
         super(scene.input.keyboard, phaserKey)
@@ -45,6 +19,12 @@ class Key extends Phaser.Input.Keyboard.Key {
         }
     }
 }
+
+
+/**
+ * Main Play scene.  Game stats are stored in its Banner object. (See Banner.js)
+ */
+
 
 class Play extends Phaser.Scene {
     constructor() {
@@ -68,12 +48,13 @@ class Play extends Phaser.Scene {
         //Arcade controls
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT, true, true);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT, true, true);
-        //keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z, true, false);
         keyZ = new Key(this, Phaser.Input.Keyboard.KeyCodes.Z);
-        keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X, true, false);
+        //keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X, true, false);
+        keyX = new Key(this, Phaser.Input.Keyboard.KeyCodes.X);
 
 
         this.updateArray.push(keyZ);
+        this.updateArray.push(keyX);
 
 
         //WASD controls

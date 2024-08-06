@@ -83,15 +83,11 @@ class Launcher {
         }
         else if (this.state == 3) {  //in active position, controls active.
             //MOVEMENT CODE
-            //add lerp value to current movement
-            
             if (keyLEFT.isDown && !keyRIGHT.isDown) {
                 this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
-                //this.currentMovement -= this.movementLerpSpeed;
             } 
             if (keyRIGHT.isDown && !keyLEFT.isDown) {
                 this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
-                //this.currentMovement += this.movementLerpSpeed;
             }
 
             //FIRING CODE
@@ -102,7 +98,7 @@ class Launcher {
                 this.justFired = false;
             } 
             //RELOADING CODE
-            if (keyX.isDown && !this.fireDelaying && !this.reloading) {
+            if (keyX.firstDown && !this.fireDelaying && !this.reloading) {
                 this.reload();
             }
 

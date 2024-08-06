@@ -261,7 +261,7 @@ class GameOverScreen {
         this.scoutTallyDone.val = false;
         this.accuracy = 0; //accuracy as a decimal between 0 and 1
         if (this.banner.shots > 0) this.accuracy = this.banner.hits / this.banner.shots; 
-        this.accuracyScoreBonus = Math.max(0, Math.floor(this.banner.score * (this.accuracy-0.5)));
+        this.accuracyScoreBonus = Math.max(0, Math.floor(this.banner.score * (this.accuracy)));
         this.score = this.banner.score + this.accuracyScoreBonus;
         this.scoreText.setText("");
         this.scoreTallyDone.val = false;
