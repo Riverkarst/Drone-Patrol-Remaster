@@ -28,6 +28,7 @@ class MusicPlayer {
 
     play() {
         this.music.play(this.musicConfig);
+        if (this.muted) this.music.setVolume(0);
     }
 
     stop() {

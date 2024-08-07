@@ -74,6 +74,7 @@ class GameOverScreen {
         //OPERATION STATS
         this.countSpeed = 100;  //amount of milliseconds between each count lerp step
         this.fastCountSpeed = 40;
+        this.interval = 500;
 
         //CONTROL VARIABLES
         this.fighterTallyDone = {val:false};
@@ -101,7 +102,7 @@ class GameOverScreen {
             this.scoreWordText.setAlpha(1);
             this.accuracyWordText.setAlpha(1);
             this.fighterTallyDone.val = false;
-            this.scene.clock.delayedCall(800, ()=>{ //starting fighterCounter lerp
+            this.scene.clock.delayedCall(this.interval, ()=>{ //starting fighterCounter lerp
                 if (this.state == 1) return;
                 this._updateInfo();
                 this.fighterCountText.setAlpha(1);
@@ -119,7 +120,7 @@ class GameOverScreen {
         }
         //start delayed call for fighter scoreval to setalpha to 1 and proceed
         else if (this.state == 2.3) { 
-            this.scene.clock.delayedCall(1000, ()=>{
+            this.scene.clock.delayedCall(this.interval, ()=>{
                 if (this.state == 1) return;
                 this.fighterScoreText.setAlpha(1);
                 if (this.state < 5) this.countupSound.play();
@@ -136,7 +137,7 @@ class GameOverScreen {
         //STATE 3: SCOUT =====================================================================
         // Start Scout count tally
         else if (this.state == 3) {            
-            this.scene.clock.delayedCall(800, ()=>{ //starting scoutCounterTally
+            this.scene.clock.delayedCall(this.interval, ()=>{ //starting scoutCounterTally
                 if (this.state == 1) return;
                 this.scoutCountText.setAlpha(1);
                 this._countTally(this.scoutCountText, this.scoutCounter, this.scoutsKilled, this.scoutTallyDone)
@@ -149,7 +150,7 @@ class GameOverScreen {
         }
         //State 3.2:  Start delayed call to set Scout score text to 1
         else if (this.state == 3.2) {
-            this.scene.clock.delayedCall(800, ()=>{
+            this.scene.clock.delayedCall(this.interval, ()=>{
                 if (this.state == 1) return;
                 this.scoutScoreText.setAlpha(1);
                 if (this.state < 5) this.countupSound.play();
@@ -163,7 +164,7 @@ class GameOverScreen {
         }
         //STATE 4: ACCURACY =========================================================================
         else if (this.state == 4) { //start delayed call to set accuracy percent
-            this.scene.clock.delayedCall(800, ()=>{
+            this.scene.clock.delayedCall(this.interval, ()=>{
                 if (this.state == 1) return;
                 this.accuracyPercentText.setText(String(Math.floor(100*this.accuracy)) + '%');
                 this.accuracyPercentText.setAlpha(1);
@@ -173,7 +174,7 @@ class GameOverScreen {
         } else if (this.state == 4.1) { //wait for 4's delayed call to finish then proceed
             if (this.accuracyPercentText.alpha == 1) this.state = 4.2;
         } else if (this.state == 4.2) { //start delayed call to set accuracy score text
-            this.scene.clock.delayedCall(800, ()=>{
+            this.scene.clock.delayedCall(this.interval, ()=>{
                 if (this.state == 1) return;
                 this.accuracyScoreText.setText('+' + String(Math.floor(this.accuracyScoreBonus)));
                 this.accuracyScoreText.setAlpha(1);
@@ -186,7 +187,7 @@ class GameOverScreen {
         //STATE 5: FINAL SCORE ======================================================================
         //start delayed call to start score tallying
         else if (this.state == 5) {
-            this.scene.clock.delayedCall(800, ()=>{
+            this.scene.clock.delayedCall(this.interval, ()=>{
                 if (this.state == 1) return;
                 this.scoreText.setAlpha(1);
                 this._scoreTally(this.scoreText, this.scoreCounter, this.score, this.scoreTallyDone)
@@ -237,7 +238,8 @@ class GameOverScreen {
         this.countupSound.play();
         if (counter.val < target) {
             let distance = target - counter.val;
-            if (distance >= 10) counter.val += 10;
+            if (distance >= 50) counter.val += 50;
+            else if (distance >= 10) counter.val += 10;
             else counter.val += 1;
             this.scene.clock.delayedCall(this.fastCountSpeed, this._scoreTally, [textElement, counter, target, endSignal], this)
         } else endSignal.val = true;
