@@ -84,7 +84,7 @@ class StartButton {
 
     update() {
         if (this.state == 1) {  //on start menu, not clicked start
-            if (keyZ.isDown && !this.delayingZInput) this.press();
+            if ((keyZ.isDown || keySPACE.isDown) && !this.delayingZInput) this.press();
         } else if (this.state == 2) {  //on start menu, just clicked start, playing anim
             let increment = this.Lbracket.x / 10;
             this.Lbracket.setX(this.Lbracket.x - increment);

@@ -46,8 +46,8 @@ class Play extends Phaser.Scene {
         this.updateArray = [];
         // define keys
         //Arcade controls
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT, true, true);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT, true, true);
+        keyLEFT = new Key(this, Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = new Key(this, Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyZ = new Key(this, Phaser.Input.Keyboard.KeyCodes.Z);
         //keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X, true, false);
         keyX = new Key(this, Phaser.Input.Keyboard.KeyCodes.X);
@@ -61,7 +61,9 @@ class Play extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A, true, true);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D, true, true);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R, true, false);
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false);
+        //keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE, true, false);
+        keySPACE = new Key(this, Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.updateArray.push(keySPACE);
         
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M, true, false);
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC, true, false);

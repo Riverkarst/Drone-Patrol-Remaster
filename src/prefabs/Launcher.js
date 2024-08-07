@@ -84,10 +84,10 @@ class Launcher {
         }
         else if (this.state == 3) {  //in active position, controls active.
             //MOVEMENT CODE
-            if (keyLEFT.isDown && !keyRIGHT.isDown) {
+            if ((keyLEFT.isDown || keyA.isDown) && (!keyRIGHT.isDown || !keyD.isDown)) {
                 this.launcher.setX(Math.max((this.launcher.x - this.movementSpeed), this.rackBoundLeft));
             } 
-            if (keyRIGHT.isDown && !keyLEFT.isDown) {
+            if ((keyRIGHT.isDown || keyD.isDown) && (!keyLEFT.isDown || !keyA.isDown)) {
                 this.launcher.setX(Math.min((this.launcher.x + this.movementSpeed), this.rackBoundRight));
             }
 
@@ -106,7 +106,7 @@ class Launcher {
                     this.fireDelaying = false;
                 }, [], this)
            }*/
-          if (keyZ.firstDown && !this.fireDelaying) {
+          if ((keyZ.firstDown || keySPACE.firstDown) && !this.fireDelaying) {
             this.fire();
           }
             //RELOADING CODE
@@ -147,7 +147,6 @@ class Launcher {
     }
 
     fire() {
-        console.log(this.scene.banner.shots, this.scene.banner.hits);
 
         if (this.fireDelaying || this.reloading) return;
         this.blastoffSound.play(this.blastoffConfig);

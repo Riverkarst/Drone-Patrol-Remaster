@@ -72,7 +72,7 @@ class GameOverScreen {
 
 
         //OPERATION STATS
-        this.countSpeed = 100;  //amount of milliseconds between each count lerp step
+        this.countSpeed = 70;  //amount of milliseconds between each count lerp step
         this.fastCountSpeed = 40;
         this.interval = 500;
 
@@ -216,7 +216,7 @@ class GameOverScreen {
         //STATE 6: WAIT FOR INPUT ============================================================================
         //wait for player to press z then go back to main menu screen 
         else if (this.state == 6) {
-            if (keyZ.firstDown) {
+            if (keyZ.firstDown || keySPACE.firstDown) {
                 this.backToMainMenu();
             }
         }
