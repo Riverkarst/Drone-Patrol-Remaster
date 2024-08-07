@@ -41,6 +41,7 @@ class Banner {
         this.timeSinceLastTimeUpdate = 0; //Framerate is 60, so 60 is 1 second.
         this.savedTimeForPause = 0;
 
+        /*
         this.remainingRockets = new Array();
         this.rocketY = game.config.height * 0.12;
         this.rocketStowedY = - game.config.height * 0.03
@@ -53,7 +54,7 @@ class Banner {
         this.remainingRockets.push(this.scene.add.sprite(this.rocketX + this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
         this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 2*this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
         this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 3*this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-
+        */
         //this.move(game.config.height * 0.18)
         //STATES
         //1: Stowed.  In start menu, player hasn't clicked play
@@ -103,7 +104,7 @@ class Banner {
     }
 
     //old time update function based on delayedCall
-    timeUpdateObsolete(interval=1000) {
+    /*timeUpdateObsolete(interval=1000) {
         if (this.paused) return;
         this.scene.clock.delayedCall(interval, ()=>{
             if (this.paused) return;
@@ -114,7 +115,7 @@ class Banner {
                 this.gameOver();
             } else if (!this.paused) this.timeUpdate();
         }, [], this)
-    }
+    }*/
 
     pauseTime() {
         this.paused = true;
@@ -146,18 +147,18 @@ class Banner {
         this.banner.setY(this.banner.y + increment);
         this.scoreText.setY(this.scoreText.y + increment);
         this.timeText.setY(this.timeText.y + increment);
-        for (let i=0; i<this.remainingRockets.length; i++) {
-            this.remainingRockets[i].setY(this.remainingRockets[i].y + increment)
-        }
+        //for (let i=0; i<this.remainingRockets.length; i++) {
+        //    this.remainingRockets[i].setY(this.remainingRockets[i].y + increment)
+        //}
     }
 
     setActivePosition() {
         this.banner.setY(0);
         this.scoreText.setY(this.textY);
         this.timeText.setY(this.textY);
-        for (let i=0; i<this.remainingRockets.length; i++) {
-            this.remainingRockets[i].setY(this.rocketY)
-        }
+        //for (let i=0; i<this.remainingRockets.length; i++) {
+        //    this.remainingRockets[i].setY(this.rocketY)
+        //}
     }
 
     //Activate banner slide in and reset score counters.  Called by start button.
@@ -167,7 +168,7 @@ class Banner {
         this.fightersKilled = 0;
         this.scoutsKilled = 0;
         this.hits = 0;
-        this.misses = 0;
+        this.shots = 0;
         this.timer = this.maxTime * 60;
         this.scoreText.setText(String(0));
     }
@@ -182,9 +183,9 @@ class Banner {
         this.banner.setY(this.stowedY);
         this.scoreText.setY(this.scoreTextStowedY);
         this.timeText.setY(this.timeTextStowedY);
-        for (let i=0; i<this.remainingRockets.length; i++) {
-            this.remainingRockets[i].setY(this.rocketStowedY)
-        }
+        //for (let i=0; i<this.remainingRockets.length; i++) {
+        //    this.remainingRockets[i].setY(this.rocketStowedY)
+        //}
     }
 
     //score amount to add, and the type of craft that was killed. 1 is fighter, 2 is scout.

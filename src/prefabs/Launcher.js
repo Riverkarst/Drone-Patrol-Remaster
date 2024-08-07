@@ -130,7 +130,7 @@ class Launcher {
                 this.rack.setY(this.activatedRackY + this.stowedOffset);
                 this.launcher.setY(this.activatedLauncherY + this.stowedOffset);
                 this.state = 1;
-                this._discreteReload();
+                //this._discreteReload();
             }
         }
     }
@@ -147,6 +147,8 @@ class Launcher {
     }
 
     fire() {
+        console.log(this.scene.banner.shots, this.scene.banner.hits);
+
         if (this.fireDelaying || this.reloading) return;
         this.blastoffSound.play(this.blastoffConfig);
         let x;
