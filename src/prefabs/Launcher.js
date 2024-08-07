@@ -23,12 +23,13 @@ class Launcher {
         this.lightRestartSpeed = 2;
         this.setUpAnimations();
 
+        this.fireSide = 1;
         this.ammo = 4;
         this.justFired = false;
         //small delay after firing before you can fire again
         this.disabled = false;
         this.fireDelaying = false; 
-        this.shotDelay = 100; 
+        this.shotDelay = 50; 
         this.reloadDelay = 2000;
 
         //update stats after reload animation is done
@@ -91,16 +92,27 @@ class Launcher {
             }
 
             //FIRING CODE
-            if (keyZ.isDown && !this.justFired) {
+            /*if (keyZ.isDown && !this.justFired) {
                 this.fire();
                 this.justFired = true;
             } else if (keyZ.isUp) {
                 this.justFired = false;
-            } 
+            } */
+           //console.log(this.fireDelaying);
+           /*if (keyZ.isDown && !this.fireDelaying) {
+                this.fire();
+                this.fireDelaying = true;
+                this.scene.clock.delayedCall(500, ()=>{
+                    this.fireDelaying = false;
+                }, [], this)
+           }*/
+          if (keyZ.firstDown && !this.fireDelaying) {
+            this.fire();
+          }
             //RELOADING CODE
-            if (keyX.firstDown && !this.fireDelaying && !this.reloading) {
+            /*if (keyX.firstDown && !this.fireDelaying && !this.reloading) {
                 this.reload();
-            }
+            }*/
 
             this.rocketXLeft = this.launcher.x - this.launcher.width * 0.2
             this.rocketXRight = this.launcher.x + this.launcher.width * 0.05;
@@ -137,6 +149,27 @@ class Launcher {
     fire() {
         if (this.fireDelaying || this.reloading) return;
         this.blastoffSound.play(this.blastoffConfig);
+        let x;
+        let fireAnim
+        if (this.fireSide == 1) {
+            x = this.rocketXLeft;
+            fireAnim = 'launcher_fire_1'
+            this.fireSide = 2;
+        } else if (this.fireSide == 2) {
+            x = this.rocketXRight;
+            fireAnim = 'launcher_fire_2'
+            this.fireSide = 1;
+        }         
+        this.fireDelaying = true;
+        this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
+        this.launcher.anims.play(fireAnim); 
+        this.rocketArrayPush(new Rocket(this.scene, x, this.rocketY, this));
+    }
+
+    /*
+    fire() {
+        if (this.fireDelaying || this.reloading) return;
+        this.blastoffSound.play(this.blastoffConfig);
         if (this.ammo == 4) {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{this.fireDelaying=false}, this);
@@ -162,14 +195,14 @@ class Launcher {
             this.fireDelaying = true;
             this.scene.clock.delayedCall(this.shotDelay, ()=>{
                 this.fireDelaying=false;
-                this.reload();
+                //this.reload();
             }, this);
             this.launcher.anims.play('launcher_fire_4');
             this.rocketArrayPush(new Rocket(this.scene, this.rocketXRight, this.rocketY, this));
             this.ammo = 0;   
             this.scene.banner.remainingRockets[3].setAlpha(0.2);
         }
-    }
+    }*/
 
     //input should be "l" or "r" for left or right
     rocketArrayPush(newRocket) {
@@ -259,8 +292,32 @@ class Launcher {
 
 
     setUpAnimations() {
-        //Firing with full tube of rockets
         this.scene.anims.create({
+            key: 'launcher_fire_1',
+            repeat:0,
+            frames: this.scene.anims.generateFrameNames('launcher', {
+                prefix: 'frame',
+                suffix: '.png',
+                start: 0,
+                end: 7,
+                zeroPad: 4,
+            }),
+            frameRate: this.firingSpeed,
+        })
+        this.scene.anims.create({
+            key: 'launcher_fire_2',
+            repeat:0,
+            frames: this.scene.anims.generateFrameNames('launcher', {
+                prefix: 'frame',
+                suffix: '.png',
+                start: 8,
+                end: 15,
+                zeroPad: 4,
+            }),
+            frameRate: this.firingSpeed,
+        })
+        //Firing with full tube of rockets
+        /*this.scene.anims.create({
             key: 'launcher_fire_1',
             repeat: 0,
             frames: this.scene.anims.generateFrameNames('launcher', {
@@ -418,7 +475,7 @@ class Launcher {
                 zeroPad: 4,
             }),
             frameRate: this.lightRestartSpeed,
-        }); 
+        }); */
         
 
     }
