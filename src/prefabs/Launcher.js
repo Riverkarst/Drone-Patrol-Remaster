@@ -147,8 +147,10 @@ class Launcher {
     }
 
     fire() {
-
+        if (this.scene.banner.carpalTunnelCountermeasure == true) return;
         if (this.fireDelaying || this.reloading) return;
+
+        this.scene.banner.addCarpalTunnel();
         this.blastoffSound.play(this.blastoffConfig);
         let x;
         let fireAnim

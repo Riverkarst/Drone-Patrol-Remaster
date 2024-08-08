@@ -16,6 +16,10 @@ class Banner {
         this.scoutsKilled = 0;
         this.hits = 0;
         this.shots = 0;
+        this.carpalTunnelMax = 300; //300 frames, so 5 seconds
+        this.rocketCPVal = 2*(60 / 6) // 60 frames for 1 second.  60 / max rockets per second.  
+        this.carpalTunnel = 0;
+        this.carpalTunnelCountermeasure = false;
         //======================================================
 
         this.stowedY = - game.config.height * 0.15; //stowed position for banner sprite
@@ -66,6 +70,7 @@ class Banner {
     }
 
     update() {
+        console.log(this.carpalTunnel);
         if (this.state == 1) {
         }
         else if (this.state == 2) { //moving into place
@@ -79,6 +84,7 @@ class Banner {
                 this.timeUpdate(); //start timer
             }
         } else if (this.state == 3) {   //game active
+            this._checkCarpalTunnel();
             if (!this.paused) {
                 this.timer--;
                 this.timeUpdate();
@@ -196,5 +202,31 @@ class Banner {
         this.scoreText.setText(String(this.score))
         if (type==1) this.fightersKilled++
         else if (type==2) this.scoutsKilled++
+    }
+
+    _checkCarpalTunnel() {
+        console.log(this.carpalTunnel);
+        if (this.carpalTunnel > 0) this.carpalTunnel--;
+        
+        if (this.carpalTunnel >= this.carpalTunnelMax) {
+            this._activateCarpalTunnelCountermeasure();
+            this.scene.clock.delayedCall(5000, ()=>{
+                this._deactivateCarpalTunnelCountermeasure();
+            })
+            
+        } 
+    }
+
+    _activateCarpalTunnelCountermeasure() {
+        this.carpalTunnelCountermeasure = true;
+    }
+
+    _deactivateCarpalTunnelCountermeasure() {
+        this.carpalTunnelCountermeasure = false;
+        this.carpalTunnel = 0;
+    }
+
+    addCarpalTunnel() {
+        this.carpalTunnel += this.rocketCPVal;
     }
 }
