@@ -34,6 +34,7 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
+        this.repositionCanvas();
         //loading bar
         this.loadingBar = new LoadingBar(this);
 
@@ -103,7 +104,6 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        console.log(game.canvas);
         //let menuText = this.add.text(300, 200, "menu goes here");
         //menuText.setOrigin(0.5, 0.5);
         //this.scene.start("playScene");
@@ -155,5 +155,12 @@ class Menu extends Phaser.Scene {
             this.scene.start('playScene');
         }
             */
+    }
+
+    repositionCanvas() {
+        game.canvas.style.position = 'absolute';
+        game.canvas.style.top = '0px';
+        game.canvas.style.left = '0px';
+        //console.log(game.canvas.style);
     }
 }
