@@ -5,21 +5,22 @@
 let sizePercent = '100%';
 
 let config = {
+    //canvas: document.getElementById("GAME"),
     type: Phaser.AUTO,
     width: 640,    
     height: 480,
     scale: { 
         width: 640 * sizeMult,
         height: 480 * sizeMult,
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        mode: Phaser.Scale.ScaleModes.NONE,
+        autoCenter: Phaser.Scale.NO_CENTER,
     },
     //antialias: false,
-    pixelArt: false,
+    //pixelArt: false,
     physics: {
         default: 'arcade',
         arcade: { debug: false }
     },
-    //canvas: document.getElementById("GameCanvas"),
     scene: [Menu,Play],
 };
 

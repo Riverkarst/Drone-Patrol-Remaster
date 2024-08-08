@@ -40,7 +40,7 @@ class Fighter {
             this.scene.sound.add('explosion2', this.soundConfig),
             this.scene.sound.add('explosion3', this.soundConfig), ]
 
-        this.speed = game.config.width * 0.01;
+        this.speed = game.config.width * 0.009;
         this.scoreValue = 10;
         this.activated = false;
         this.move = false;

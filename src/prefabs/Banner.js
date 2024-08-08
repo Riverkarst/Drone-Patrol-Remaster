@@ -192,7 +192,7 @@ class Banner {
     addScore(amount, type=1) {
         if (this.score == 999) return;
         this.score += amount;
-        if (this.score > 999) this.score = 999;
+        if (this.score > 9999) this.score = 9999;
         this.scoreText.setText(String(this.score))
         if (type==1) this.fightersKilled++
         else if (type==2) this.scoutsKilled++
