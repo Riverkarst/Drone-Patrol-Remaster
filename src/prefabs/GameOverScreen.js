@@ -72,9 +72,9 @@ class GameOverScreen {
 
 
         //OPERATION STATS
-        this.countSpeed = 70;  //amount of milliseconds between each count lerp step
+        this.countSpeed = 65;  //amount of milliseconds between each count lerp step
         this.fastCountSpeed = 40;
-        this.interval = 500;
+        this.interval = 400;
 
         //CONTROL VARIABLES
         this.fighterTallyDone = {val:false};

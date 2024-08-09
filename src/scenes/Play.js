@@ -74,10 +74,12 @@ class Play extends Phaser.Scene {
         this.background.setScale(sizeMult);
         this.background.setTileScale(0.1);
         this.background.setDepth(-10);
+        this.background.setAlpha(1)
         this.foreground1 = this.add.tileSprite(0, 40, 640, 480, 'foreground1_enlarged').setOrigin(0,0);
         this.foreground1.setScale(sizeMult);
         this.foreground1.setTileScale(0.1);
         this.foreground1.setDepth(-9);
+        this.foreground1.setAlpha(1);
         this.foreground2 = this.add.tileSprite(0, 0, 640, 480, 'foreground2_enlarged').setOrigin(0,0);
         this.foreground2.setTileScale(0.1);
         this.foreground2.setScale(sizeMult);
@@ -227,10 +229,10 @@ class Play extends Phaser.Scene {
 
     update(time, delta) {
         //cap at 60 fps
-        this.frameTimer += delta;
-        if (this.frameTimer <= 1000 / 60) {
-            return;
-        } else this.frameTimer = 0;
+        //this.frameTimer += delta;
+        //if (this.frameTimer <= 1000 / 60) {
+        //    return;
+        //} else this.frameTimer = 0;
 
 
         //this.testRocket.update();

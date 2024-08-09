@@ -21,6 +21,9 @@ let config = {
         default: 'arcade',
         arcade: { debug: false }
     },
+    fps: {
+        limit:60
+    },
     scene: [Menu,Play],
 };
 
