@@ -65,6 +65,7 @@ class Menu extends Phaser.Scene {
         this.loadingBar.setProgress(0.6);
         this.load.audio('highscore', 'assets/highscore4.wav');
         this.load.audio('countup', 'assets/countup_sound2.wav');
+        this.load.audio('CTCSBeep', 'assets/CTCSBeep.wav');
         this.loadingBar.setProgress(0.65);
         //IMAGES
         //this.load.image("drone", "assets/Drone.png");

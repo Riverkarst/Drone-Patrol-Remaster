@@ -28,7 +28,7 @@ class Scout {
         this.sprite.setImmovable(true);
 
         //array of keywords for different explosion sounds
-        this.soundConfig = {volume:0.4}
+        this.soundConfig = {volume:0.35}
         this.explosionSound = this.scene.sound.add('sparrowExplosion', this.soundConfig)
 
         //Fighters go at game.config.width * 0.1 speed

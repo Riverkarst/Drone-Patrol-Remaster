@@ -25,6 +25,7 @@ class Banner {
         this.carpalTunnelFlashTimer = 0;
         this.carpalTunnelFlashSpeed = 20;
 
+        this.CTCSBeep = this.scene.sound.add('CTCSBeep');
         this.carpalTunnelBar = this.scene.add.rectangle(0, game.config.height * 0.118, 0, game.config.height * 0.05, '0xc90700');
         this.carpalTunnelBarSettings = {off:0, semi:0.1, full:0.5}  //off, semi-on, fully on
         this.carpalTunnelBar.setAlpha(0);
@@ -163,6 +164,7 @@ class Banner {
         this.carpalTunnelBar.setSize(0,this.carpalTunnelBar.height)
         this.carpalTunnelBar.setAlpha(0);
         this.carpalTunnelText.setAlpha(0);
+        this.CTCSBeep.stop();
     }
 
     move(increment) {
@@ -239,6 +241,7 @@ class Banner {
             if (this.carpalTunnel == 0 ) this._deactivateCarpalTunnelCountermeasure();
             else {
                 this._flashCarpalTunnelText();
+                if (this.carpalTunnel < this.carpalTunnelMax*0.05) this.CTCSBeep.setVolume(this.CTCSBeep.volume * 0.9);
             }
         }
     }
@@ -246,12 +249,14 @@ class Banner {
     _activateCarpalTunnelCountermeasure() {
         this.carpalTunnelCountermeasure = true;
         this.carpalTunnelBar.setAlpha(0.5);
+        this.CTCSBeep.play({volume:0.2, loop:-1})
     }
 
     _deactivateCarpalTunnelCountermeasure() {
         this.carpalTunnelCountermeasure = false;
         this.carpalTunnelBar.setAlpha(0.1);
         this.carpalTunnelText.setAlpha(0);
+        this.CTCSBeep.stop();
     }
 
     _flashCarpalTunnelText() {

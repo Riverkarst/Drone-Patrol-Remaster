@@ -33,7 +33,7 @@ class Fighter {
 
         //array of keywords for different explosion sounds
         this.explosionArray = ['explosion0', 'explosion1', 'explosion2', 'explosion3'];
-        this.soundConfig = {volume:0.4}
+        this.soundConfig = {volume:0.35}
         this.explosionSounds = [
             this.scene.sound.add('explosion0', this.soundConfig),
             this.scene.sound.add('explosion1', this.soundConfig),
