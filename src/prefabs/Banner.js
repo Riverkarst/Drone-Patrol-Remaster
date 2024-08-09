@@ -16,7 +16,7 @@ class Banner {
         this.scoutsKilled = 0;
         this.hits = 0;
         this.shots = 0;
-        this.carpalTunnelMax = 200; //300 frames, so 5 seconds
+        this.carpalTunnelMax = 200; //200 frames, so 200/60 = 3.3 seconds
         this.rocketCPVal = 2*(60 / 6) // 60 frames for 1 second.  60 / max rockets per second.  
         this.carpalTunnel = 0;
         this.carpalTunnelCountermeasure = false;
@@ -26,6 +26,7 @@ class Banner {
         this.carpalTunnelFlashSpeed = 20;
 
         this.CTCSBeep = this.scene.sound.add('CTCSBeep');
+        this.CTCSFrying = this.scene.sound.add('CTCSSteam');
         this.carpalTunnelBar = this.scene.add.rectangle(0, game.config.height * 0.118, 0, game.config.height * 0.05, '0xc90700');
         this.carpalTunnelBarSettings = {off:0, semi:0.1, full:0.5}  //off, semi-on, fully on
         this.carpalTunnelBar.setAlpha(0);
@@ -84,7 +85,6 @@ class Banner {
     }
 
     update() {
-        console.log(this.carpalTunnel);
         if (this.state == 1) {
         }
         else if (this.state == 2) { //moving into place
@@ -139,6 +139,8 @@ class Banner {
 
     pauseTime() {
         this.paused = true;
+        this.CTCSBeep.pause();
+        this.CTCSFrying.pause();
     }
 
     unpauseTime() {
@@ -152,6 +154,8 @@ class Banner {
         //Therefore milliseconds until next update is:
         let millisecondsUntilDelayedCall = (1000 * this.savedTimeForPause) / 60  
         this.timeUpdate(millisecondsUntilDelayedCall);
+        this.CTCSBeep.pause();
+        this.CTCSFrying.resume();
     }
 
     //MAIN GAMEOVER HOOKUP POINT
@@ -165,6 +169,7 @@ class Banner {
         this.carpalTunnelBar.setAlpha(0);
         this.carpalTunnelText.setAlpha(0);
         this.CTCSBeep.stop();
+        this.CTCSFrying.stop();
     }
 
     move(increment) {
@@ -225,7 +230,7 @@ class Banner {
     }
 
     _checkCarpalTunnel() {
-        console.log(this.carpalTunnel);
+        //console.log(this.carpalTunnel);
         if (this.carpalTunnel > 0) this.carpalTunnel--;
         
         this.carpalTunnelBar.setSize((game.config.width*this.carpalTunnel)/this.carpalTunnelMax, this.carpalTunnelBar.height);
@@ -241,7 +246,12 @@ class Banner {
             if (this.carpalTunnel == 0 ) this._deactivateCarpalTunnelCountermeasure();
             else {
                 this._flashCarpalTunnelText();
-                if (this.carpalTunnel < this.carpalTunnelMax*0.05) this.CTCSBeep.setVolume(this.CTCSBeep.volume * 0.9);
+                if (this.carpalTunnel < this.carpalTunnelMax*0.05) {
+                    this.CTCSBeep.setVolume(this.CTCSBeep.volume * 0.9);
+                }
+                if (this.carpalTunnel < this.carpalTunnelMax * 0.15) {
+                    this.CTCSFrying.setVolume(this.CTCSFrying.volume * 0.95);
+                }
             }
         }
     }
@@ -250,6 +260,7 @@ class Banner {
         this.carpalTunnelCountermeasure = true;
         this.carpalTunnelBar.setAlpha(0.5);
         this.CTCSBeep.play({volume:0.2, loop:-1})
+        //this.CTCSFrying.play({volume:0.3, loop:-1})
     }
 
     _deactivateCarpalTunnelCountermeasure() {
@@ -257,6 +268,7 @@ class Banner {
         this.carpalTunnelBar.setAlpha(0.1);
         this.carpalTunnelText.setAlpha(0);
         this.CTCSBeep.stop();
+        this.CTCSFrying.stop();
     }
 
     _flashCarpalTunnelText() {

@@ -46,11 +46,13 @@ class Rocket {
         this.rocketSprite.setSize(game.config.width * 0.008, game.config.height * 0.05);
         this.rocketSprite.setOffset(game.config.width * 0.021, 0)
         this.rocketSprite.setDepth(-1);
+
         this.startingVelocity = -400;
-        this.blastoffDelay = 200;
+        this.blastoffPower = -4500;
         this.rocketSprite.setGravity(0, 1000);
+        this.fuelTimer = 6;
+
         this.rocketSprite.setVelocityY(this.startingVelocity);
-        this.fuelTimer = 8;
         this.paused = false;
         this.fuelState = 1; //controls whether fuel has kicked in or not yet
         //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
@@ -94,7 +96,7 @@ class Rocket {
     }
 
     startFuel() {
-        this.rocketSprite.body.setAccelerationY(-4000);
+        this.rocketSprite.body.setAccelerationY(this.blastoffPower);
         this.rocketSprite.anims.play('rocket_blastoff');
     }
 
