@@ -8,7 +8,7 @@ class Banner {
 
         //GAME DATA
         //======================================================
-        this.maxTime = 60;
+        this.maxTime = 60; // in seconds
         this.time = this.maxTime;
         this.score = 0;
         this.highScore = 0;
@@ -16,11 +16,23 @@ class Banner {
         this.scoutsKilled = 0;
         this.hits = 0;
         this.shots = 0;
-        this.carpalTunnelMax = 300; //300 frames, so 5 seconds
+        this.carpalTunnelMax = 200; //300 frames, so 5 seconds
         this.rocketCPVal = 2*(60 / 6) // 60 frames for 1 second.  60 / max rockets per second.  
         this.carpalTunnel = 0;
         this.carpalTunnelCountermeasure = false;
         //======================================================
+
+        this.carpalTunnelFlashTimer = 0;
+        this.carpalTunnelFlashSpeed = 20;
+
+        this.carpalTunnelBar = this.scene.add.rectangle(0, game.config.height * 0.118, 0, game.config.height * 0.05, '0xc90700');
+        this.carpalTunnelBarSettings = {off:0, semi:0.1, full:0.5}  //off, semi-on, fully on
+        this.carpalTunnelBar.setAlpha(0);
+        this.carpalTunnelBar.setOrigin(0,0);
+        let cttConfig = {fontFamily:'NotJamSciMono', fontSize: '20px', color: '0x000000'}
+        this.carpalTunnelText = this.scene.add.text(game.config.width * 0.16, game.config.height * 0.127, '<<< CARPAL TUNNEL COUNTERMEASURE >>>', cttConfig);
+        this.carpalTunnelText.setAlpha(0);
+        this.carpalTunnelText.setOrigin(0,0);
 
         this.stowedY = - game.config.height * 0.15; //stowed position for banner sprite
         this.slideSpeed = game.config.height * 0.009;
@@ -32,6 +44,7 @@ class Banner {
             fontSize: '25px',
             color: '#faf6e3',
         }
+
         this.textY = game.config.height * 0.0335;
         this.scoreX = game.config.width * 0.26;
         this.scoreTextStowedY = this.textY + this.stowedY;
@@ -147,6 +160,9 @@ class Banner {
         this.scene.gameOverScreen.start();
         this.scene.deactivateShips();
         this.scene.launcher.stow();
+        this.carpalTunnelBar.setSize(0,this.carpalTunnelBar.height)
+        this.carpalTunnelBar.setAlpha(0);
+        this.carpalTunnelText.setAlpha(0);
     }
 
     move(increment) {
@@ -177,6 +193,8 @@ class Banner {
         this.shots = 0;
         this.timer = this.maxTime * 60;
         this.scoreText.setText(String(0));
+        this.carpalTunnel = 0;
+        this.carpalTunnelBar.setAlpha(this.carpalTunnelBarSettings.semi);
     }
 
     //Set to inactive position out of screen.  Called by its own timeUpdate function
@@ -208,22 +226,41 @@ class Banner {
         console.log(this.carpalTunnel);
         if (this.carpalTunnel > 0) this.carpalTunnel--;
         
-        if (this.carpalTunnel >= this.carpalTunnelMax) {
-            this._activateCarpalTunnelCountermeasure();
-            this.scene.clock.delayedCall(5000, ()=>{
-                this._deactivateCarpalTunnelCountermeasure();
-            })
-            
-        } 
+        this.carpalTunnelBar.setSize((game.config.width*this.carpalTunnel)/this.carpalTunnelMax, this.carpalTunnelBar.height);
+        if (!this.carpalTunnelCountermeasure) {
+            if (this.carpalTunnel >= this.carpalTunnelMax) {
+                this._activateCarpalTunnelCountermeasure();
+                //this.scene.clock.delayedCall(5000, ()=>{
+                //    this._deactivateCarpalTunnelCountermeasure();
+                //})
+                
+            } 
+        } else if (this.carpalTunnelCountermeasure) {
+            if (this.carpalTunnel == 0 ) this._deactivateCarpalTunnelCountermeasure();
+            else {
+                this._flashCarpalTunnelText();
+            }
+        }
     }
 
     _activateCarpalTunnelCountermeasure() {
         this.carpalTunnelCountermeasure = true;
+        this.carpalTunnelBar.setAlpha(0.5);
     }
 
     _deactivateCarpalTunnelCountermeasure() {
         this.carpalTunnelCountermeasure = false;
-        this.carpalTunnel = 0;
+        this.carpalTunnelBar.setAlpha(0.1);
+        this.carpalTunnelText.setAlpha(0);
+    }
+
+    _flashCarpalTunnelText() {
+        let nextAlpha = 0;
+        if (this.carpalTunnelText.alpha == 0) nextAlpha = 0.5;
+        if (this.carpalTunnelFlashTimer == 0) {
+            this.carpalTunnelFlashTimer = this.carpalTunnelFlashSpeed;
+            this.carpalTunnelText.setAlpha(nextAlpha);
+        } else this.carpalTunnelFlashTimer--;
     }
 
     addCarpalTunnel() {
