@@ -17,8 +17,6 @@ class StartButton {
             fontSize: '34px',
             color: '#FFFFFF',  
             align: 'center',
-            //padding: { top: 5, bottom: 5 },
-            //fixedWidth: 150
         }
 
         
@@ -64,16 +62,12 @@ class StartButton {
         this.Lbracket.setAlpha(1);
         this.Rbracket.setAlpha(1);
 
-        //this.music = this.scene.sound.add('Attack on Oritheia');
-        //this.musicConfig = { loop:true, volume:0.8 };
-
         this.scene.title.deactivate();
         this.scene.hiScoreText.setAlpha(0);
         this.scene.clock.delayedCall(1000, ()=> {
             this.scene.state = 3;
             this.scene.banner.activate();
             this.scene.launcher.activate();
-            //this.music.play(this.musicConfig)
             this.scene.musicPlayer.play();
         }, null, this);
         this.scene.clock.delayedCall(2000, ()=>{
@@ -111,8 +105,6 @@ class StartButton {
                 this.start.setAlpha(1);
 
                 //detecting if mouse is on start button after it fades in, to know if it should start in onMouseScale or baseScale
-                //console.log(this.start.getTopLeft().x);
-                //console.log(this.scene.input.activePointer.x);
                 let upperBound = this.start.getTopLeft().y;
                 let lowerBound = this.start.getBottomRight().y;
                 let leftBound = this.start.getTopLeft().x;

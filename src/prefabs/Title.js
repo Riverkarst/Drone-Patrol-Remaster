@@ -6,7 +6,6 @@ class Title {
             fontSize: '60px',
             color: '#FFFFFF',
         }).setOrigin(0.5,0.5);
-        //this.text.setResolution(5);
         this.text.setStroke('#000000', 4);
 
         //STATES
@@ -19,7 +18,6 @@ class Title {
 
     update() {
         if (this.state == 1) {
-            //if (this.scene.state == 2) this.state = 2;
         } else if (this.state == 2) {
             this.text.setAlpha(this.text.alpha * 0.9);
             if (this.text.alpha < 0.1) {

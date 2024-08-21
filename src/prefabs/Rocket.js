@@ -29,16 +29,6 @@ class Rocket {
         //3: rocket_blasting animation playing
         this.state = 1;
 
-        //Add collider first, then make rocket chain rocket sprite to collider's position
-        //this.colliderWidth = game.config.width * 0.008;
-        //this.colliderHeight = game.config.height * 0.05;
-        //this.collider = this.scene.physics.add.body(this.x, this.y, this.colliderWidth, this.colliderHeight);
-        //this.collider.setGravity(0, 700);
-        //this.collider.setVelocityY(-300);
-
-        //add sprite
-        //this.xOffset = this.collider.width * 2.6;
-        //this.yOffset = this.collider.height * 0.05;
         this.scene.banner.shots++;
         this.xOffset = game.config.width * 0.0035;
         this.yOffset = game.config.height * 0.07;
@@ -55,19 +45,11 @@ class Rocket {
         this.rocketSprite.setVelocityY(this.startingVelocity);
         this.paused = false;
         this.fuelState = 1; //controls whether fuel has kicked in or not yet
-        //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
 
         this.fighter1Ref = this.scene.fighter1;
         this.fighter2Ref = this.scene.fighter2;
         this.fighter3Ref = this.scene.fighter3;
         this.scoutRef = this.scene.scout;
-
-        //setup the delayed fuel blastoff
-        //this.blastoffDelay = 200;
-        //this.scene.clock.delayedCall(this.blastoffDelay, ()=>{
-        //    this.rocketSprite.anims.play('rocket_blastoff')
-        //}, [], this)
-        //this.scene.clock.delayedCall(this.blastoffDelay, this.startFuel, [], this)
 
         //cleanup will be done by Launcher object
         this.outOfBounds = false;

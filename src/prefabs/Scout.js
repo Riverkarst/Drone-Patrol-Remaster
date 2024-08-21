@@ -50,7 +50,6 @@ class Scout {
     }
 
     explode() {
-        //this.sprite.play('fighter_explode');
         this.explosionSound.play();
         new ExplodingScout(this.scene, this.sprite.x, this.sprite.y);
         this.sprite.setX(game.config.width * 1.5);

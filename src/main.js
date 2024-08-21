@@ -1,7 +1,6 @@
 //const { Phaser } = require("../library/phaser");
-//now in Keeping Score  about 80% down
 
-//let sizeMult = 1.2;
+let sizeMult = 1.2
 let sizePercent = '100%';
 
 let config = {

@@ -60,21 +60,6 @@ class Banner {
         this.timeSinceLastTimeUpdate = 0; //Framerate is 60, so 60 is 1 second.
         this.savedTimeForPause = 0;
 
-        /*
-        this.remainingRockets = new Array();
-        this.rocketY = game.config.height * 0.12;
-        this.rocketStowedY = - game.config.height * 0.03
-        this.rocketX = game.config.width * 0.45;
-        this.rocketSeparation = game.config.width * 0.05;
-        this.rocketsBoundRight = game.config.width * 0.6;
-        this.rocketSeparation = (this.rocketsBoundRight - this.rocketX) / 4
-        this.rocketScale = 1.5
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 2*this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        this.remainingRockets.push(this.scene.add.sprite(this.rocketX + 3*this.rocketSeparation, this.rocketStowedY, 'rocket').setScale(this.rocketScale,this.rocketScale).setTint('0xd1d1d1'))
-        */
-        //this.move(game.config.height * 0.18)
         //STATES
         //1: Stowed.  In start menu, player hasn't clicked play
         //2: player just clicked play, playing slide in animation
@@ -123,20 +108,6 @@ class Banner {
         this.timeText.setText(String(macroTime));
     }
 
-    //old time update function based on delayedCall
-    /*timeUpdateObsolete(interval=1000) {
-        if (this.paused) return;
-        this.scene.clock.delayedCall(interval, ()=>{
-            if (this.paused) return;
-            this.timeSinceLastTimeUpdate = 0;
-            this.time--;
-            if (this.time >= 0) this.timeText.setText(String(this.time))
-            if (this.time <= -1) { //time up.  start game over screen.
-                this.gameOver();
-            } else if (!this.paused) this.timeUpdate();
-        }, [], this)
-    }*/
-
     pauseTime() {
         this.paused = true;
         this.CTCSBeep.pause();
@@ -176,18 +147,13 @@ class Banner {
         this.banner.setY(this.banner.y + increment);
         this.scoreText.setY(this.scoreText.y + increment);
         this.timeText.setY(this.timeText.y + increment);
-        //for (let i=0; i<this.remainingRockets.length; i++) {
-        //    this.remainingRockets[i].setY(this.remainingRockets[i].y + increment)
-        //}
     }
 
     setActivePosition() {
         this.banner.setY(0);
         this.scoreText.setY(this.textY);
         this.timeText.setY(this.textY);
-        //for (let i=0; i<this.remainingRockets.length; i++) {
-        //    this.remainingRockets[i].setY(this.rocketY)
-        //}
+
     }
 
     //Activate banner slide in and reset score counters.  Called by start button.
@@ -214,9 +180,6 @@ class Banner {
         this.banner.setY(this.stowedY);
         this.scoreText.setY(this.scoreTextStowedY);
         this.timeText.setY(this.timeTextStowedY);
-        //for (let i=0; i<this.remainingRockets.length; i++) {
-        //    this.remainingRockets[i].setY(this.rocketStowedY)
-        //}
     }
 
     //score amount to add, and the type of craft that was killed. 1 is fighter, 2 is scout.
@@ -230,16 +193,12 @@ class Banner {
     }
 
     _checkCarpalTunnel() {
-        //console.log(this.carpalTunnel);
         if (this.carpalTunnel > 0) this.carpalTunnel--;
         
         this.carpalTunnelBar.setSize((game.config.width*this.carpalTunnel)/this.carpalTunnelMax, this.carpalTunnelBar.height);
         if (!this.carpalTunnelCountermeasure) {
             if (this.carpalTunnel >= this.carpalTunnelMax) {
                 this._activateCarpalTunnelCountermeasure();
-                //this.scene.clock.delayedCall(5000, ()=>{
-                //    this._deactivateCarpalTunnelCountermeasure();
-                //})
                 
             } 
         } else if (this.carpalTunnelCountermeasure) {
